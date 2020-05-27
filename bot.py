@@ -12,28 +12,28 @@ from datetime import datetime
 import asyncio
 import os
 
-# Initialize Client
+## Initialize Client
 kelutral = discord.Client()
 
-# Initialize Bot
+## Initialize Bot
 kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "0.1"
-modRoleNames = ["Olo'eyktan","Eyktan"]
+versionNumber = "Alpha 0.2"
+modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)"]
 
-# For Progression
-activeRoleNames = ["Koaktu","Tsamsiyu","Tsamsiyutsyìp","Eykyu","Ikran Makto","Taronyu","Taronyutsyìp","Numeyu","Hapxìtu","Zìma'uyu","Ketuwong"]
+## For Progression
+activeRoleNames = ["Koaktu","Tsamsiyu","Tsamsiyutsyìp","Eykyu","Ikran Makto","Taronyu","Taronyutsyìp","Hapxìtu","Hapxìtutsyìp","Zìma'uyu","Ketuwong"]
 activeRoleThresholds = [16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16]
 
-# For Q/MOTD
+## For Q/MOTD
 send_time = '08:00'
-message_channel_id = 516003512316854295
+message_channel_id = 715296162394931340
             #Ja, Fe, Ma, Ap, Ma, Ju, Jl, Au, Se, Oc, No, De
 monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-# Na'vi Alphabet
+## Na'vi Alphabet
 vowels = ["a","ä","e","i","ì","o","u","aw","ay","ew","ey"]
 vowelProbabilities = [10,10,10,10,10,10,10,2,2,2,2]
 consonants = ["'","f","h","k","kx","l","m","n","ng","p","px","r","s","t","tx","ts","v","w","y","z"]
@@ -58,6 +58,7 @@ naviVocab = [
     ["", "vo", "zam", "vozam", "zazam"],
     # 0 1 2 3 4 powers of 8 last digit
     ["", "l", "", "", ""],
+]
 
 # Language Rules #
 # A syllable may start with a vowel
@@ -81,7 +82,7 @@ naviVocab = [
 
 ##--------------------Global Functions--------------------##
 
-# Syllable Creation Functions
+## Syllable Creation Functions
 
 def ruleOne():
     vowel = random.choices(vowels, weights=vowelProbabilities)
@@ -145,7 +146,7 @@ def nameGen(numOut, numSyllables):
         # Conditional Loop for Number of Syllables
         while i>0:
             syllables = [1, 2, 3, 4, 5, 6, 7, 8]
-            p = [20, 7.5, 7.5, 30, 30, 4, .5, .5]
+            p = [50, 50, 7.5, 7.5, 7.5, 4, .5, .5]
             rule = random.choices(syllables, weights = p)
             rule = int(rule[0])
             # rule = random.randint(0,7)
@@ -207,7 +208,7 @@ def nameGen(numOut, numSyllables):
     for num in names:
         output = output + names[n-1]
         if n > 1:
-            output = output + ", "
+            output = output + "\n"
         n -= 1
     return output
 
@@ -395,18 +396,18 @@ def nextAvailableDate(date):
     
 ##-----------------------Bot Functions--------------------##
 
-@kelutral.event
+@kelutralBot.event
 async def on_ready():
         # This will be called when the bot connects to the server.
         nameCount = update(0)
         game = discord.Game("generated " + "{:,}".format(nameCount) + " names!")
         
-        await kelutral.change_presence(status=discord.Status.online, activity=game)
+        await kelutralBot.change_presence(status=discord.Status.online, activity=game)
         
-        print("Kelutral Bot is ready./n Kelutral alaksi lu.")
-        kelutral.loop.create_task(time_check())
+        print("Kelutral Bot is ready.\nKelutral alaksi lu.")
+        kelutralBot.loop.create_task(time_check())
 
-@kelutral.event
+@kelutralBot.event
 async def on_member_join(member):
         # This will automatically give anyone the 'frapo' role when they join the server.
         print(member.name + " zola'u.")
@@ -415,9 +416,9 @@ async def on_member_join(member):
         print("Gave " + member.name + " the role " + newRole.name + ".")
         if member.dm_channel is None:
                 await member.create_dm()
-        await member.send("Zola'u nìprrte' ne **Kelutral.org**! Welcome to Kelutral.org!") ## Create embed for this, make it look nice!
+        await member.send("Zola'u nìprrte' ne **kelutralBot.org**! Welcome to kelutralBot.org!") ## Create embed for this, make it look nice!
 
-@kelutral.event
+@kelutralBot.event
 async def on_message(message):    
         # If message is in-server
         if message.guild:
@@ -446,6 +447,7 @@ async def on_message(message):
                                       fh = open(fileName, 'w')
                                       fh.write(str(userMessageCount + 1) + "\n")
                                       fh.write(user.name)
+                                      fh.write("English")
                                       fh.close()
                                 else:
                                         fh = open(fileName, "r")
@@ -456,30 +458,30 @@ async def on_message(message):
                                         fh.write(str(userMessageCount + 1) + "\n")
                                         fh.write(user.name)
                                         fh.close()
-
+                                        
                                 await roleUpdate(userMessageCount, currentRole, message, user)
        
-        await kelutral.process_commands(message)
+        await kelutralBot.process_commands(message)
         
 ## Kill Command
-@kelutral.command(name='quit', aliases='ftang')
+@kelutralBot.command(name='quit', aliases=['ftang'])
 async def botquit(ctx):
         user = ctx.message.author
-        if user.top_role.name == "Olo'eyktan":
+        if user.top_role.name == "Olo'eyktan (Admin)":
                 await ctx.send("Herum. Hayalovay!")
-                await kelutral.close()
+                await kelutralBot.close()
                 await kelutralBot.close()
                 quit()
 
 ## Version
-@kelutral.command(name='version', aliases='srey')
+@kelutralBot.command(name='version', aliases=['srey'])
 async def version(ctx):
-        displayversion = ["Version: ", versionnumber]
+        displayversion = ["Version: ", versionNumber]
         await ctx.send(''.join(displayversion))
 
 # Tskxekengsiyu functions
 ## Display User Message Count
-@kelutral.command(name='level')
+@kelutralBot.command(name='level', aliases=['yì'])
 async def messages(ctx, user: discord.Member):
         fileName = 'users/' + str(user.id) + '.tsk'
         fh = open(fileName, "r")
@@ -502,7 +504,7 @@ async def messages(ctx, user: discord.Member):
         await ctx.send(embed=embed)
 
 ## Add a Question of the Day to a specified or the next available date
-@kelutral.command(name='addqotd')
+@kelutralBot.command(name='addqotd')
 async def qotd(ctx, question, *date):
         if date:
                 date = str(date).strip("(),' ")
@@ -534,7 +536,7 @@ async def qotd(ctx, question, *date):
                 await ctx.send("A QOTD for this day already exists. The next available day to create a QOTD is " + modDate + ".")
 
 ## Retrieve the next Available Date for a Question of the Day
-@kelutral.command(name='nextday')
+@kelutralBot.command(name='nextday')
 async def nextDay(ctx):
         dateTimeObj = datetime.now()
         today = dateTimeObj.strftime("%d-%m-%Y")
@@ -545,7 +547,7 @@ async def nextDay(ctx):
         await ctx.send("The next day that a QOTD can be created for is " + answer + ".")
 
 ## Check the Scheduled Dates for Questions of the Day
-@kelutral.command(name='schedule')
+@kelutralBot.command(name='schedule')
 async def checkDates(ctx):
         fileName = 'qotd/calendar.tsk'
         fileSize = os.path.getsize(fileName)
@@ -559,7 +561,7 @@ async def checkDates(ctx):
                 await ctx.send("No QOTDs are scheduled.")
 
 ## View a specific Question of the Day
-@kelutral.command(name='viewqotd')
+@kelutralBot.command(name='viewqotd')
 async def readQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         
@@ -573,7 +575,7 @@ async def readQuestion(ctx, date):
                 await ctx.send("No QOTD exists for that day.")
 
 ## Change a specific Question of the Day
-@kelutral.command(name='editqotd')
+@kelutralBot.command(name='editqotd')
 async def changeQuestion(ctx, question, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         
@@ -587,7 +589,7 @@ async def changeQuestion(ctx, question, date):
                 await ctx.send("No QOTD exists on that day.")
 
 ## Delete a specific Question of the Day
-@kelutral.command(name='deleteqotd')
+@kelutralBot.command(name='deleteqotd')
 async def deleteQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         if os.path.exists(fileName):
@@ -609,10 +611,10 @@ async def deleteQuestion(ctx, date):
                 
 # NameGenBot Functions
 # Help Module
-@kelutral.command(name="howto")
+@kelutralBot.command(name="howto")
 async def howto(ctx):
 
-    langCheck = outputCheck(ctx.message.author)
+    langCheck = "English" #outputCheck(ctx.message.author)
     
     if langCheck.lower() == "english":
         await ctx.send("Syntax for the command is `+generate <number of names> <number of syllables>`. Maximum number of names is capped at 20 and syllables is capped at 5.")
@@ -622,13 +624,13 @@ async def howto(ctx):
         await ctx.send("Somehow, and god knows how, you fucked up.")
 
 # Generate # of random names
-@kelutral.command(name="generate",aliases=['ngop'])
+@kelutralBot.command(name="generate",aliases=['ngop'])
 async def generate(ctx, numOut, numSyllables):
     # Initializing Variables
     n = int(numOut)
     i = int(numSyllables)
 
-    langCheck = outputCheck(ctx.message.author)
+    langCheck = "English" #outputCheck(ctx.message.author)
 
     if not n <= 0 and not i <= 0:
         if langCheck.lower() == "english":
@@ -641,8 +643,13 @@ async def generate(ctx, numOut, numSyllables):
                 nameCount = update(n)
                 game = discord.Game("ngamop " + "{:,}".format(nameCount) + " tstxoti.")
         
-                await kelutral.change_presence(status=discord.Status.online, activity=game)
-                await ctx.send("Here are your names:" + output)
+                await kelutralBot.change_presence(status=discord.Status.online, activity=game)
+
+                embed=discord.Embed(color=0x00c600)
+                embed.set_author(name=ctx.message.author.name,icon_url=ctx.message.author.avatar_url)
+                embed.add_field(name="Here are your names:", value=output, inline=True)
+
+                await ctx.send(embed=embed)
         elif langCheck.lower() == "na'vi":
             if not i <= 5:
                 await ctx.send("Lì'kongä txantewä holpxay lu mrr. Sweylu txo ngal ftxivey tstxoti a lu tsa'ur lì'kong apxey, lì'kong amune, fu lìkong a'aw.")
@@ -653,7 +660,7 @@ async def generate(ctx, numOut, numSyllables):
                 nameCount = update(n)
                 game = discord.Game("ngamop " + "{:,}".format(nameCount) + " tstxoti.")
         
-                await kelutral.change_presence(status=discord.Status.online, activity=game)
+                await kelutralBot.change_presence(status=discord.Status.online, activity=game)
                 await ctx.send("Faystxo lu ngaru:" + output)
         else:
             await ctx.send("Somehow, and god knows how, you fucked up.")
@@ -669,10 +676,10 @@ async def generate(ctx, numOut, numSyllables):
 @generate.error
 async def generate_error(ctx, error):
     if isinstance(error, commands.CommandError):
-        await ctx.send("Invalid syntax. If you need help with the `+generate` command, type `+howto`")
+        await ctx.send("Invalid syntax. If you need help with the `!generate` command, type `!howto`")
 
 # User Preferences
-@kelutral.command(name='language',aliases=['lì\'fya'])
+@kelutralBot.command(name='language',aliases=['lì\'fya'])
 async def profile(ctx, *setting):
     user = ctx.message.author
     fileName = 'users/' + str(user.id) + '.tsk'
@@ -680,13 +687,7 @@ async def profile(ctx, *setting):
     preference = str(setting).lower()
     
     # Updates the user profile.
-    if not os.path.exists(fileName):
-        fh = open(fileName, 'w')
-        fh.write('English')
-        fh.close()
-        
-        await ctx.send("Setting up a new user profile. To change your default output settings, use `+profile <english/na'vi>`.")
-    elif preference == "":
+    if preference == "":
         fh = open(fileName, 'r')
         profile = fh.readline().strip()
         fh.close()
@@ -731,4 +732,4 @@ async def profile_error(ctx, error):
         await ctx.send("Invalid syntax. If you need help with the `+profile` command, type `+howto`")
 
 # Replace token with your bot's token
-kelutral.run("PRIVATE KEY")
+kelutralBot.run("private key")
