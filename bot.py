@@ -20,7 +20,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Alpha 0.2"
+versionNumber = "Alpha 0.3"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)"]
 
 ## For Progression
@@ -478,6 +478,11 @@ async def botquit(ctx):
 async def version(ctx):
         displayversion = ["Version: ", versionNumber]
         await ctx.send(''.join(displayversion))
+
+## Fuck off, LN.org
+@kelutralBot.command(name='käneto', aliases=['fuckyou'])
+async def goAway(ctx):
+        await ctx.send("https://youtu.be/7JEbbihUCLw")
 
 # Tskxekengsiyu functions
 ## Display User Message Count
