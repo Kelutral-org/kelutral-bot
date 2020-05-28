@@ -565,7 +565,7 @@ async def messages(ctx, user: discord.Member):
         
 
 ## Add a Question of the Day to a specified or the next available date
-@kelutralBot.command(name='addqotd')
+@kelutralBot.command(name='addqotd', aliases=['tìpawm'])
 async def qotd(ctx, question, *date):
         langCheck = outputCheck(ctx.message.author)
         if date:
@@ -609,7 +609,7 @@ async def qotd(ctx, question, *date):
                     await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Retrieve the next Available Date for a Question of the Day
-@kelutralBot.command(name='nextday')
+@kelutralBot.command(name='nextday', aliases=['hayasrr'])
 async def nextDay(ctx):
         dateTimeObj = datetime.now()
         today = dateTimeObj.strftime("%d-%m-%Y")
@@ -626,7 +626,7 @@ async def nextDay(ctx):
             await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Check the Scheduled Dates for Questions of the Day
-@kelutralBot.command(name='schedule')
+@kelutralBot.command(name='schedule', aliases=['srr'])
 async def checkDates(ctx):
         fileName = 'qotd/calendar.tsk'
         fileSize = os.path.getsize(fileName)
@@ -645,7 +645,7 @@ async def checkDates(ctx):
                     await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## View a specific Question of the Day
-@kelutralBot.command(name='viewqotd')
+@kelutralBot.command(name='viewqotd', aliases=['inan'])
 async def readQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         langCheck = outputCheck(ctx.message.author)
@@ -670,7 +670,7 @@ async def readQuestion(ctx, date):
                     await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Change a specific Question of the Day
-@kelutralBot.command(name='editqotd')
+@kelutralBot.command(name='editqotd', aliases=['latem'])
 async def changeQuestion(ctx, question, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         langCheck = outputCheck(ctx.message.author)
@@ -695,7 +695,7 @@ async def changeQuestion(ctx, question, date):
                     await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Delete a specific Question of the Day
-@kelutralBot.command(name='deleteqotd')
+@kelutralBot.command(name='deleteqotd', aliases=['ska\'a'])
 async def deleteQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
         langCheck = outputCheck(ctx.message.author)
@@ -737,7 +737,7 @@ async def howto(ctx):
     if langCheck.lower() == "english":
         await ctx.send("Syntax for the command is `!generate <number of names> <number of syllables>`. Maximum number of names is capped at 20 and syllables is capped at 5.")
     elif langCheck.lower() == "na'vi":
-        await ctx.send("Fte sivar `+generate`ti, fìkem si: `!generate <stxoä holpxay> <aylì'kongä holpxay>`. Stxoä txantewä holpxay lu mevotsìng ulte lì'kongä txantewä holpxay lu mrr.")
+        await ctx.send("Fte sivar `!generate`ti, fìkem si: `!generate <stxoä holpxay> <aylì'kongä holpxay>`. Stxoä txantewä holpxay lu mevotsìng ulte lì'kongä txantewä holpxay lu mrr.")
     else:
         await ctx.send("Somehow, and god knows how, you fucked up.")
 
@@ -779,7 +779,11 @@ async def generate(ctx, numOut, numSyllables):
                 game = discord.Game("ngamop " + "{:,}".format(nameCount) + " tstxoti.")
         
                 await kelutralBot.change_presence(status=discord.Status.online, activity=game)
-                await ctx.send("Faystxo lu ngaru:" + output)
+                embed=discord.Embed(color=0x00c600)
+                embed.set_author(name=ctx.message.author.name,icon_url=ctx.message.author.avatar_url)
+                embed.add_field(name="Faystxo lu ngaru:", value=output, inline=True)
+
+                await ctx.send(embed=embed)
         else:
             await ctx.send("Somehow, and god knows how, you fucked up.")
     else:
@@ -807,8 +811,6 @@ async def profile(ctx, *setting):
     fh = open(fileName, 'r')
     content = fh.readlines()
     messages = content[0].strip()
-    print(content)
-    print(messages, profile)
     fh.close()
     
     # Updates the user profile.
