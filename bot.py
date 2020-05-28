@@ -12,6 +12,8 @@ from datetime import datetime
 import asyncio
 import os
 
+import admin
+
 ## Initialize Client
 kelutral = discord.Client()
 
@@ -20,7 +22,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Alpha 0.6"
+versionNumber = "Alpha 0.7"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
@@ -249,7 +251,8 @@ def update(newNameCount):
 # Updates roles based on activity.
 async def roleUpdate(count, check, message, user):
     i = 0
-    activeRoles = message.guild.roles            
+    activeRoles = message.guild.roles
+    langCheck = outputCheck(message.author)
     for roles in activeRoleNames:
             if count >= activeRoleThresholds[i] and check.name != roles:
                     newRole = get(activeRoles, name=activeRoleNames[i])
@@ -257,7 +260,19 @@ async def roleUpdate(count, check, message, user):
                     print('Tìmìng txintìnit alu ' + newRole.name + ' tuteru alu ' + user.display_name + '.')
                     if message.author.dm_channel is None:
                             await message.author.create_dm()
-                    await message.author.send('**Seykxel sì nitram!** Set lu ngaru txintìn alu ' + newRole.name + '.')
+
+                    if langCheck == "English":
+                        embed=discord.Embed()
+                        embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** you're now a " + newRole.name + ".", inline=False)
+                        # embed.set_thumbnail(message.guild.avatar_url)
+                        
+                    elif langCheck == "Na'vi":
+                        embed=discord.Embed()
+                        embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
+                        # embed.set_thumbnail(message.guild.avatar_url)
+                        
+                    await message.author.send(embed=embed)
+                    
                     if check.name != "@everyone":
                             await user.remove_roles(check)
                             print("'olaku txintìnit alu " + check.name + " ta " + user.display_name + ".")
@@ -317,6 +332,8 @@ def wordify(input):
     if len(input) == 1:
             if input == "0":
                 return "kewa"
+            if input == "1":
+                return "'awa"
     for i, d in enumerate(rev):
             if i == 0:  # 7777[7]
                     output = naviVocab[1][int(d)] + output
@@ -438,7 +455,7 @@ async def on_member_join(member):
                        print("Found this user in the blacklist.")
                        if member.dm_channel is None:
                                await member.create_dm()
-                       await member.send("Sorry, you are forbidden from joining this server.")
+                       await member.send("Sorry, you are forbidden from joining Kelutral.org.")
                        target = member.guild.get_member(81105065955303424)
                        name = member.name
                        await member.ban()
@@ -485,24 +502,24 @@ async def on_message(message):
 
                                 ## Updates the user profile.
                                 if not os.path.exists(fileName):
-                                      fh = open(fileName, 'w')
-                                      fh.write(str(userMessageCount + 1) + "\n")
-                                      fh.write(user.name)
-                                      fh.write("English")
-                                      fh.close()
+                                        fh = open(fileName, 'w')
+                                        fh.write(str(userMessageCount + 1) + "\n")
+                                        fh.write(user.name + "\n")
+                                        fh.write("English")
+                                        fh.close()
                                 else:
-                                    fh = open(fileName, "r")
-                                    content = fh.readlines()
-                                    strMessageCount = content[0]
-                                    pref = content[2].strip()
-                                    userMessageCount = int(strMessageCount)
-                                    fh.close()
-                                    
-                                    fh = open(fileName, "w")
-                                    fh.write(str(userMessageCount + 1) + "\n")
-                                    fh.write(user.name + "\n")
-                                    fh.write(pref)
-                                    fh.close()
+                                        fh = open(fileName, "r")
+                                        content = fh.readlines()
+                                        strMessageCount = content[0]
+                                        pref = content[2].strip()
+                                        userMessageCount = int(strMessageCount)
+                                        fh.close()
+
+                                        fh = open(fileName, "w")
+                                        fh.write(str(userMessageCount + 1) + "\n")
+                                        fh.write(user.name + "\n")
+                                        fh.write(pref)
+                                        fh.close()
                                         
                                 await roleUpdate(userMessageCount, currentRole, message, user)
        
@@ -521,7 +538,13 @@ async def botquit(ctx):
 ## Version
 @kelutralBot.command(name='version', aliases=['srey'])
 async def version(ctx):
-        displayversion = ["Version: ", versionNumber]
+        langCheck = outputCheck(ctx.message.author)
+
+        if langCheck == "English":
+            displayversion = ["Version: ", versionNumber]
+        elif langCheck == "Na'vi":
+            displayversion = ["Srey: ", versionNumber]
+            
         await ctx.send(''.join(displayversion))
 
 ## Fuck off, LN.org
@@ -531,37 +554,81 @@ async def goAway(ctx):
 
 # Tskxekengsiyu functions
 ## Display User Message Count
-@kelutralBot.command(name='level', aliases=['yì'])
-async def messages(ctx, user: discord.Member):
+@kelutralBot.command(name='profile', aliases=['yì'])
+async def profile(ctx, user: discord.Member, *setting):
         fileName = 'users/' + str(user.id) + '.tsk'
-        fh = open(fileName, "r")
-        fileContents = fh.readlines(1)
-        strippedContents = fileContents[0].strip("\n")
-        fh.close()
+        setting = ''.join(setting)
+        preference = str(setting).lower()
         i = 0
+
+        output = admin.checkProfile(user, "Messages")
+        messages = int(output[0])
+
         langCheck = outputCheck(ctx.message.author)
+        userProf = ctx.message.guild.get_member(user.id)
+        userCheck = outputCheck(userProf)
+        
+        # Checks the total messages sent against the threshold.
         for role in activeRoleThresholds:
-                if int(fileContents[0]) >= activeRoleThresholds[i]:
-                        toNextLevel = activeRoleThresholds[i - 1] - int(fileContents[0])
+                if int(messages) >= activeRoleThresholds[i]:
+                        toNextLevel = activeRoleThresholds[i - 1] - int(messages)
                         break
-                elif int(fileContents[0]) <= 16:
-                        toNextLevel = 16 - int(fileContents[0])
+                elif int(messages) <= 16:
+                        toNextLevel = 16 - int(messages)
                         break
                 i += 1
-        if langCheck.lower() == "english":
-            output1 = strippedContents
-            output2 = str(toNextLevel)
-            embed=discord.Embed(color=0x3154cc, title=user.name, description=user.name + " has sent **" + output1 + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1])
-            embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
-        elif langCheck.lower() == "na'vi":
-            output1 = wordify(str(oct(int(strippedContents)))[2:])
+
+        # Updates the user profile and sends.
+        if preference == "":
+            if langCheck == "Na'vi":
+                output1 = wordify(str(oct(messages))[2:])
+                output2 = wordify(str(oct(toNextLevel))[2:])
+                embed=discord.Embed(color=0x3154cc, title=user.name)
+                embed.add_field(name="Nulnawnewa Lì'fya: ", value=userCheck, inline=True)
+                embed.add_field(name="Fpawne'a upxare: ", value="Lu tsatuteru **" + output1 + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1], inline=False)
+                embed.set_thumbnail(url=user.avatar_url)
+
+            elif langCheck == "English":
+                output1 = str(messages)
+                output2 = str(toNextLevel)
+                embed=discord.Embed(color=0x3154cc, title=user.name)
+                embed.add_field(name="Preferred Language: ", value=userCheck, inline=True)
+                embed.add_field(name="Sent Messages: ", value=user.name + " has sent **" + output1 + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)
+                embed.set_thumbnail(url=user.avatar_url)
+                
+        elif preference == "na'vi":
+            fh = open(fileName, 'w')
+            fh.write(str(messages) + "\n")
+            fh.write(user.name + "\n")
+            fh.write(preference.capitalize() + "\n")
+            fh.close()
+
+            output1 = wordify(str(oct(messages))[2:])
             output2 = wordify(str(oct(toNextLevel))[2:])
-            embed=discord.Embed(color=0x3154cc, title=user.name, description="Lu tsatuteru **" + output1 + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1])
+            embed=discord.Embed(color=0x3154cc, title=user.name)
+            embed.add_field(name="Nulnawnewa Lì'fya: ", value=setting.capitalize(), inline=False)
+            embed.add_field(name="Fpawne'a upxare", value="Lu tsatuteru **" + output1 + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1], inline=False)
             embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
+            
+        elif preference == "english":
+            fh = open(fileName, 'w')
+            fh.write(str(messages) + "\n")
+            fh.write(user.name + "\n")
+            fh.write(preference.capitalize() + "\n")
+            fh.close()
+
+            output1 = str(messages)
+            output2 = str(toNextLevel)
+            embed=discord.Embed(color=0x3154cc, title=user.name)
+            embed.add_field(name="Preferred Language: ", value=setting.capitalize(), inline=True)
+            embed.add_field(name="Sent Messages: ", value=user.name + " has sent **" + output1 + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)
+            embed.set_thumbnail(url=user.avatar_url)
+
         else:
-            await ctx.send("Somehow, and god knows how, you fucked up.")
+            await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
+
+        await ctx.send(embed=embed)
+
         
 
 ## Add a Question of the Day to a specified or the next available date
@@ -800,55 +867,11 @@ async def generate_error(ctx, error):
     if isinstance(error, commands.CommandError):
         await ctx.send("Invalid syntax. If you need help with the `!generate` command, type `!howto`")
 
-# User Preferences
-@kelutralBot.command(name='language',aliases=['lì\'fya'])
-async def profile(ctx, *setting):
-    user = ctx.message.author
-    fileName = 'users/' + str(user.id) + '.tsk'
-    setting = ''.join(setting)
-    preference = str(setting).lower()
-
-    fh = open(fileName, 'r')
-    content = fh.readlines()
-    messages = content[0].strip()
-    fh.close()
-    
-    # Updates the user profile.
-    if preference == "":
-        if profile == "Na'vi":
-            embed=discord.Embed(color=0x3154cc, title=user.name, description="Nulnawnewa Lì'fya: **" + profile + "**")
-            embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
-        else:
-            embed=discord.Embed(color=0x3154cc, title=user.name, description="Language Preference: **" + profile + "**")
-            embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
-    elif preference == "na'vi":
-        fh = open(fileName, 'w')
-        fh.write(messages + "\n")
-        fh.write(user.name + "\n")
-        fh.write(preference.capitalize() + "\n")
-        fh.close()
-
-        await ctx.send("Nulnawnewa lì'fya set lu " + preference.capitalize() + ".")
-        
-    elif preference == "english":
-        fh = open(fileName, 'w')
-        fh.write(messages + "\n")
-        fh.write(user.name + "\n")
-        fh.write(preference.capitalize() + "\n")
-        fh.close()
-
-        await ctx.send("Language preference updated to " + preference.capitalize() + ".")
-        
-    else:
-        await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
-
 # Error Handling for !profile
-@profile.error
-async def profile_error(ctx, error):
-    if isinstance(error, commands.CommandError):
-        await ctx.send("Invalid syntax. If you need help with the `+profile` command, type `+howto`")
+##@profile.error
+##async def profile_error(ctx, error):
+##    if isinstance(error, commands.CommandError):
+##        await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
 kelutralBot.run("private key")
