@@ -20,8 +20,8 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Alpha 0.3"
-modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)"]
+versionNumber = "Alpha 0.4"
+modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
 activeRoleNames = ["Koaktu","Tsamsiyu","Tsamsiyutsyìp","Eykyu","Ikran Makto","Taronyu","Taronyutsyìp","Hapxìtu","Hapxìtutsyìp","Zìma'uyu","Ketuwong"]
@@ -410,7 +410,32 @@ async def on_ready():
 @kelutralBot.event
 async def on_member_join(member):
         # This will automatically give anyone the 'frapo' role when they join the server.
+        fileName = 'blacklist.txt'
+        count = 0
+        i = 0
+
         print(member.name + " zola'u.")
+        fh = open(fileName, 'r')
+        lines = fh.readlines()
+        count = len(lines)
+        while i < count:
+                line = ''.join(lines[i])
+                line.strip()
+                if int(lines[i]) == member.id:
+                       print("Found this user in the blacklist.")
+                       if member.dm_channel is None:
+                               await member.create_dm()
+                       await member.send("Sorry, you are forbidden from joining this server.")
+                       target = member.guild.get_member(81105065955303424)
+                       name = member.name
+                       await member.ban()
+                       print(member.name + " was banned.")
+                       await target.send(name + " attempted to join Kelutral.org.")
+                       
+                       break
+                i += 1
+        fh.close()
+        
         newRole = get(member.guild.roles, name="frapo")
         await member.add_roles(newRole)
         print("Gave " + member.name + " the role " + newRole.name + ".")
@@ -424,7 +449,7 @@ async def on_message(message):
         if message.guild:
                 if not message.content.startswith("!"):
                         # If message is in guild and isn't from the bot.
-                        if len(message.content) >= 5 and message.author.id != 519188181426503718:
+                        if len(message.content) >= 5 and message.author.top_role.id != 715094486992027699:
                                 user = message.author
                                 currentRole = user.top_role
                                 userRoles = user.roles
