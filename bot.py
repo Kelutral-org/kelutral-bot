@@ -20,7 +20,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Alpha 0.4"
+versionNumber = "Alpha 0.6"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
@@ -127,7 +127,20 @@ def ruleSeven():
 def ruleEight():
     onset = random.choices(onsets_withpre, weights=onsetProbabilities)
     s = preconsonants[random.randint(0,2)] + onset[0] + pseudovowels[random.randint(0,1)]
-    return s 
+    return s
+
+def outputCheck(user):
+    fileName = 'users/' + str(user.id) + '.tsk'
+
+    if not os.path.exists(fileName):
+        return "English"
+    else:
+        # Determines Language Output
+        fh = open(fileName, 'r')
+        content = fh.readlines()
+        fh.close()
+        lang = content[2].strip()
+        return lang
     
 # Name Generation Function
 
@@ -441,7 +454,10 @@ async def on_member_join(member):
         print("Gave " + member.name + " the role " + newRole.name + ".")
         if member.dm_channel is None:
                 await member.create_dm()
-        await member.send("Zola'u nìprrte' ne **kelutralBot.org**! Welcome to kelutralBot.org!") ## Create embed for this, make it look nice!
+
+        embed=discord.Embed()
+        embed.add_field(name="Welcome to the Kelutral.org Discord Server!", value="**Fwa ngal fìtsengti sunu ayoeru!** We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #hell's-gate so that a moderator can assign you the proper role.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!", inline=False)
+        await member.send(embed=embed)
 
 @kelutralBot.event
 async def on_message(message):    
@@ -475,14 +491,18 @@ async def on_message(message):
                                       fh.write("English")
                                       fh.close()
                                 else:
-                                        fh = open(fileName, "r")
-                                        strMessageCount = fh.readlines(1)
-                                        userMessageCount = int(strMessageCount[0])
-                                        fh.close()
-                                        fh = open(fileName, "w")
-                                        fh.write(str(userMessageCount + 1) + "\n")
-                                        fh.write(user.name)
-                                        fh.close()
+                                    fh = open(fileName, "r")
+                                    content = fh.readlines()
+                                    strMessageCount = content[0]
+                                    pref = content[2].strip()
+                                    userMessageCount = int(strMessageCount)
+                                    fh.close()
+                                    
+                                    fh = open(fileName, "w")
+                                    fh.write(str(userMessageCount + 1) + "\n")
+                                    fh.write(user.name + "\n")
+                                    fh.write(pref)
+                                    fh.close()
                                         
                                 await roleUpdate(userMessageCount, currentRole, message, user)
        
@@ -519,6 +539,7 @@ async def messages(ctx, user: discord.Member):
         strippedContents = fileContents[0].strip("\n")
         fh.close()
         i = 0
+        langCheck = outputCheck(ctx.message.author)
         for role in activeRoleThresholds:
                 if int(fileContents[0]) >= activeRoleThresholds[i]:
                         toNextLevel = activeRoleThresholds[i - 1] - int(fileContents[0])
@@ -527,15 +548,26 @@ async def messages(ctx, user: discord.Member):
                         toNextLevel = 16 - int(fileContents[0])
                         break
                 i += 1
-        output1 = wordify(str(oct(int(strippedContents)))[2:])
-        output2 = wordify(str(oct(toNextLevel))[2:])
-        embed=discord.Embed(color=0x3154cc, title=user.name, description="Lu tsatuteru **" + output1 + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1])
-        embed.set_thumbnail(url=user.avatar_url)
-        await ctx.send(embed=embed)
+        if langCheck.lower() == "english":
+            output1 = strippedContents
+            output2 = str(toNextLevel)
+            embed=discord.Embed(color=0x3154cc, title=user.name, description=user.name + " has sent **" + output1 + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1])
+            embed.set_thumbnail(url=user.avatar_url)
+            await ctx.send(embed=embed)
+        elif langCheck.lower() == "na'vi":
+            output1 = wordify(str(oct(int(strippedContents)))[2:])
+            output2 = wordify(str(oct(toNextLevel))[2:])
+            embed=discord.Embed(color=0x3154cc, title=user.name, description="Lu tsatuteru **" + output1 + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1])
+            embed.set_thumbnail(url=user.avatar_url)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("Somehow, and god knows how, you fucked up.")
+        
 
 ## Add a Question of the Day to a specified or the next available date
 @kelutralBot.command(name='addqotd')
 async def qotd(ctx, question, *date):
+        langCheck = outputCheck(ctx.message.author)
         if date:
                 date = str(date).strip("(),' ")
 
@@ -560,10 +592,21 @@ async def qotd(ctx, question, *date):
                 fh.write("\n" + str(date))
                 fh.close()
                 
-                await ctx.send("Created.")
+                if langCheck.lower() == "english":
+                    await ctx.send("Created.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Ngolop.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
         else:
                 modDate = nextAvailableDate(date)
-                await ctx.send("A QOTD for this day already exists. The next available day to create a QOTD is " + modDate + ".")
+                
+                if langCheck.lower() == "english":
+                    await ctx.send("A QOTD for this day already exists. The next available day to create a QOTD is " + modDate + ".")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Fìtìpawm mi fkeytok! Haya trr a fkol tsun ngivop tìpawmit lu " + modDate + ".")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Retrieve the next Available Date for a Question of the Day
 @kelutralBot.command(name='nextday')
@@ -571,57 +614,91 @@ async def nextDay(ctx):
         dateTimeObj = datetime.now()
         today = dateTimeObj.strftime("%d-%m-%Y")
         todayDate = today
-        
+        langCheck = outputCheck(ctx.message.author)
         answer = nextAvailableDate(todayDate)
 
-        await ctx.send("The next day that a QOTD can be created for is " + answer + ".")
+
+        if langCheck.lower() == "english":
+            await ctx.send("The next day that a QOTD can be created for is " + answer + ".")
+        elif langCheck.lower() == "na'vi":
+            await ctx.send("Haya trr a fkol tsun ngivop tìpawmit lu " + answer + ".")
+        else:
+            await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Check the Scheduled Dates for Questions of the Day
 @kelutralBot.command(name='schedule')
 async def checkDates(ctx):
         fileName = 'qotd/calendar.tsk'
         fileSize = os.path.getsize(fileName)
-        
+        langCheck = outputCheck(ctx.message.author)
         if os.path.exists(fileName) and not fileSize == 0:
                 fh = open(fileName, 'r')
                 contents = fh.read()
                 fh.close()
                 await ctx.send(contents)
         else:
-                await ctx.send("No QOTDs are scheduled.")
+                if langCheck.lower() == "english":
+                    await ctx.send("There are no scheduled QOTDs.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Kea srrur ke lu sìpawm.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## View a specific Question of the Day
 @kelutralBot.command(name='viewqotd')
 async def readQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
-        
+        langCheck = outputCheck(ctx.message.author)
         if os.path.exists(fileName):
                 fh = open(fileName, 'r')
                 contents = fh.read()
                 fh.close()
                 
-                await ctx.send("That QOTD is \"" + contents + "\"")
+                if langCheck.lower() == "english":
+                    await ctx.send("That question of the day is \"" + contents + "\"")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Tsatìpawm lu \"" + contents + "\"")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
         else:
-                await ctx.send("No QOTD exists for that day.")
+
+                if langCheck.lower() == "english":
+                    await ctx.send("No QOTD exists on that day.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Kea tìpawm mi ke fkeytok mì satrr.'.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Change a specific Question of the Day
 @kelutralBot.command(name='editqotd')
 async def changeQuestion(ctx, question, date):
         fileName = 'qotd/' + str(date) + '.tsk'
-        
+        langCheck = outputCheck(ctx.message.author)
         if os.path.exists(fileName):
                 fh = open(fileName, 'w')
                 fh.write(question)
                 fh.close()
                 
-                await ctx.send("Updated.")
+                if langCheck.lower() == "english":
+                    await ctx.send("Edited.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Lolatem.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
         else:
-                await ctx.send("No QOTD exists on that day.")
+
+                if langCheck.lower() == "english":
+                    await ctx.send("No QOTD exists on that day.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Kea tìpawm mi ke fkeytok mì satrr.'.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
 
 ## Delete a specific Question of the Day
 @kelutralBot.command(name='deleteqotd')
 async def deleteQuestion(ctx, date):
         fileName = 'qotd/' + str(date) + '.tsk'
+        langCheck = outputCheck(ctx.message.author)
         if os.path.exists(fileName):
                 os.remove(fileName)
                 
@@ -634,22 +711,33 @@ async def deleteQuestion(ctx, date):
                 fh = open('qotd/calendar.tsk','w')
                 fh.write(removeDate)
                 fh.close()
-                
-                await ctx.send("Removed.")
+
+                if langCheck.lower() == "english":
+                    await ctx.send("Removed.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Olaku'.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
         else:
-                await ctx.send("No QOTD exists on that day.")
+
+                if langCheck.lower() == "english":
+                    await ctx.send("No QOTD exists on that day.")
+                elif langCheck.lower() == "na'vi":
+                    await ctx.send("Kea tìpawm mi ke fkeytok mì satrr.'.")
+                else:
+                    await ctx.send("Somehow, and god knows how, you fucked up.")
                 
 # NameGenBot Functions
 # Help Module
-@kelutralBot.command(name="howto")
+@kelutralBot.command(name="howto", aliases=['srung'])
 async def howto(ctx):
 
-    langCheck = "English" #outputCheck(ctx.message.author)
+    langCheck = outputCheck(ctx.message.author)
     
     if langCheck.lower() == "english":
-        await ctx.send("Syntax for the command is `+generate <number of names> <number of syllables>`. Maximum number of names is capped at 20 and syllables is capped at 5.")
+        await ctx.send("Syntax for the command is `!generate <number of names> <number of syllables>`. Maximum number of names is capped at 20 and syllables is capped at 5.")
     elif langCheck.lower() == "na'vi":
-        await ctx.send("Fte sivar `+generate`ti, fìkem si: `+generate <stxoä holpxay> <aylì'kongä holpxay>`. Stxoä txantewä holpxay lu mevotsìng ulte lì'kongä txantewä holpxay lu mrr.")
+        await ctx.send("Fte sivar `+generate`ti, fìkem si: `!generate <stxoä holpxay> <aylì'kongä holpxay>`. Stxoä txantewä holpxay lu mevotsìng ulte lì'kongä txantewä holpxay lu mrr.")
     else:
         await ctx.send("Somehow, and god knows how, you fucked up.")
 
@@ -660,7 +748,7 @@ async def generate(ctx, numOut, numSyllables):
     n = int(numOut)
     i = int(numSyllables)
 
-    langCheck = "English" #outputCheck(ctx.message.author)
+    langCheck = outputCheck(ctx.message.author)
 
     if not n <= 0 and not i <= 0:
         if langCheck.lower() == "english":
@@ -715,12 +803,16 @@ async def profile(ctx, *setting):
     fileName = 'users/' + str(user.id) + '.tsk'
     setting = ''.join(setting)
     preference = str(setting).lower()
+
+    fh = open(fileName, 'r')
+    content = fh.readlines()
+    messages = content[0].strip()
+    print(content)
+    print(messages, profile)
+    fh.close()
     
     # Updates the user profile.
     if preference == "":
-        fh = open(fileName, 'r')
-        profile = fh.readline().strip()
-        fh.close()
         if profile == "Na'vi":
             embed=discord.Embed(color=0x3154cc, title=user.name, description="Nulnawnewa Lì'fya: **" + profile + "**")
             embed.set_thumbnail(url=user.avatar_url)
@@ -731,6 +823,8 @@ async def profile(ctx, *setting):
             await ctx.send(embed=embed)
     elif preference == "na'vi":
         fh = open(fileName, 'w')
+        fh.write(messages + "\n")
+        fh.write(user.name + "\n")
         fh.write(preference.capitalize() + "\n")
         fh.close()
 
@@ -738,22 +832,15 @@ async def profile(ctx, *setting):
         
     elif preference == "english":
         fh = open(fileName, 'w')
+        fh.write(messages + "\n")
+        fh.write(user.name + "\n")
         fh.write(preference.capitalize() + "\n")
-        fh.write(user.name)
         fh.close()
 
         await ctx.send("Language preference updated to " + preference.capitalize() + ".")
         
-    elif preference == "show":
-        fh = open(fileName, 'r')
-        profile = fh.readline().strip()
-        fh.close()
-
-        embed=discord.Embed(color=0x3154cc, title=user.name, description="Language Preference: **" + profile + "**")
-        embed.set_thumbnail(url=user.avatar_url)
-        await ctx.send(embed=embed)
     else:
-        await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi`, or use `show` to view your current settings.")
+        await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
 
 # Error Handling for !profile
 @profile.error
