@@ -13,6 +13,7 @@ import asyncio
 import os
 
 import admin
+import namegen
 
 ## Initialize Client
 kelutral = discord.Client()
@@ -35,19 +36,7 @@ message_channel_id = 715296162394931340
             #Ja, Fe, Ma, Ap, Ma, Ju, Jl, Au, Se, Oc, No, De
 monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-## Na'vi Alphabet
-vowels = ["a","ä","e","i","ì","o","u","aw","ay","ew","ey"]
-vowelProbabilities = [10,10,10,10,10,10,10,2,2,2,2]
-consonants = ["'","f","h","k","kx","l","m","n","ng","p","px","r","s","t","tx","ts","v","w","y","z"]
-consonantProbabilities = [1,6,6,6,3,6,6,6,4,6,3,4,6,6,3,6,5,5,5,5]
-pseudovowels = ["ll","rr"]
-diphthongs = ["aw","ay","ew","ey"]
 
-preconsonants = ["f","s","ts"]
-onsets_withpre = ["k","kx","l","m","n","ng","p","px","r","t","tx","w","y"]
-onsetProbabilities = [5,2,5,5,5,4,5,2,4,5,2,3,3]
-codas = ["'","k","kx","l","m","n","ng","p","px","r","t","tx"]
-codaProbabilities = [50,8,3,8,8,8,3,8,3,8,8,3]
 
 naviVocab = [
     # 0 1 2 3 4 5 6 7 actual
@@ -62,74 +51,7 @@ naviVocab = [
     ["", "l", "", "", ""],
 ]
 
-# Language Rules #
-# A syllable may start with a vowel
-# A syllable may end with a vowel
-# A consonant may start a syllable
-# A consonant cluster comprised of f, s, or ts + p, t, k, px, tx, kx, m, n, ng, r, l, w, or y may start a syllable
-# Px, tx, kx, p, t, k, ', m, n, l, r, or ng may occur in syllable-final position
-# Ts, f, s, h, v, z, w, or y may not occur in syllable-final position
-# No consonant clusters in syllable-final position
-# A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant
-
-# Valid Syllables #
-# Just one vowel
-# Consonant and vowel
-# Consonant cluster and vowel
-# Vowel and coda
-# Consonant, vowel and coda
-# Consonant cluster, vowel and coda
-# Consonant and pseudovowel
-# Consonant cluster, pseudovowel
-
 ##--------------------Global Functions--------------------##
-
-## Syllable Creation Functions
-
-def ruleOne():
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    return vowel[0]
-
-def ruleTwo():
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    consonant = random.choices(consonants, weights=consonantProbabilities)
-    s = consonant[0] + vowel[0]
-    return s
-
-def ruleThree():
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    onset = random.choices(onsets_withpre, weights=onsetProbabilities)
-    s = preconsonants[random.randint(0,2)] + onset[0] + vowel[0]
-    return s
-
-def ruleFour():
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    s = vowel[0] + codas[random.randint(0,11)]
-    return s
-
-def ruleFive():
-    consonant = random.choices(consonants, weights=consonantProbabilities)
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    coda = random.choices(codas, weights=codaProbabilities)
-    s = consonant[0] + vowel[0] + coda[0]
-    return s
-
-def ruleSix():
-    vowel = random.choices(vowels, weights=vowelProbabilities)
-    onset = random.choices(onsets_withpre, weights=onsetProbabilities)
-    coda = random.choices(codas, weights=codaProbabilities)
-    s = preconsonants[random.randint(0,2)] + onset[0] + vowel[0] + coda[0]
-    return s
-
-def ruleSeven():
-    consonant = random.choices(consonants, weights=consonantProbabilities)
-    s = consonant[0] + pseudovowels[random.randint(0,1)]
-    return s
-
-def ruleEight():
-    onset = random.choices(onsets_withpre, weights=onsetProbabilities)
-    s = preconsonants[random.randint(0,2)] + onset[0] + pseudovowels[random.randint(0,1)]
-    return s
 
 def outputCheck(user):
     fileName = 'users/' + str(user.id) + '.tsk'
@@ -143,89 +65,6 @@ def outputCheck(user):
         fh.close()
         lang = content[2].strip()
         return lang
-    
-# Name Generation Function
-
-def nameGen(numOut, numSyllables):
-    names = []
-    name = ""
-    output = " "
-
-    n = int(numOut)
-    i = int(numSyllables)
-
-    # Conditional Loop for Number of Names
-    while n>0:
-        i = int(numSyllables)
-
-        # Conditional Loop for Number of Syllables
-        while i>0:
-            syllables = [1, 2, 3, 4, 5, 6, 7, 8]
-            p = [50, 50, 7.5, 7.5, 7.5, 4, .5, .5]
-            rule = random.choices(syllables, weights = p)
-            rule = int(rule[0])
-            # rule = random.randint(0,7)
-            if rule == 1 and not i == 1:
-                name = name + ruleOne()
-                i-=1
-            elif rule == 2:
-                name = name + ruleTwo()
-                i-=1
-            elif rule == 3:
-                name = name + ruleThree()
-                i-=1
-            elif rule == 4:
-                name = name + ruleFour()
-                i-=1
-            elif rule == 5:
-                name = name + ruleFive()
-                i-=1
-            elif rule == 6:
-                name = name + ruleSix()
-                i-=1
-            elif rule == 7:
-                name = name + ruleSeven()
-                i-=1
-            else:
-                name = name + ruleEight()
-                i-=1
-
-        # Building the Output
-        name = name.replace("''", "'")
-        name = name.replace("kk","k")
-        name = name.replace("kxkx", "kx")
-        name = name.replace("mm", "m")
-        name = name.replace("nn", "n")
-        name = name.replace("ngng", "ng")
-        name = name.replace("pp", "p")
-        name = name.replace("pxpx", "px")
-        name = name.replace("tt", "t")
-        name = name.replace("txtx", "tx")
-        name = name.replace("yy","y")
-        name = name.replace("aa", "a")
-        name = name.replace("ää", "ä")
-        name = name.replace("ee", "e")
-        name = name.replace("ii", "i")
-        name = name.replace("ìì", "ì")
-        name = name.replace("oo", "o")
-        name = name.replace("uu", "u")
-        name = name.replace("lll","ll")
-        name = name.replace("rrr","rr")
-        name = name.capitalize()
-        names.append(name)
-
-        # Resetting for next loop
-        name = ""
-        n-=1
-
-    # Finalizing the Output    
-    n = int(numOut)
-    for num in names:
-        output = output + names[n-1]
-        if n > 1:
-            output = output + "\n"
-        n -= 1
-    return output
 
 # Updates the Visible Stat for 'names generated'
 def update(newNameCount):
@@ -263,7 +102,7 @@ async def roleUpdate(count, check, message, user):
 
                     if langCheck == "English":
                         embed=discord.Embed()
-                        embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** you're now a " + newRole.name + ".", inline=False)
+                        embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** You're now a " + newRole.name + ".", inline=False)
                         # embed.set_thumbnail(message.guild.avatar_url)
                         
                     elif langCheck == "Na'vi":
@@ -547,6 +386,11 @@ async def version(ctx):
             
         await ctx.send(''.join(displayversion))
 
+## Update Rules
+@kelutralBot.command(name='donotuse')
+async def updateRules(ctx):
+        await admin.adminMsgs(ctx, kelutralBot)
+
 ## Fuck off, LN.org
 @kelutralBot.command(name='käneto', aliases=['fuckyou'])
 async def goAway(ctx):
@@ -628,8 +472,6 @@ async def profile(ctx, user: discord.Member, *setting):
             await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
 
         await ctx.send(embed=embed)
-
-        
 
 ## Add a Question of the Day to a specified or the next available date
 @kelutralBot.command(name='addqotd', aliases=['tìpawm'])
@@ -814,6 +656,8 @@ async def generate(ctx, numOut, numSyllables):
     # Initializing Variables
     n = int(numOut)
     i = int(numSyllables)
+    output = []
+    c = 0
 
     langCheck = outputCheck(ctx.message.author)
 
@@ -824,16 +668,18 @@ async def generate(ctx, numOut, numSyllables):
             elif not n <= 20:
                 await ctx.send("Maximum name count allowed is 20.")
             else:
-                output = nameGen(n, numSyllables)
                 nameCount = update(n)
                 game = discord.Game("ngamop " + "{:,}".format(nameCount) + " tstxoti.")
         
                 await kelutralBot.change_presence(status=discord.Status.online, activity=game)
 
                 embed=discord.Embed(color=0x00c600)
-                embed.set_author(name=ctx.message.author.name,icon_url=ctx.message.author.avatar_url)
-                embed.add_field(name="Here are your names:", value=output, inline=True)
-
+                embed.set_author(name="Here are your names:")
+                while c < n:
+                    output.append(namegen.nameGen(numSyllables))
+                    embed.add_field(name="Name " + str(c + 1) + ":", value=output[c], inline=True)
+                    c += 1
+                embed.set_thumbnail(url=ctx.message.author.avatar_url)
                 await ctx.send(embed=embed)
         elif langCheck.lower() == "na'vi":
             if not i <= 5:
@@ -841,15 +687,18 @@ async def generate(ctx, numOut, numSyllables):
             elif not n <= 20:
                 await ctx.send("Stxoä txantxewä holpxay lu mevotsìng.")
             else:
-                output = nameGen(n, numSyllables)
                 nameCount = update(n)
                 game = discord.Game("ngamop " + "{:,}".format(nameCount) + " tstxoti.")
         
                 await kelutralBot.change_presence(status=discord.Status.online, activity=game)
+                
                 embed=discord.Embed(color=0x00c600)
-                embed.set_author(name=ctx.message.author.name,icon_url=ctx.message.author.avatar_url)
-                embed.add_field(name="Faystxo lu ngaru:", value=output, inline=True)
-
+                embed.set_author(name="Faystxo lu ngaru ma " + ctx.message.author.name + ":")
+                while c < n:
+                    output.append(namegen.nameGen(numSyllables))
+                    embed.add_field(name="Tstxo "+ str(c + 1) + ":", value=output[c], inline=True)
+                    c += 1
+                embed.set_thumbnail(url=ctx.message.author.avatar_url)
                 await ctx.send(embed=embed)
         else:
             await ctx.send("Somehow, and god knows how, you fucked up.")
@@ -868,10 +717,10 @@ async def generate_error(ctx, error):
         await ctx.send("Invalid syntax. If you need help with the `!generate` command, type `!howto`")
 
 # Error Handling for !profile
-##@profile.error
-##async def profile_error(ctx, error):
-##    if isinstance(error, commands.CommandError):
-##        await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
+@profile.error
+async def profile_error(ctx, error):
+    if isinstance(error, commands.CommandError):
+        await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
 kelutralBot.run("private key")
