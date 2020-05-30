@@ -23,7 +23,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Beta 1.1"
+versionNumber = "Beta 1.4"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
@@ -306,11 +306,41 @@ async def on_member_join(member):
         await member.create_dm()
 
     embed=discord.Embed()
-    embed=discord.Embed(colour=0x6D326D)
-    embed.add_field(name="Welcome to the Kelutral.org Discord Server!", value="**Fwa ngal fìtsengti sunu ayoeru!** We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #hell's-gate so that a moderator can assign you the proper role.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!", inline=False)
+    embed=discord.Embed(title="Welcome to the Kelutral.org Discord Server!", colour=0x6D326D)
+    embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #hell's-gate so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with \U00002640, \U00002642 or \U0001F308. Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!", inline=False)
 
     message = await member.send(embed=embed)
+    emojis = ['\U00002642','\U00002640','\U0001F308']
+    pronounRole = ['He/Him','She/Her','They/Them']
+    for emoji in emojis:
+        await message.add_reaction(emoji)
+        
+    def check(reaction, user):
+        for emoji in emojis:
+            if str(reaction.emoji) == emoji:
+                foundEmoji = True
+                break
+            else:
+                foundEmoji = False
+        return user == member and foundEmoji
 
+    try:
+        reaction, user = await kelutralBot.wait_for('reaction_add', timeout=180.0, check=check)
+    except asyncio.TimeoutError:
+        await member.send("Window has passed to self-assign pronouns. Please DM a mod if you would still like to do so.")
+        for emoji in emojis:
+            await message.remove_reaction(emoji, self)
+    else:
+        i = 0
+        while i < 3:
+            if str(reaction) == emojis[i]:
+                newRole = get(member.guild.roles, name=pronounRole[i])
+                await member.add_roles(newRole)
+                print("Assigned " + member.name + " " + pronounRole[i] + " pronouns.")
+                break
+            else:
+                i += 1
+    
 @kelutralBot.event
 async def on_message(message):    
     # If message is in-server
@@ -368,6 +398,10 @@ async def botquit(ctx):
     else:
         embed=discord.Embed(title="DENIED!", description="You do not have access to run this command!", colour=0xff0000)
         await ctx.send(embed=embed)
+        
+## Test Command
+##@kelutralBot.command(name='testreaction')
+##async def testReaction(ctx):
 
 ## Version
 @kelutralBot.command(name='version', aliases=['srey'])
@@ -725,4 +759,4 @@ async def profile_error(ctx, error):
         await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
-kelutralBot.run("key")
+kelutralBot.run("private key")
