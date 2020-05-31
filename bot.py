@@ -11,6 +11,7 @@ from datetime import datetime
 
 import asyncio
 import os
+import glob
 
 import admin
 import namegen
@@ -23,7 +24,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Beta 1.4"
+versionNumber = "Beta 1.7"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
@@ -35,6 +36,7 @@ send_time = '08:00'
 message_channel_id = 715296162394931340
             #Ja, Fe, Ma, Ap, Ma, Ju, Jl, Au, Se, Oc, No, De
 monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 naviVocab = [
     # 0 1 2 3 4 5 6 7 actual
@@ -90,13 +92,13 @@ async def roleUpdate(count, check, message, user):
                 embed=discord.Embed()
                 embed=discord.Embed(colour=0x1e3626)
                 embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** You're now a " + newRole.name + ".", inline=False)
-                # embed.set_thumbnail(message.guild.avatar_url)
+                embed.set_thumbnail(message.guild.avatar_url)
                 
             elif langCheck == "Na'vi":
                 embed=discord.Embed()
                 embed=discord.Embed(colour=0x1e3626)
                 embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
-                # embed.set_thumbnail(message.guild.avatar_url)
+                embed.set_thumbnail(message.guild.avatar_url)
                 
             await message.author.send(embed=embed)
             
@@ -272,12 +274,20 @@ async def on_ready():
 
 @kelutralBot.event
 async def on_member_join(member):
-    # This will automatically give anyone the 'frapo' role when they join the server.
+    message_channel = 715052686487191583
+    channel = kelutralBot.get_channel(message_channel)
+    
+    embed=discord.Embed(color=0x07ca48)
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_author(name="Member Joined",icon_url=member.avatar_url)
+    embed.add_field(name="New Member:", value=str(member.mention) + " " + str(member), inline=False)
+    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + member.joined_at.strftime('%H:%M PST'))
+    await channel.send(embed=embed)
+    
+    # Checks the Blacklist for Blacklisted IDs
     fileName = 'blacklist.txt'
     count = 0
     i = 0
-
-    print(member.name + " zola'u.")
     fh = open(fileName, 'r')
     lines = fh.readlines()
     count = len(lines)
@@ -299,9 +309,28 @@ async def on_member_join(member):
         i += 1
     fh.close()
     
+    # This will automatically give anyone the 'frapo' role when they join the server.
     newRole = get(member.guild.roles, name="frapo")
     await member.add_roles(newRole)
     print("Gave " + member.name + " the role " + newRole.name + ".")
+    
+    # This will add the join to the count of joins for that day
+    today = datetime.now().strftime('%m-%d-%Y')
+    fileName = 'join_data/' + today + '.tsk'
+    if not os.path.exists(fileName):
+        fh = open(fileName, 'w')
+        fh.write('1')
+        fh.close()
+    else:
+        fh = open(fileName, 'r')
+        total = fh.read()
+        fh.close()
+        
+        fh = open(fileName, 'w')
+        total = int(total) + 1
+        fh.write(str(total))
+        fh.close()
+    
     if member.dm_channel is None:
         await member.create_dm()
 
@@ -328,8 +357,9 @@ async def on_member_join(member):
         reaction, user = await kelutralBot.wait_for('reaction_add', timeout=180.0, check=check)
     except asyncio.TimeoutError:
         await member.send("Window has passed to self-assign pronouns. Please DM a mod if you would still like to do so.")
+        target = member.guild.get_member(715296437335752714)
         for emoji in emojis:
-            await message.remove_reaction(emoji, self)
+            await message.remove_reaction(emoji, target)
     else:
         i = 0
         while i < 3:
@@ -340,6 +370,57 @@ async def on_member_join(member):
                 break
             else:
                 i += 1
+                
+@kelutralBot.event
+async def on_member_remove(member):
+    message_channel = 715052686487191583
+    channel = kelutralBot.get_channel(message_channel)
+    
+    embed=discord.Embed(color=0xe93535)
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_author(name="Member Left",icon_url=member.avatar_url)
+    embed.add_field(name="Member:", value=str(member.mention) + " " + str(member), inline=False)
+    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + datetime.now().strftime('%H:%M PST'))
+    await channel.send(embed=embed)
+    
+    # This will add the departure to the count of departures for that day
+    today = datetime.now().strftime('%m-%d-%Y')
+    checkJoin = member.joined_at.strftime('%m-%d-%Y')
+    
+    print(member.name + " left the server.")    
+    if checkJoin == today:
+        fileName = 'rds/' + today + '.tsk'
+        if not os.path.exists(fileName):
+            fh = open(fileName, 'w')
+            fh.write('1')
+            fh.close()
+        else:
+            fh = open(fileName, 'r')
+            total = fh.read()
+            fh.close()
+            
+            fh = open(fileName, 'w')
+            total = int(total) + 1
+            fh.write(str(total))
+            fh.close()
+    
+    fileName = 'leave_data/' + today + '.tsk'
+    if not os.path.exists(fileName):
+        fh = open(fileName, 'w')
+        fh.write('1')
+        fh.close()
+    else:
+        fh = open(fileName, 'r')
+        total = fh.read()
+        fh.close()
+        
+        fh = open(fileName, 'w')
+        total = int(total) + 1
+        fh.write(str(total))
+        fh.close()
+    
+    if member.dm_channel is None:
+        await member.create_dm()
     
 @kelutralBot.event
 async def on_message(message):    
@@ -372,6 +453,7 @@ async def on_message(message):
                     fh.write(user.name + "\n")
                     fh.write("English")
                     fh.close()
+                    content = str(userMessageCount + 1)
                 else:
                     content = admin.checkProfile(user, "Messages", "User Name", "Language Preference")
 
@@ -398,10 +480,6 @@ async def botquit(ctx):
     else:
         embed=discord.Embed(title="DENIED!", description="You do not have access to run this command!", colour=0xff0000)
         await ctx.send(embed=embed)
-        
-## Test Command
-##@kelutralBot.command(name='testreaction')
-##async def testReaction(ctx):
 
 ## Version
 @kelutralBot.command(name='version', aliases=['srey'])
@@ -425,6 +503,39 @@ async def updateRules(ctx):
 @kelutralBot.command(name='käneto', aliases=['fuckyou'])
 async def goAway(ctx):
     await ctx.send("https://youtu.be/7JEbbihUCLw")
+   
+## Member Join Stats   
+@kelutralBot.command(name='showdata', aliases=['sd','rep'])
+async def showData(ctx, *date):
+    user = ctx.message.author
+    if user.top_role.name == "Olo'eyktan (Admin)":
+        if date:
+            date = ''.join(date)
+            joins1, leaves1, rds1 = admin.getStats(date)
+        else:
+            date = datetime.now().strftime('%m-%d-%Y')
+            joins1, leaves1, rds1 = admin.getStats(date)
+        
+        embed=discord.Embed(title="Requested report for " + date, color=0x5Da9E9)
+        embed.add_field(name="Joins", value=joins1, inline=True)
+        embed.add_field(name="Leaves", value=leaves1, inline=True)
+        embed.add_field(name="Revolving Doors", value=rds1, inline=True)
+        if joins1 > 0:
+            turnover = ((leaves1 - rds1) / joins1) * 100
+        else:
+            turnover = 0
+        embed.add_field(name="Turnover Rate", value=str(turnover) + "%", inline=True)
+        if leaves1 > 0:
+            retention = (rds1 / leaves1) * 100
+        else:
+            retention = 0
+        embed.add_field(name="RD %", value=str(retention) + "%", inline=True)
+        # embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace letters with ** to search all dates in that category.")
+        
+        await ctx.send(embed=embed)
+    else:
+        embed=discord.Embed(title="DENIED!", description="You do not have access to run this command!", colour=0xff0000)
+        await ctx.send(embed=embed)
 
 # Tskxekengsiyu functions
 ## Display User Message Count
@@ -456,11 +567,10 @@ async def profile(ctx, user: discord.Member, *setting):
         i += 1
 
     output2 = str(toNextLevel)
-    
-    embed=discord.Embed(color=user.color, title=user.name)
-    
+        
     ## -- Updates the user profile and sends.
     if preference == "":
+        embed=discord.Embed(color=user.color, title=user.name)
         preference = langCheck
         if langCheck == "Na'vi":
             output1 = wordify(str(oct(messages))[2:])
@@ -473,6 +583,8 @@ async def profile(ctx, user: discord.Member, *setting):
                 embed.add_field(name="Txìntin: ", value="Lu tsatuteru **'upxare aketsuktiam**.", inline=False)
             else:
                 embed.add_field(name="Txìntin: ", value="Lu tsatuteru **" + output1[0] + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1], inline=False)
+            embed.set_footer(text='Sar !profile @user [English/Na\'vi] fte livatem lì\'fyati ngeyä.')
+            embed.set_thumbnail(url=user.avatar_url) 
         elif langCheck == "English":
             embed.add_field(name="Join Date: ", value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
             embed.add_field(name="Preferred Language: ", value=userCheck, inline=True)
@@ -480,38 +592,47 @@ async def profile(ctx, user: discord.Member, *setting):
             if toNextLevel < 0:
                 embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**.", inline=False)
             else:
-                embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)
-            
-    elif preference == "na'vi":
-        output1 = wordify(str(oct(messages))[2:])
-        output2 = wordify(str(oct(toNextLevel))[2:])
+                embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)  
+            embed.set_footer(text='Use !profile @user [English/Na\'vi] to change your output settings.')
+            embed.set_thumbnail(url=user.avatar_url) 
+    elif user.id == ctx.message.author.id:
+        embed=discord.Embed(color=user.color, title=user.name)
+        if preference == "na'vi":
+            output1 = wordify(str(oct(messages))[2:])
+            output2 = wordify(str(oct(toNextLevel))[2:])
 
-        embed.add_field(name="Trr a tsatute zola'u: ", value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
-        embed.add_field(name="Nulnawnewa Lì'fya: ", value=userCheck, inline=True)
-        embed.add_field(name="Preferred Pronouns: ", value=pronouns, inline=True)
-        if toNextLevel < 0:
-            embed.add_field(name="Txìntin: ", value="Lu tsatuteru **'upxare aketsuktiam**.", inline=False)
+            embed.add_field(name="Trr a tsatute zola'u: ", value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
+            embed.add_field(name="Nulnawnewa Lì'fya: ", value=userCheck, inline=True)
+            embed.add_field(name="Preferred Pronouns: ", value=pronouns, inline=True)
+            if toNextLevel < 0:
+                embed.add_field(name="Txìntin: ", value="Lu tsatuteru **'upxare aketsuktiam**.", inline=False)
+            else:
+                embed.add_field(name="Txìntin: ", value="Lu tsatuteru **" + output1[0] + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1], inline=False)
+            embed.set_footer(text='Sar !profile @user [English/Na\'vi] fte livatem lì\'fyati ngeyä.')
+            embed.set_thumbnail(url=user.avatar_url) 
+        elif preference == "english":
+            embed.add_field(name="Join Date: ", value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
+            embed.add_field(name="Preferred Language: ", value=userCheck, inline=True)
+            embed.add_field(name="Preferred Pronouns: ", value=pronouns, inline=True)
+            if toNextLevel < 0:
+                embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**.", inline=False)
+            else:
+                embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)
+            embed.set_footer(text='Use !profile @user [English/Na\'vi] to change your output settings.')
+            embed.set_thumbnail(url=user.avatar_url) 
         else:
-            embed.add_field(name="Txìntin: ", value="Lu tsatuteru **" + output1[0] + " 'upxare**. Kin pol **" + output2 + " 'upxareti** fte slivu " + activeRoleNames[i - 1], inline=False)
-        
-    elif preference == "english":
-        embed.add_field(name="Join Date: ", value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
-        embed.add_field(name="Preferred Language: ", value=userCheck, inline=True)
-        embed.add_field(name="Preferred Pronouns: ", value=pronouns, inline=True)
-        if toNextLevel < 0:
-            embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**.", inline=False)
-        else:
-            embed.add_field(name="Current Rank: ", value=user.name + " has sent **" + output1[0] + " messages**. They need **" + output2 + " more messages** in order to reach " + activeRoleNames[i - 1], inline=False)
+            embed=discord.Embed(color=0xff0000)
+            embed.add_field(name='Error', value="Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
     else:
-        await ctx.send("Invalid criteria entered. Please select `English` or `Na'vi` to update your current settings.")
+        embed=discord.Embed(color=0xff0000)
+        embed.add_field(name="Error...", value="Sorry, you can only change your own output settings.")
 
     fh = open(fileName, 'w')
     fh.write(str(messages) + "\n")
     fh.write(user.name + "\n")
     fh.write(preference.capitalize() + "\n")
     fh.close()
-        
-    embed.set_thumbnail(url=user.avatar_url)    
+       
     await ctx.send(embed=embed)
 
 ## Add a Question of the Day to a specified or the next available date
@@ -753,10 +874,10 @@ async def generate_error(ctx, error):
         await ctx.send("Invalid syntax. If you need help with the `!generate` command, type `!howto`")
 
 # Error Handling for !profile
-@profile.error
-async def profile_error(ctx, error):
-    if isinstance(error, commands.CommandError):
-        await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
+#@profile.error
+# async def profile_error(ctx, error):
+    # if isinstance(error, commands.CommandError):
+        # await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
-kelutralBot.run("private key")
+kelutralBot.run("Token")
