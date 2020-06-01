@@ -115,28 +115,29 @@ async def adminMsgs(ctx, bot):
     user = ctx.message.author
     rulesChannel = 715727832063410207
     infoChannel = 715049168984473671
+    resourcesChannel = 715050231967776778
     if user.top_role.name == "Olo'eyktan (Admin)":
-        path1 = 'files/rules1.txt'
-        path2 = 'files/rules2.txt'
-        path3 = 'files/rules3.txt'
+        # path1 = 'files/rules1.txt'
+        # path2 = 'files/rules2.txt'
+        # path3 = 'files/rules3.txt'
 
-        fh = open(path1, 'r')
-        file1 = fh.read()
-        fh.close()
+        # fh = open(path1, 'r')
+        # file1 = fh.read()
+        # fh.close()
 
-        fh = open(path2, 'r')
-        file2 = fh.read()
-        fh.close()
+        # fh = open(path2, 'r')
+        # file2 = fh.read()
+        # fh.close()
 
-        fh = open(path3, 'r')
-        file3 = fh.read()
-        fh.close()
+        # fh = open(path3, 'r')
+        # file3 = fh.read()
+        # fh.close()
 
-        channel = bot.get_channel(rulesChannel)
+        # channel = bot.get_channel(rulesChannel)
 
-        await channel.send(file1)
-        await channel.send(file2)
-        await channel.send(file3)
+        # await channel.send(file1)
+        # await channel.send(file2)
+        # await channel.send(file3)
 
         # oloEyktan = 715044138864607334
         # Eyktan = 715048580334878732
@@ -172,3 +173,32 @@ async def adminMsgs(ctx, bot):
         # await channel.send(pre8)
         # await channel.send(pre9)
         # await channel.send(file4)
+        
+        path1 = 'files/resources1.txt'
+        path2 = 'files/resources2.txt'
+        path3 = 'files/resources3.txt'
+        path4 = 'files/resources4.txt'
+
+        fh = open(path1, 'r', encoding="utf-8")
+        file1 = fh.read()
+        fh.close()
+
+        fh = open(path2, 'r', encoding="utf-8")
+        file2 = fh.read()
+        fh.close()
+
+        channel = bot.get_channel(resourcesChannel)
+
+        await channel.send(file1)
+        await channel.send(file2)
+        
+        fh = open(path3, 'r', encoding="utf-8")
+        file1 = fh.read()
+        fh.close()
+        
+        fh = open(path4, 'r', encoding="utf-8")
+        file2 = fh.read()
+        fh.close()
+        
+        await channel.send(file1)
+        await channel.send(file2)
