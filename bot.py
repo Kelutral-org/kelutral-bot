@@ -15,6 +15,7 @@ import glob
 
 import admin
 import namegen
+import watcher
 
 ## Initialize Client
 kelutral = discord.Client()
@@ -24,7 +25,7 @@ kelutralBot = commands.Bot(command_prefix="!")
 
 ##--------------------Global Variables--------------------##
 
-versionNumber = "Beta 1.7"
+versionNumber = "Stable 1.0"
 modRoleNames = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)"]
 
 ## For Progression
@@ -92,13 +93,13 @@ async def roleUpdate(count, check, message, user):
                 embed=discord.Embed()
                 embed=discord.Embed(colour=0x1e3626)
                 embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** You're now a " + newRole.name + ".", inline=False)
-                embed.set_thumbnail(message.guild.avatar_url)
+                # embed.set_thumbnail(ctx.guild.icon_url)
                 
             elif langCheck == "Na'vi":
                 embed=discord.Embed()
                 embed=discord.Embed(colour=0x1e3626)
                 embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
-                embed.set_thumbnail(message.guild.avatar_url)
+                # embed.set_thumbnail(ctx.guild.icon_url)
                 
             await message.author.send(embed=embed)
             
@@ -259,7 +260,7 @@ def nextAvailableDate(date):
         month = int(month)
     return modDate
     
-##-----------------------Bot Functions--------------------##
+##-----------------------Bot Events-----------------------##
 
 @kelutralBot.event
 async def on_ready():
@@ -274,156 +275,30 @@ async def on_ready():
 
 @kelutralBot.event
 async def on_member_join(member):
-    message_channel = 715052686487191583
-    channel = kelutralBot.get_channel(message_channel)
-    
-    embed=discord.Embed(color=0x07ca48)
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_author(name="Member Joined",icon_url=member.avatar_url)
-    embed.add_field(name="New Member:", value=str(member.mention) + " " + str(member), inline=False)
-    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + member.joined_at.strftime('%H:%M PST'))
-    await channel.send(embed=embed)
-    
-    # Checks the Blacklist for Blacklisted IDs
-    fileName = 'blacklist.txt'
-    count = 0
-    i = 0
-    fh = open(fileName, 'r')
-    lines = fh.readlines()
-    count = len(lines)
-    while i < count:
-        line = ''.join(lines[i])
-        line.strip()
-        if int(lines[i]) == member.id:
-            print("Found this user in the blacklist.")
-            if member.dm_channel is None:
-                   await member.create_dm()
-            await member.send("Sorry, you are forbidden from joining Kelutral.org.")
-            target = member.guild.get_member(81105065955303424)
-            name = member.name
-            await member.ban()
-            print(member.name + " was banned.")
-            await target.send(name + " attempted to join Kelutral.org.")
-
-            break
-        i += 1
-    fh.close()
-    
-    # This will automatically give anyone the 'frapo' role when they join the server.
-    newRole = get(member.guild.roles, name="frapo")
-    await member.add_roles(newRole)
-    print("Gave " + member.name + " the role " + newRole.name + ".")
-    
-    # This will add the join to the count of joins for that day
-    today = datetime.now().strftime('%m-%d-%Y')
-    fileName = 'join_data/' + today + '.tsk'
-    if not os.path.exists(fileName):
-        fh = open(fileName, 'w')
-        fh.write('1')
-        fh.close()
-    else:
-        fh = open(fileName, 'r')
-        total = fh.read()
-        fh.close()
-        
-        fh = open(fileName, 'w')
-        total = int(total) + 1
-        fh.write(str(total))
-        fh.close()
-    
-    if member.dm_channel is None:
-        await member.create_dm()
-
-    embed=discord.Embed()
-    embed=discord.Embed(title="Welcome to the Kelutral.org Discord Server!", colour=0x6D326D)
-    embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #hell's-gate so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with \U00002640, \U00002642 or \U0001F308. Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!", inline=False)
-
-    message = await member.send(embed=embed)
-    emojis = ['\U00002642','\U00002640','\U0001F308']
-    pronounRole = ['He/Him','She/Her','They/Them']
-    for emoji in emojis:
-        await message.add_reaction(emoji)
-        
-    def check(reaction, user):
-        for emoji in emojis:
-            if str(reaction.emoji) == emoji:
-                foundEmoji = True
-                break
-            else:
-                foundEmoji = False
-        return user == member and foundEmoji
-
-    try:
-        reaction, user = await kelutralBot.wait_for('reaction_add', timeout=180.0, check=check)
-    except asyncio.TimeoutError:
-        await member.send("Window has passed to self-assign pronouns. Please DM a mod if you would still like to do so.")
-        target = member.guild.get_member(715296437335752714)
-        for emoji in emojis:
-            await message.remove_reaction(emoji, target)
-    else:
-        i = 0
-        while i < 3:
-            if str(reaction) == emojis[i]:
-                newRole = get(member.guild.roles, name=pronounRole[i])
-                await member.add_roles(newRole)
-                print("Assigned " + member.name + " " + pronounRole[i] + " pronouns.")
-                break
-            else:
-                i += 1
-                
+    await watcher.onJoin(member, kelutralBot)
+     
 @kelutralBot.event
 async def on_member_remove(member):
-    message_channel = 715052686487191583
-    channel = kelutralBot.get_channel(message_channel)
-    
-    embed=discord.Embed(color=0xe93535)
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_author(name="Member Left",icon_url=member.avatar_url)
-    embed.add_field(name="Member:", value=str(member.mention) + " " + str(member), inline=False)
-    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + datetime.now().strftime('%H:%M PST'))
-    await channel.send(embed=embed)
-    
-    # This will add the departure to the count of departures for that day
-    today = datetime.now().strftime('%m-%d-%Y')
-    checkJoin = member.joined_at.strftime('%m-%d-%Y')
-    
-    print(member.name + " left the server.")    
-    if checkJoin == today:
-        fileName = 'rds/' + today + '.tsk'
-        if not os.path.exists(fileName):
-            fh = open(fileName, 'w')
-            fh.write('1')
-            fh.close()
-        else:
-            fh = open(fileName, 'r')
-            total = fh.read()
-            fh.close()
-            
-            fh = open(fileName, 'w')
-            total = int(total) + 1
-            fh.write(str(total))
-            fh.close()
-    
-    fileName = 'leave_data/' + today + '.tsk'
-    if not os.path.exists(fileName):
-        fh = open(fileName, 'w')
-        fh.write('1')
-        fh.close()
-    else:
-        fh = open(fileName, 'r')
-        total = fh.read()
-        fh.close()
-        
-        fh = open(fileName, 'w')
-        total = int(total) + 1
-        fh.write(str(total))
-        fh.close()
-    
-    if member.dm_channel is None:
-        await member.create_dm()
+    await watcher.onLeave(member, kelutralBot)
+
+@kelutralBot.event
+async def on_message_delete(message):
+    await watcher.onDelete(message, kelutralBot)
     
 @kelutralBot.event
-async def on_message(message):    
+async def on_member_update(before, after):
+    await watcher.onUpdate(before, after, kelutralBot)
+    
+@kelutralBot.event
+async def on_member_ban(guild, user):
+    await watcher.onBan(guild, user, kelutralBot)
+    
+@kelutralBot.event
+async def on_member_unban(guild, user):
+    await watcher.onUnban(guild, user, kelutralBot)
+    
+@kelutralBot.event
+async def on_message(message): 
     # If message is in-server
     if message.guild:
         if not message.content.startswith("!"):
@@ -464,8 +339,9 @@ async def on_message(message):
                     fh.close()
                         
                 await roleUpdate(int(content[0]) + 1, currentRole, message, user)
-   
     await kelutralBot.process_commands(message)
+    
+##-----------------------Bot Functions--------------------##
         
 ## Kill Command
 @kelutralBot.command(name='quit', aliases=['ftang'])
@@ -503,6 +379,14 @@ async def updateRules(ctx):
 @kelutralBot.command(name='käneto', aliases=['fuckyou'])
 async def goAway(ctx):
     await ctx.send("https://youtu.be/7JEbbihUCLw")
+    
+## Ban Command
+@kelutralBot.command(name='ban', aliases=['yitx','kxanì'])
+async def ban(ctx, user: discord.Member):
+    if user.top_role.name == "Olo'eyktan (Admin)" or "Eyktan (Moderator)":
+            await user.ban()
+            embed=discord.Embed(description=str(user.mention) + "** was banned**", colour=0xff0000)
+            await ctx.send(embed=embed)
    
 ## Member Join Stats   
 @kelutralBot.command(name='showdata', aliases=['sd','rep'])
@@ -521,12 +405,12 @@ async def showData(ctx, *date):
         embed.add_field(name="Leaves", value=leaves1, inline=True)
         embed.add_field(name="Revolving Doors", value=rds1, inline=True)
         if joins1 > 0:
-            turnover = ((leaves1 - rds1) / joins1) * 100
+            turnover = round(((leaves1 - rds1) / joins1) * 100, 2)
         else:
             turnover = 0
         embed.add_field(name="Turnover Rate", value=str(turnover) + "%", inline=True)
         if leaves1 > 0:
-            retention = (rds1 / leaves1) * 100
+            retention = round((rds1 / leaves1) * 100, 2)
         else:
             retention = 0
         embed.add_field(name="RD %", value=str(retention) + "%", inline=True)
@@ -880,4 +764,4 @@ async def generate_error(ctx, error):
         # await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
-kelutralBot.run("Token")
+kelutralBot.run("private token")
