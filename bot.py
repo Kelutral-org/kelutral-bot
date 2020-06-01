@@ -77,39 +77,39 @@ def update(newNameCount):
     return nameCount
         
 # Updates roles based on activity.
-async def roleUpdate(count, check, message, user):
-    i = 0
-    activeRoles = message.guild.roles
-    langCheck = admin.outputCheck(message.author)
-    for roles in activeRoleNames:
-        if count >= activeRoleThresholds[i] and check.name != roles:
-            newRole = get(activeRoles, name=activeRoleNames[i])
-            await user.add_roles(newRole)
-            print('Tìmìng txintìnit alu ' + newRole.name + ' tuteru alu ' + user.display_name + '.')
-            if message.author.dm_channel is None:
-                await message.author.create_dm()
-
-            if langCheck == "English":
-                embed=discord.Embed()
-                embed=discord.Embed(colour=0x1e3626)
-                embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** You're now a " + newRole.name + ".", inline=False)
-                # embed.set_thumbnail(ctx.guild.icon_url)
-                
-            elif langCheck == "Na'vi":
-                embed=discord.Embed()
-                embed=discord.Embed(colour=0x1e3626)
-                embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
-                # embed.set_thumbnail(ctx.guild.icon_url)
-                
-            await message.author.send(embed=embed)
-            
-            if check.name != "@everyone":
-                await user.remove_roles(check)
-                print("'olaku txintìnit alu " + check.name + " ta " + user.display_name + ".")
-            break
-        elif count >= activeRoleThresholds[i]:
-            break
-        i += 1
+# async def roleUpdate(count, check, message, user):
+#     i = 0
+#     activeRoles = message.guild.roles
+#     langCheck = admin.outputCheck(message.author)
+#     for roles in activeRoleNames:
+#         if count >= activeRoleThresholds[i] and check.name != roles:
+#             newRole = get(activeRoles, name=activeRoleNames[i])
+#             await user.add_roles(newRole)
+#             print('Tìmìng txintìnit alu ' + newRole.name + ' tuteru alu ' + user.display_name + '.')
+#             if message.author.dm_channel is None:
+#                 await message.author.create_dm()
+#
+#             if langCheck == "English":
+#                 embed=discord.Embed()
+#                 embed=discord.Embed(colour=0x1e3626)
+#                 embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** You're now a " + newRole.name + ".", inline=False)
+#                 # embed.set_thumbnail(ctx.guild.icon_url)
+#
+#             elif langCheck == "Na'vi":
+#                 embed=discord.Embed()
+#                 embed=discord.Embed(colour=0x1e3626)
+#                 embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
+#                 # embed.set_thumbnail(ctx.guild.icon_url)
+#
+#             await message.author.send(embed=embed)
+#
+#             if check.name != "@everyone":
+#                 await user.remove_roles(check)
+#                 print("'olaku txintìnit alu " + check.name + " ta " + user.display_name + ".")
+#             break
+#         elif count >= activeRoleThresholds[i]:
+#             break
+#         i += 1
 
 # System time check to know when to post a Question/Message of the Day, if available.
 async def time_check():
@@ -764,4 +764,7 @@ async def generate_error(ctx, error):
         # await ctx.send("Invalid syntax. If you need help with the `!profile` command, type `!howto`")
 
 # Replace token with your bot's token
-kelutralBot.run("private token")
+kelutralBot.load_extension('roleupdate')
+with open('token.txt','r') as file:
+    token = file.read().strip()
+kelutralBot.run(token)

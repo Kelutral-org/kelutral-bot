@@ -1,0 +1,8 @@
+*.txt
+files
+.idea
+__pycache__
+join_data
+leave_data
+qotd
+users
