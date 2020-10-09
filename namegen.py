@@ -39,7 +39,6 @@ codaProbabilities = [50,8,3,8,8,8,3,8,3,8,8,3]
 # Consonant cluster, pseudovowel
 
 ## -- Functions
-
 ## Syllable Creation Functions
 
 def ruleOne():
