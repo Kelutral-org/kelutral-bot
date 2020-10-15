@@ -21,7 +21,7 @@ import json
 
 import config
 import admin
-import namegen
+import namegen # namegen.py update courtesy of Yayayr
 import watcher
 import feedparser
 
@@ -67,7 +67,7 @@ naviVocab = [
 ## -- Updates the Visible Stat for 'names generated'
 def update(newNameCount):
     fileName = 'files/users/bot.tsk'
-    if os.path.exists(fileName):
+    if os.path.exists(fileName): # If bot file exists
         with open(fileName, 'r') as fh:
             nameCount = json.load(fh)
         
@@ -75,12 +75,6 @@ def update(newNameCount):
         
         with open(fileName, 'w') as fh:
             json.dump(nameCount, fh)
-        
-    else:
-        with open(fileName, 'w') as fh:
-            fh.write(str(newNameCount))
-            
-        nameCount = newNameCount
         
     return nameCount[0]
 
@@ -138,16 +132,16 @@ async def time_check():
                 with open('files/qotd/calendar.tsk','w') as fh:
                     fh.write(removeDate)
                 
-                time = 60
+                time = 120
                 now = datetime.strftime(datetime.now(),'%H:%M')
                 print(now + " -- Sending QOTD")
             else:
-                time = 60
+                time = 120
             
             if dateCheck == config.sequelDate:
                 api.update_status("Yes (finally)")
                 print(now + " -- Sending Tweet to @avatarsequels")
-                time = 60
+                time = 120
             else:
                 responses = ["No.",
                              "Still no.",
@@ -160,7 +154,7 @@ async def time_check():
                 index = random.randint(0,len(responses)-1)
                 print(now + " -- Sending Tweet to @avatarsequels")
                 api.update_status(responses[index])
-                time = 60
+                time = 120
         else:
             time = 60
             
@@ -210,10 +204,9 @@ def nextAvailableDate():
     dateTimeObj = datetime.now()
     tomorrow = datetime.today() + timedelta(days=1)
     nextDay = tomorrow.strftime("%d-%m-%Y")
-
     fileName = 'files/qotd/' + str(nextDay) + '.tsk'
     
-    while os.path.exists(fileName) == True:
+    while os.path.exists(fileName) == True: # Iterates through the directory to find the first file that doesn't exist. That file is the next available date.
         tomorrow = tomorrow + timedelta(days=1)
         nextDay = tomorrow.strftime("%d-%m-%Y")
         fileName = 'files/qotd/' + str(nextDay) + '.tsk'
@@ -221,7 +214,6 @@ def nextAvailableDate():
 
 ## -- Reads the necessary files and builds the output for the Leaderboard command.
 def buildLeaderboard(ctx, profile, variant):
-    ## -- Variables
     messageCounts = []
     userNames = []
     search_user = ctx.message.guild.get_member(profile[0])
@@ -232,7 +224,7 @@ def buildLeaderboard(ctx, profile, variant):
         profile = entry
         currentMember = ctx.message.guild.get_member(profile[0])
         
-        if currentMember == None:
+        if currentMember == None: # If member has left the server, builds a dummy user object.
             user = type('user', (), {})()
             user.id = profile[0]
             user.nick = None
@@ -245,7 +237,8 @@ def buildLeaderboard(ctx, profile, variant):
         else:
             userNames.append(str(currentMember.nick))
             user = ""
-            
+        
+        ## -- Checks the variant of leaderboard to build.
         if variant.lower() == "messages":
             messageCounts.append(int(profile[1]))
         elif variant.lower() == "thanks":
@@ -259,6 +252,7 @@ def buildLeaderboard(ctx, profile, variant):
     sortedUserNames.reverse()
     sortedMessageCounts.reverse()
 
+    ## -- Indexes by the user who is being searched, command author for !leaderboard and requested profile for !profile
     if search_user.nick == None:
         pos = sortedUserNames.index(search_user.name) + 1
     else:
@@ -281,7 +275,6 @@ def clear():
 
 @kelutralBot.event
 async def on_ready():
-    # This will be called when the bot connects to the server.
     nameCount = update(0)
     game = discord.Game("generated " + "{:,}".format(nameCount) + " names!")
     
@@ -292,6 +285,7 @@ async def on_ready():
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
     
+    ## -- Prints the Kelutral OS logo to the command line
     for line in lines:
         print(line.strip('\n').format(config.version))
         time.sleep(.025)
@@ -336,40 +330,60 @@ async def on_message(message):
 
 @kelutralBot.event
 async def on_reaction_add(reaction, user):
-    emoji = ['<:irayo:715054886714343455>']
+    emoji = ['<:irayo:715054886714343455>'] 
     fileName = 'files/config/reactions.txt'
     
-    if reaction.message.author.id == user.id:
+    if reaction.message.author.id == user.id: # If reaction was added by the message author (sneaky sneaky!)
         return
     else:
-        for entry in config.directory:
-            if reaction.message.author.id == entry[0]:
-                try:
-                    timesThanked = entry[7]
-                    break
-                except IndexError:
-                    timesThanked = 0
-                    entry.append(timesThanked)
-                
         with open(fileName, 'r') as fh:
             contents = json.load(fh)
         
-        if str(reaction.emoji) in emoji:
+        if str(reaction.emoji) in emoji: # Checks to see if the reaction adder has already added a reaction to that message (prevents duplication)
             check = [reaction.message.id, user.id]
             if check not in contents:
                 contents.append([reaction.message.id, user.id])
-                entry[7] += 1
+                
+                for entry in config.directory: # Iterates the user directory to find the reaction adder
+                    if reaction.message.author.id == entry[0]:
+                        try: # Tries to pull the thanks data from the user profile
+                            timesThanked = entry[6]
+                            break
+                        except IndexError: # If no thanks data exists, appends a blank field
+                            timesThanked = 0
+                            entry.append(timesThanked)
+                entry[6] += 1
+                
                 with open(fileName, 'w') as fh:
                     json.dump(contents, fh)
         
+        ## -- Updates the directory
         with open(config.directoryFile, 'w', encoding='utf-8') as fh:
             json.dump(config.directory, fh)
             
+        config.directory = config.reloadDir()
+            
 ##                                            profile index cheatsheet
-## [user.id, message count, user.name, output language, pronouns, current rank, translation, thanks recieved]
-## {   0   ,       1      ,     2    ,        3       ,    4    ,      5      ,      6     ,        7       ]
+## [user.id, message count, user.name, output language, pronoun id, [current rank id, translation], thanks recieved]
+## {   0   ,       1      ,     2    ,        3       ,     4     ,              5                ,        6       ]
 
 ##-----------------------Bot Functions--------------------##
+## 
+@kelutralBot.command(name='fix')
+async def fixDirectory(ctx):
+    user = ctx.message.author
+    # Retrieves the user profile
+    profile = admin.getProfile(user)
+    
+    # Unpacks the relevant parts of the user profile
+    language_pref = profile[3]
+    current_rank = get(user.guild.roles, id=profile[5][0])
+    next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
+    next_rank = get(user.guild.roles, id=config.activeRoleIDs[next_rank_index])
+    
+    print(current_rank.name)
+    print(next_rank.name)
+            
 ## Debug toggle
 @kelutralBot.command(name='debug')
 async def debugToggle(ctx):
@@ -382,7 +396,6 @@ async def debugToggle(ctx):
         else:
             config.debug = False
             await ctx.send(embed=config.success)
-            
     else:
         await ctx.send(embed=config.denied)
         
@@ -391,10 +404,10 @@ async def debugToggle(ctx):
 async def about(ctx):
     mako = ctx.message.guild.get_member(config.makoID)
     self = ctx.message.guild.get_member(config.botID)
-    
     fileName = config.botFile
-    
     t1 = time.time()
+    
+    ## -- Pulls current number of generated names.
     with open(fileName, 'r') as fh:
         names = json.load(fh)
         
@@ -409,6 +422,7 @@ async def about(ctx):
     t2 = time.time()
     tDelta = round(t2-t1,3)
     
+    ## -- Checks debug output toggle
     if config.debug == True:
         embed.set_footer(text="Use !help to learn more about the available commands.  |  Executed in " + str(tDelta) + " seconds.")
     else:
@@ -422,16 +436,17 @@ async def qotd(ctx, question, *date):
     user = ctx.message.author
     profile = admin.getProfile(user)
     langCheck = profile[3]
+    t1 = time.time()
     
-    if user.top_role.id in config.allowedSet:
-        if date:
+    if user.top_role.id in config.allowedSet: # If the user is allowed to use this command
+        if date: # If a date is specified
             date = str(date).strip("(),' ")
             fileName = config.qotdFile.format(str(date))
-        else:
+        else: # If the date field is left blank
             date = nextAvailableDate()
             fileName = config.qotdFile.format(str(date))
                 
-        if not os.path.exists(fileName):        
+        if not os.path.exists(fileName):       
             with open(fileName, "w") as fh:
                 fh.write(str(question))
 
@@ -445,23 +460,27 @@ async def qotd(ctx, question, *date):
                 embed=discord.Embed(description='Created.', colour=config.successColor) 
             elif langCheck == "Na'vi":
                 embed=discord.Embed(description='Ngolop.', colour=config.successColor) 
-                
-            await ctx.send(embed=embed)
             
-        else:
+        else: # If a QOTD already exists for that date
             modDate = nextAvailableDate()
             
             if langCheck == "English":
                 embed=discord.Embed(description="A QOTD for this day already exists. The next available day to create a QOTD is " + modDate + ".", colour=config.failColor)
             elif langCheck == "Na'vi":
                 embed=discord.Embed(description="Fìtìpawm mi fkeytok! Haya trr a fkol tsun ngivop tìpawmit lu " + modDate + ".", colour=config.failColor)
-                
-            await ctx.send(embed=embed)
+        
+        t2 = time.time()
+        tDelta = round(t2 - t1, 3)
+        
+        if config.debug == True:
+            embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
+
+        await ctx.send(embed=embed)
 
 ## Ban Command
 @kelutralBot.command(name='ban', aliases=['yitx'])
 async def ban(ctx, user: discord.Member):
-    if user.top_role.id in config.modSet:
+    if user.top_role.id in config.modSet: # If the user is allowed to use this command
         await user.ban()
         embed=discord.Embed(description=str(user.mention) + "** was banned**", colour=config.failColor)
         await ctx.send(embed=embed)
@@ -473,36 +492,41 @@ async def deleteQuestion(ctx, date):
     fileName = config.qotdFile.format(str(date))
     profile = admin.getProfile(user)
     langCheck = profile[3]
-    for role in config.allowedRoles:
-        if user.top_role.id == role:
-            if os.path.exists(fileName):
-                os.remove(fileName)
-                
-                with open(config.calendarFile,'r') as fh:
-                    fileContents = fh.read()
-                
-                removeDate = fileContents.replace("\n" + str(date),'')
-                
-                with open(config.calendarFile,'w') as fh:
-                    fh.write(removeDate)
+    t1 = time.time()
+    
+    if user.top_role.id in config.allowedSet:
+        if os.path.exists(fileName):
+            os.remove(fileName)
+            
+            with open(config.calendarFile,'r') as fh:
+                fileContents = fh.read()
+            
+            removeDate = fileContents.replace("\n" + str(date),'')
+            
+            with open(config.calendarFile,'w') as fh:
+                fh.write(removeDate)
 
-                if langCheck == "English":
-                    embed=discord.Embed(description='Removed.', colour=config.successColor) 
-                    
-                elif langCheck == "Na'vi":
-                    embed=discord.Embed(description='Olaku\'.', colour=config.successColor)
-                 
-                await ctx.send(embed=embed)
-                    
-            else:
-                if langCheck == "English":
-                    embed=discord.Embed(description='No QOTD exists on that day.', colour=config.failColor) 
-                    
-                elif langCheck == "Na'vi":
-                    embed=discord.Embed(description='Kea tìpawm mi ke fkeytok mì satrr.', colour=config.failColor)
-                    
-                await ctx.send(embed=embed)
-            return
+            if langCheck == "English":
+                embed=discord.Embed(description='Removed.', colour=config.successColor) 
+                
+            elif langCheck == "Na'vi":
+                embed=discord.Embed(description='Olaku\'.', colour=config.successColor)
+                
+        else:
+            if langCheck == "English":
+                embed=discord.Embed(description='No QOTD exists on that day.', colour=config.failColor) 
+                
+            elif langCheck == "Na'vi":
+                embed=discord.Embed(description='Kea tìpawm mi ke fkeytok mì satrr.', colour=config.failColor)
+        
+        t2 = time.time()
+        tDelta = round(t2 - t1, 3)
+        
+        if config.debug == True:
+            embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
+        
+        await ctx.send(embed=embed)
+        return
 
 ## Update Rules
 @kelutralBot.command(name='donotuse')
@@ -518,6 +542,8 @@ async def changeQuestion(ctx, question, date):
     fileName = config.qotdFile.format(str(date))
     profile = admin.getProfile(user)
     langCheck = profile[3]
+    t1 = time.time()
+    
     if user.top_role.id in config.allowedSet:
         if os.path.exists(fileName):
             with open(fileName, 'w') as fh:
@@ -527,12 +553,7 @@ async def changeQuestion(ctx, question, date):
                 embed=discord.Embed(description='Edited.', colour=config.successColor) 
                 
             elif langCheck == "Na'vi":
-                embed=discord.Embed(description='Lolatem.', colour=config.successColor) 
-                
-            else:
-                await ctx.send("Somehow, and god knows how, you fucked up.")
-                
-            await ctx.send(embed=embed)
+                embed=discord.Embed(description='Lolatem.', colour=config.successColor)
             
         else:
 
@@ -541,19 +562,20 @@ async def changeQuestion(ctx, question, date):
                 
             elif langCheck == "Na'vi":
                 embed=discord.Embed(description='Kea tìpawm mi ke fkeytok mì satrr.', colour=config.failColor)
-                
-            else:
-                await ctx.send("Somehow, and god knows how, you fucked up.")
-                
-            await ctx.send(embed=embed)
+        
+        t2 = time.time()
+        tDelta = round(t2 - t1, 3)
+        
+        if config.debug == True:
+            embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
+            
+        await ctx.send(embed=embed)
 
 ## FAQ Command
 @kelutralBot.command(name="faq",aliases=['sìpawm'])
 async def faq(ctx, *topic):
     user = ctx.message.author
-    
     topic = ' '.join(topic)
-    
     topics = ['**beginner**','- \'efu','- lu','- tok','- with','**case**','- agent','- patient','- dative','- topic','**howto**','- pronounce','- start','**hrh**']
     
     if user.top_role.id in config.allowedSet:
@@ -591,12 +613,10 @@ async def faq(ctx, *topic):
 ## Generate # of random names
 @kelutralBot.command(name="generate",aliases=['ngop'])
 async def generate(ctx, numOut, numSyllables):
-    # Initializing Variables
     n = int(numOut)
     i = int(numSyllables)
     output = []
     c = 0
-    
     profile = admin.getProfile(ctx.message.author)
     langCheck = profile[3]
     
@@ -749,35 +769,50 @@ async def leaderboard(ctx, variant):
 ## Display User Message Count
 @kelutralBot.command(name='profile', aliases=['yì'])
 async def profile(ctx, user: discord.Member, *setting):
-    ## -- Variables
     setting = ''.join(setting)
     preference = str(setting).lower()
     variant = "messages"
     
+    # Gets the specified profile
     profile = admin.getProfile(user)
-    messages = profile[1]
-    langCheck = profile[2]
+
+    # Unpacks the profile
+    message_count = profile[1]
+    user_name = profile[2]
+    language_pref = profile[3]
+    if type(profile[4]) == str:
+        pronouns = profile[4]
+    elif type(profile[4]) == int:
+        pronouns = get(ctx.guild.roles, id=profile[4]).name
+    active_roles = profile[5]
+    thanks_count = profile[6]
     
-    userProf = ctx.message.guild.get_member(profile[0])
-    pronouns = admin.checkPronouns(ctx.message, user)
+    # Retrieves the current and next rank
+    current_rank = get(ctx.guild.roles, id=profile[5][0])
+    next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
+    next_rank = get(ctx.guild.roles, id=config.activeRoleIDs[next_rank_index])
+    for entry in config.activeRoleDict:
+        if entry[0] == next_rank.id:
+            next_rank_translation = entry[1]
+            break
     
-    t1 = time.time()
     sortedUserNames, sortedMessageCounts, pos, tDelta = buildLeaderboard(ctx, profile, variant)
+    t1 = time.time()
     
-    def buildEmbed(ctx, profile, messageCount, pos):
+    def buildEmbed(ctx, profile, message_count, pos):
         user = ctx.guild.get_member(profile[0])
-        embed=discord.Embed(color=user.color, title=user.name)
-        embed.add_field(name=text[0], value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
-        embed.add_field(name=text[1], value=profile[3], inline=True)
-        embed.add_field(name=text[2], value=profile[4], inline=True)
-        embed.add_field(name=text[3], value=profile[5] + ", \"" + profile[6] + "\"")
-        embed.add_field(name=text[4], value=messageCount, inline=False)
-        embed.add_field(name=text[5], value=pos)
         try:
-            embed.add_field(name=text[7], value=profile[7])
-        except IndexError:
-            embed.add_field(name=text[7], value=0)
-            profile.append(0)
+            nickname = " AKA \"" + user.nick + "\""
+        except:
+            nickname = ""
+        embed=discord.Embed(color=user.color, title=user.name + nickname)
+        embed.add_field(name=text[0], value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
+        embed.add_field(name=text[1], value=language_pref, inline=True)
+        embed.add_field(name=text[2], value=pronouns, inline=True)
+        embed.add_field(name=text[3], value=get(ctx.guild.roles, id=active_roles[0]).mention + ", \"" + active_roles[1] + "\"")
+        embed.add_field(name=text[4], value=message_count, inline=False)
+        embed.add_field(name=text[5], value=pos)
+        embed.add_field(name=text[7], value=thanks_count)
         embed.set_footer(text=text[6])
         embed.set_thumbnail(url=user.avatar_url) 
         
@@ -786,11 +821,11 @@ async def profile(ctx, user: discord.Member, *setting):
     ## -- Checks the total messages sent against the threshold.
     i = 0
     for role in config.activeRoleThresholds:
-        if messages >= config.activeRoleThresholds[i]:
-            toNextLevel = config.activeRoleThresholds[i - 1] - int(messages)
+        if message_count >= config.activeRoleThresholds[i]:
+            toNextLevel = config.activeRoleThresholds[i - 1] - int(message_count)
             break
-        elif messages <= 16:
-            toNextLevel = 16 - int(messages)
+        elif message_count <= 16:
+            toNextLevel = 16 - int(message_count)
             break
         i += 1
 
@@ -801,54 +836,46 @@ async def profile(ctx, user: discord.Member, *setting):
         
     ## -- Updates the user profile and sends.
     if preference == "":
-        preference = profile[3]
+        preference = language_pref
         if preference == "Na'vi":
-            output1 = wordify(str(oct(messages))[2:])
+            output1 = wordify(str(oct(message_count))[2:])
             output2 = wordify(str(oct(toNextLevel))[2:])
             
             if toNextLevel < 0:
                 line5 = "'Upxare aketsuktiam."
             else:
-                line5 = output1.capitalize() + " 'upxare. Kin pol **" + output2 + " 'upxareti** fte slivu " + config.activeRoleNames[i - 1]
-            
+                line5 = output1.capitalize() + " 'upxare. Kin pol **" + output2 + " 'upxareti** fte slivu " + next_rank.mention
             text = config.nvText
-            
             embed = buildEmbed(ctx, profile, line5, pos)
             
         elif preference == "English":
             if toNextLevel < 0:
-                line5 = str(messages) + " messages."
+                line5 = str(message_count) + " messages."
             else:
-                line5 = str(messages) + " messages. They need **" + output2 + " more messages** in order to reach " + config.activeRoleNames[i - 1] + " (" + config.activeRoleTranslations[i - 1] + ")"
-            
+                line5 = str(message_count) + " messages. They need **" + output2 + " more messages** in order to reach " + next_rank.mention + " (" + next_rank_translation + ")"
             text = config.enText
-            
             embed = buildEmbed(ctx, profile, line5, pos)
 
     elif user.id == ctx.message.author.id:
         if preference == "na'vi":
             profile[3] = "Na'vi"
-            output1 = wordify(str(oct(messages))[2:])
+            output1 = wordify(str(oct(message_count))[2:])
             output2 = wordify(str(oct(toNextLevel))[2:])
 
             if toNextLevel < 0:
                 line5 = "'Upxare aketsuktiam."
             else:
-                line5 = output1.capitalize() + " 'upxare. Kin pol **" + output2 + " 'upxareti** fte slivu " + config.activeRoleNames[i - 1]
-
+                line5 = output1.capitalize() + " 'upxare. Kin pol **" + output2 + " 'upxareti** fte slivu " + next_rank.mention
             text = config.nvText
-            
             embed = buildEmbed(ctx, profile, line5, pos)
         elif preference == "english":
             profile[3] = "English"
             
             if toNextLevel < 0:
-                line5 = str(messages) + " messages."
+                line5 = str(message_count) + " messages."
             else:
-                line5 = str(messages) + " messages. They need **" + output2 + " more messages** in order to reach " + config.activeRoleNames[i - 1] + " (" + config.activeRoleTranslations[i - 1] + ")"
-
+                line5 = str(message_count) + " messages. They need **" + output2 + " more messages** in order to reach " + next_rank.mention + " (" + next_rank_translation + ")"
             text = config.enText
-            
             embed = buildEmbed(ctx, profile, line5, pos)
         else:
             embed=discord.Embed(description="**Error: Invalid criteria entered.** \n Please select `English` or `Na'vi` to update your current settings.", color=config.failColor)
@@ -857,6 +884,8 @@ async def profile(ctx, user: discord.Member, *setting):
 
     with open(config.directoryFile, 'w', encoding='utf-8') as fh:
         json.dump(config.directory, fh)
+        
+    config.directory = config.reloadDir()
     
     t2 = time.time()
     tDelta = round(t2 - t1, 3)
@@ -985,26 +1014,8 @@ async def thanks(ctx):
 ## Help Command
 @kelutralBot.command(name="help", aliases=['srung'])
 async def help(ctx, *args):
-    lepChannel = ctx.guild.get_channel(715988382706303038)
+    lepChannel = ctx.guild.get_channel(config.lepChannel)
     t1 = time.time()
-    commands = [('**about**','teri','Shows information about the bot.\n','`!about`','`!about`','Shows information about the bot.'),
-                ('**addqotd**','tìpawm','Adds a Question of the Day to the queue. `admin only`\n','`!addqotd <"QoTD"> <DD-MM-YYYY>`','!addqotd "This is a QoTD." 15-06-2019','Adds a Question of the Day to the queue on the next available date.\nThe date is optional and can be used to schedule a\nquestion for a specific date instead.\n'),
-                ('**ban**','yitx','Bans the target member. `admin only`\n','`!ban @<member>`','!ban @JohnSmith#1111','Bans the target member. This command is an admin only command.\n'),
-                ('**deleteqotd**','ska\'a','Deletes the specified QoTD. `admin only`\n','`!deleteqotd <DD-MM-YYYY>`','!deleteqotd 15-06-2019','Deletes the specified QoTD.\n'),
-                ('**editqotd**','latem','Edits a specified QoTD. `admin only`\n','`!editqotd <DD-MM-YYYY>`','!editqotd 15-06-2019','Edits a specified QoTD.\n'),
-                ('**faq**','sìpawm','Displays a specified FAQ entry. `admin and teacher only`\n','`!faq <category> <entry>`','!faq hrh','Displays a spedified FAQ entry. Leave blank for a full list of available shortcuts. `admin and teacher only`\n'),
-                ('**generate**','ngop','Generates the specified number of Na\'vi names.\n','`!generate <number of names> <number of syllables>`','!generate 10 2','Generates the specified number of Na\'vi names (up to 20) \nand the number of syllables for each name (up to 5).\n'),
-                ('**help**','srung','Shows this menu!\n','`!help <command>`','!help help','Shows this menu!\n'),
-                ('**leaderboard**','None','Shows the server message or thanks count leaderboard.\n','`!leaderboard <messages | thanks>`','!leaderboard messages','Shows the server message or thanks count leaderboard.\n'),
-                ('**lep**','None','Usable only in DMs. Allows anonymous messaging in the {} channel.\n'.format(lepChannel.mention),'`!lep <message>`','!lep This is a test.','Usable in DMs with the bot only. Allows semi-anonymous messaging in the {} channel. Author is still visible to the mod team to prevent abuse.\n'.format(lepChannel.mention)),
-                ('**nextday**','hayasrr','Shows the next available date for a QoTD. `admin only`\n','`!nextday`','!nextday','Shows the next available date for a QoTD.\n'),
-                ('**profile**','yì','Shows the target member\'s profile.\n','`!profile @<member> <language (optional)>`','!profile @JohnSmith#1111 English','Shows the target member\'s profile. Is also used to update language output preferences for your own profile by adding `English` or `Na\'vi`.\n'),
-                ('**quit**','ftang','Shuts down the Bot. `admin only`\n','`!quit`','!quit','Shuts down the Bot.\n'),
-                ('**quiz**','fmetok','Starts a vocabulary quiz.\n','`!quiz <rounds> <type of test | English/Na\'vi>`','!quiz 4 English','Starts a vocabulary quiz. Defaults to 1 Na\'vi word if no arguments. \nUse `English` for Na\'vi to English testing and `Na\'vi` for English to Na\'vi testing.\n'),
-                ('**schedule**','srr','Shows a list of scheduled QoTDs. `admin only`\n','`!schedule`','!schedule','Shows a list of scheduled QoTDs.\n'),
-                ('**showdata**','sd','Shows join/leave statistics for the specified date. `admin only`\n','`!showdata <DD-MM-YYYY>`','!showdata 15-06-2019','Shows join/leave statistics for the specified date. Asterisks `*` can \nbe used to specify a range, ie. **-06-2020 for all days in June, 2020.\n'),
-                ('**thanks**','irayo','Thanks the Bot.\n','`!thanks`','!thanks','Thanks the Bot. He does a good job, so show some love!\n'),
-                ('**viewqotd**','inan','Shows a specified QoTD. `admin only`\n','`!viewqotd <DD-MM-YYYY>`','!viewqotd 15-06-2019','Shows a specified QoTD.\n')]
     
     reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
                     ('**find**','Finds words whose English definitions contain the query.\n'),
@@ -1019,9 +1030,9 @@ async def help(ctx, *args):
         arg = args[0].strip("*")
     
     if len(arg) > 0:
-        for command in commands:
+        for entry in config.helpFile:
             if arg == command[0].strip("*") or arg == command[1]:
-                embed = discord.Embed(title="!help " + command[0], description=command[5] + "\n**Aliases:** " + command[1] + "\n**Usage:** " + command[3] + "\n**Example:** " + command[4])
+                embed = discord.Embed(title="!help " + entry[0], description=config.helpFile[5] + "\n**Aliases:** " + entry[1] + "\n**Usage:** " + entry[3] + "\n**Example:** " + entry[4])
         if embed == None:
             await ctx.send(embed=config.help_error)
             return
@@ -1029,8 +1040,8 @@ async def help(ctx, *args):
         output = ""
         
         # Eytukan's command list
-        for command in commands:
-            output = output + command[0] + ": " + command[2]
+        for entry in config.helpFile:
+            output = output + entry[0] + ": " + entry[2]
         
         # Reykunyu's command list
         output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(ctx.message.guild.get_member(config.reykID).mention)
@@ -1039,7 +1050,7 @@ async def help(ctx, *args):
             output = output + command[0] + ": " + command[1]
         
         embed = discord.Embed(title="!help",description="Here are {}'s available commands. Use `!help <command>` for more information about that command.\n\n".format(ctx.message.guild.get_member(config.botID).mention) + output)
-        embed.set_thumbnail(ctx.guild.icon_url)
+        embed.set_thumbnail(url=ctx.guild.icon_url)
     t2 = time.time()
     tDelta = round(t2 - t1, 3)
     
@@ -1281,8 +1292,8 @@ async def quiz_error(ctx, error):
 # Error Handling for !help
 @help.error
 async def help_error(ctx, error):
-    if isinstance(error, commands.CommandError):
-        await ctx.send(embed=config.syntax)
+   if isinstance(error, commands.CommandError):
+       await ctx.send(embed=config.syntax)
 
 # Replace token with your bot's token
 kelutralBot.run(config.token)
