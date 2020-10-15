@@ -30,19 +30,25 @@ with open('files/quiz/dict-navi.all.csv', 'r', encoding='utf-8') as fh:
             mainline[i] = part
         words.append(mainline)
 
-with open('files/users/directory.json', 'r', encoding='utf-8') as fh:
-    directory = json.load(fh)
+def reloadDir():
+    with open('files/users/directory.json', 'r', encoding='utf-8') as fh:
+        directory = json.load(fh)
+        return directory
+    
+with open('files/config/help.json', 'r', encoding='utf-8') as fh:
+    helpFile = json.load(fh)
         
 # Global Variables
 token = token.strip()
 prefix = "!"
-version = "Stable 1.19.2"
+version = "Stable 1.21"
 debug = False
 
-activeRoleNames = ["Koaktu","Tsamsiyu","Tsamsiyutsyìp","Eykyu","Ikran Makto","Taronyu","Taronyutsyìp","Hapxìtu","Hapxìtutsyìp","Zìma'uyu","Ketuwong",""]
-activeRoleTranslations = ["Veteran","Warrior","Trainee Warrior","Party Leader","Ikran Rider","Hunter","Trainee Hunter","Member","Trainee Member","Newcomer","Alien",""]
+activeRoleIDs = [715319929942966312, 715319903376113745, 715319861684994069, 715319829611151440, 715319782198739016, 715319761927405668, 715319686710952018, 715319529550381056, 715319404803653632, 715319360884834376, 715319264805912580]
+activeRoleDict = [[715319929942966312, "Veteran"], [715319903376113745, "Warrior"], [715319861684994069, "Trainee Warrior"], [715319829611151440, "Party Leader"], [715319782198739016, "Ikran Rider"], [715319761927405668, "Hunter"], [715319686710952018, "Trainee Hunter"], [715319529550381056, "Member"], [715319404803653632, "Trainee Member"], [715319360884834376, "Newcomer"], [715319264805912580, "Alien"]]
 activeRoleThresholds = [16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16,8]
 ignoredRoles = ["Olo'eyktan (Admin)","Eyktan (Moderator)","Karyu (Teacher)","Numeyu (Learner)","'Eylan (Friend)","Tìkanu Atsleng (Bot)","He/Him","She/Her","They/Them","frapo"]
+
 lepArchive = [["Placeholder","Tuple"]]
 library = []
 
@@ -52,6 +58,7 @@ sequelDate = "12-22-2022"
 # Channels
 general = 715296162394931340
 modLog = 715052686487191583
+lepChannel = 715988382706303038
 
 # Embed Colors
 botColor = 0x113f78
@@ -65,6 +72,7 @@ successColor = 0x00c600
 failColor = 0xff0000
 
 # IDs
+frapoID = 715319193188171846
 botRoleID = 715094486992027699
 guildID = 715043968886505484
 makoID = 81105065955303424
@@ -116,3 +124,5 @@ qotdFile = 'files/qotd/{}.tsk'
 calendarFile = 'files/qotd/calendar.tsk'
 botFile = 'files/users/bot.tsk'
 directoryFile = 'files/users/directory.json'
+
+directory = reloadDir()
