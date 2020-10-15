@@ -66,57 +66,53 @@ def checkPronouns(message, user):
     
     return pronouns
                     
-async def roleUpdate(count, check, message, user):
+async def roleUpdate(user):
     i = 0
-    activeRoles = message.guild.roles
+    activeRoles = user.guild.roles
+    
+    # Retrieves the user profile
     profile = getProfile(user)
-    langCheck = profile[3]
     
-    for roles in config.activeRoleNames:
-        if count >= config.activeRoleThresholds[i] and check.name != roles:
-            newRole = get(activeRoles, name=config.activeRoleNames[i])
-            oldRole = get(activeRoles, name=config.activeRoleNames[i + 1])
+    # Unpacks the relevant parts of the user profile
+    message_count = profile[1]
+    language_pref = profile[3]
+    
+    # Retrieves the current and next rank
+    current_rank = get(activeRoles, id=profile[5][0])
+    next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
+    next_rank = get(activeRoles, id=config.activeRoleIDs[next_rank_index])
+    
+    now = datetime.strftime(datetime.now(), '%H:%M')
+    if message_count >= config.activeRoleThresholds[next_rank_index]:
+        await user.add_roles(next_rank)
+        await user.remove_roles(current_rank)
+        print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
+        
+        if language_perf == "English":
+            embed=discord.Embed(colour=config.rankColor)
+            embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + newRole.name + " (" + config.activeRoleTranslations[i] + ").", inline=False)
+            embed.set_thumbnail(url=ctx.guild.icon_url)
+        elif language_perf == "Na'vi":
+            embed=discord.Embed(colour=config.rankColor)
+            embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
+            embed.set_thumbnail(url=ctx.guild.icon_url)
+        
+        try:
+            if user.dm_channel is None:
+                await user.create_dm()
+            await message.author.send(embed=embed)
+        except:
+            print(now + ' -- Cannot DM this user.')
+        
+        # Updates the directory count.
+        for entry in config.directory:
+            if user.id == entry[0]:
+                entry[5] = config.activeRoleDict[next_rank_index]
+        
+        with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+            json.dump(config.directory, fh)
             
-            await user.add_roles(newRole)
-            now = datetime.strftime(datetime.now(),'%H:%M')
-            print(now + ' -- Tìmìng txintìnit alu ' + newRole.name + ' tuteru alu ' + user.display_name + '.')
-            try:
-                if message.author.dm_channel is None:
-                    await message.author.create_dm()
-
-                if langCheck == "English":
-                    embed=discord.Embed(colour=config.rankColor)
-                    embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + newRole.name + " (" + config.activeRoleTranslations[i] + ").", inline=False)
-                    embed.set_thumbnail(url=ctx.guild.icon_url)
-                    
-                elif langCheck == "Na'vi":
-                    embed=discord.Embed(colour=config.rankColor)
-                    embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
-                    embed.set_thumbnail(url=ctx.guild.icon_url)
-                    
-                await message.author.send(embed=embed)
-                
-                if check.name != "@everyone":
-                    await user.remove_roles(check)
-                    now = datetime.strftime(datetime.now(),'%H:%M')
-                    print(now + " -- 'olaku txintìnit alu " + check.name + " ta " + user.display_name + ".")
-                break
-            except:
-                now = datetime.strftime(datetime.now(),'%H:%M')
-                print(now + " -- Unable to DM this user.")
-                if check.name != "@everyone":
-                    await user.remove_roles(check)
-                    now = datetime.strftime(datetime.now(),'%H:%M')
-                    print(now + " -- 'olaku txintìnit alu " + check.name + " ta " + user.display_name + ".")
-        elif count >= config.activeRoleThresholds[i]:
-            break
-        i += 1
-    
-    profile[5] = config.activeRoleNames[i]
-    profile[6] = config.activeRoleTranslations[i]
-    
-    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-        json.dump(config.directory, fh)
+        config.directory = config.reloadDir()
         
 async def adminMsgs(ctx, bot):
     user = ctx.message.author
