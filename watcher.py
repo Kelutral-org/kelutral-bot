@@ -22,6 +22,7 @@ import admin
 ## -- On Join
 async def onJoin(member, kelutralBot):
     channel = kelutralBot.get_channel(config.modLog)
+    roles = member.guild.roles
     
     embed=discord.Embed(color=config.successColor)
     embed.set_thumbnail(url=member.avatar_url)
@@ -51,13 +52,13 @@ async def onJoin(member, kelutralBot):
         await target.send(member.name + " attempted to join Kelutral.org.")
         
         return
-    
+        
     # This will automatically give anyone the 'frapo' role when they join the server.
     
-    newRole = get(member.guild.roles, name="frapo")
-    await member.add_roles(newRole)
+    frapoRole = get(member.guild.roles, name="frapo")
+    await member.add_roles(frapoRole)
     now = datetime.strftime(datetime.now(),'%H:%M')
-    print(now + " -- Gave " + member.name + " the role " + newRole.name + ".")
+    print(now + " -- Gave " + member.name + " the role " + frapoRole.name + ".")
     
     # This will add the join to the count of joins for that day
     today = datetime.now().strftime('%m-%d-%Y')
@@ -103,21 +104,42 @@ async def onJoin(member, kelutralBot):
             target = member.guild.get_member(config.botID)
             for emoji in emojis:
                 await message.remove_reaction(emoji, target)
+            pronounChoice = "Unspecified"
         else:
             i = 0
             while i < 3:
                 if str(reaction) == emojis[i]:
-                    newRole = get(member.guild.roles, name=pronounRole[i])
-                    await member.add_roles(newRole)
+                    pronounChoice = get(member.guild.roles, name=pronounRole[i])
+                    await member.add_roles(pronounChoice)
                     now = datetime.strftime(datetime.now(),'%H:%M')
                     print(now + " -- Assigned " + member.name + " " + pronounRole[i] + " pronouns.")
                     break
                 else:
                     i += 1
+            # This creates a profile for new joins.
+            if type(pronounChoice) == str:
+                pronouns = pronounChoice
+            elif type(pronounChoice) == object:
+                pronouns = pronounChoice.id
+            
+            profile = admin.getProfile(member)
+            
+            if profile != None:
+                print(now + " -- This user already has an existing profile. Skipping generation of a new profile.")
+            else:
+                #          [member id, msg count, member name, default language, pronoun role id, frapo role id, translation, thanks count]
+                new_user_profile = [member.id, 0, member.name, "English", pronouns, [config.frapoID, "Everyone"], 0]
+                config.directory.append(new_user_profile)
+                print(now + " -- Created a new profile for " + member.name)
     except:
         now = datetime.strftime(datetime.now(),'%H:%M')
         print(now + " -- Cannot DM this user.")
-                
+        
+    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+        json.dump(config.directory, fh)
+    
+    config.directory = config.reloadDir()
+            
 ## -- On Leave
 async def onLeave(member, kelutralBot):
     channel = kelutralBot.get_channel(config.modLog)
@@ -250,47 +272,18 @@ async def onMessage(message, kelutralBot):
     
     # If message is in-server
     if message.guild:
-        if not message.content.startswith("!") or not message.content.startswith("?"):
+        # If message is not a command.
+        if not message.content.startswith("!") and not message.content.startswith("?"):
             # If message is in guild and isn't from the bot.
             if len(message.content) >= 5 and message.author.top_role.id != config.botRoleID:
-                currentRole = user.top_role
-                userRoles = user.roles
-                isMod = False
+                for entry in config.directory:
+                    if entry[0] == user.id:
+                        entry[1] += 1
+                        break
+                        
+                await admin.roleUpdate(user)
                 
-                ## Check if author.top_role is moderator.
-                if currentRole.name in config.ignoredRoles:
-                    isMod = True
-
-                ## Assigns correct role to currentRole if mod.
-                if isMod:
-                    for role in userRoles:
-                        if role.name not in config.ignoredRoles:
-                            currentRole = role
-
-                ## Updates the user profile.
-                profile = admin.getProfile(user)
-                
-                if profile == None:
-                    pronouns = admin.checkPronouns(message, user)
-                    n = 0
-                    while n < len(config.activeRoleNames):
-                        role = discord.utils.find(lambda r: r.name == config.activeRoleNames[n], message.guild.roles)
-                        if role in user.roles:
-                            activeRole = config.activeRoleNames[n]
-                            break
-                        else:
-                            activeRole = "Error"
-                            n += 1
-                    activeRoleTranslation = config.activeRoleTranslations[n]
-                    newProfile = [user.id,1,user.name,"English",pronouns,activeRole,activeRoleTranslation,0]
-                    config.directory.append(newProfile)
+                with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+                    json.dump(config.directory, fh)
                     
-                    print(now + " -- Created new profile for " + user.name)
-                    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-                        json.dump(config.directory, fh)
-                else:
-                    profile[1] += 1
-                    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-                        json.dump(config.directory, fh)
-
-                await admin.roleUpdate(profile[1], currentRole, message, user)
+                config.directory = config.reloadDir()
