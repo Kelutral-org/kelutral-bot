@@ -452,10 +452,8 @@ async def showData(ctx, *date):
 
 ## Updates the bot and relaunches
 @kelutralBot.   command(name='update')
-async def updateBot(ctx, version, commit):
+async def updateBot(ctx, commit):
     if ctx.message.author.top_role.id == config.adminID:
-        config.version = version
-        
         REPO = r'C:\Users\Seth\kelutral-bot\.git'
         g = git.cmd.Git(r'C:\Users\Seth\kelutral-bot')
         COMMIT_MESSAGE = commit
