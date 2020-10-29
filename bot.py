@@ -1259,7 +1259,8 @@ async def thanks(ctx):
 ## Help Command
 @kelutralBot.command(name="help", aliases=['srung'])
 async def help(ctx, *query):
-    lepChannel = ctx.guild.get_channel(config.lepChannel)
+    lepChannel = kelutralBot.get_channel(config.lepChannel)
+    guild = lepChannel.guild
     t1 = time.time()
     
     reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
@@ -1291,13 +1292,13 @@ async def help(ctx, *query):
             output = output + entry['name'] + ": " + entry['short']
         
         # Reykunyu's command list
-        output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(ctx.message.guild.get_member(config.reykID).mention)
+        output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(guild.get_member(config.reykID).mention)
         
         for command in reykcommands:
             output = output + command[0] + ": " + command[1]
         
-        embed = discord.Embed(title="!help",description="Here are {}'s available commands. Use `!help <command>` for more information about that command.\n\n".format(ctx.message.guild.get_member(config.botID).mention) + output)
-        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed = discord.Embed(title="!help",description="Here are {}'s available commands. Use `!help <command>` for more information about that command.\n\n".format(guild.get_member(config.botID).mention) + output)
+        embed.set_thumbnail(url=guild.icon_url)
     
     t2 = time.time()
     tDelta = round(t2 - t1, 3)
