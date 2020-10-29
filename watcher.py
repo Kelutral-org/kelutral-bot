@@ -23,12 +23,13 @@ import admin
 async def onJoin(member, kelutralBot):
     channel = kelutralBot.get_channel(config.modLog)
     roles = member.guild.roles
+    now = datetime.strftime(datetime.now(),'%H:%M')
     
     embed=discord.Embed(color=config.successColor)
     embed.set_thumbnail(url=member.avatar_url)
     embed.set_author(name="Member Joined",icon_url=member.avatar_url)
     embed.add_field(name="New Member:", value=str(member.mention) + " " + str(member), inline=False)
-    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+    embed.set_footer(text="ID: {} • Today at {}".format(member.id, datetime.now().strftime('%H:%M EST')))
     await channel.send(embed=embed)
     
     # Checks the Blacklist for Blacklisted IDs
@@ -39,26 +40,26 @@ async def onJoin(member, kelutralBot):
     setLines = set(lines)
     
     if str(member.id) in setLines:
-        now = datetime.strftime(datetime.now(),'%H:%M')
+        
         print(now + " -- Found this user in the blacklist.")
         if member.dm_channel is None:
                await member.create_dm()
         await member.send("Sorry, you are forbidden from joining Kelutral.org.")
         await member.ban()
-        now = datetime.strftime(datetime.now(),'%H:%M')
         print(now + " -- " + member.name + " was banned.")
         
         target = member.guild.get_member(config.makoID)
-        await target.send(member.name + " attempted to join Kelutral.org.")
+        await target.send("{} attempted to join Kelutral.org.".format(member.name))
         
         return
-        
+    
+    print(now + " -- {} joined the server.".format(member.name))
     # This will automatically give anyone the 'frapo' role when they join the server.
     
     frapoRole = get(member.guild.roles, name="frapo")
     await member.add_roles(frapoRole)
-    now = datetime.strftime(datetime.now(),'%H:%M')
-    print(now + " -- Gave " + member.name + " the role " + frapoRole.name + ".")
+
+    print(now + " -- Gave {} the role {}.".format(member.name, frapoRole.name))
     
     # This will add the join to the count of joins for that day
     today = datetime.now().strftime('%m-%d-%Y')
@@ -75,71 +76,51 @@ async def onJoin(member, kelutralBot):
             fh.write(str(total))
     
     try:
+        emojis = ['\U00002642','\U00002640','\U0001F3F3\U0000fe0f\U0000200d\U0001f308','\U0000267E']
         if member.dm_channel is None:
             await member.create_dm()
-
         embed=discord.Embed()
         embed=discord.Embed(title="Welcome to the Kelutral.org Discord Server!", colour=config.welcomeColor)
-        embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #kaltxì so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with \U00002640, \U00002642 or \U0001F308. Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!", inline=False)
+        embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #kaltxì so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with {}, {}, {} or {} (He/Him, She/Her, They/Them or Any Pronouns). Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!".format(emojis[0],emojis[1],emojis[2],emojis[3]), inline=False)
 
         message = await member.send(embed=embed)
-        emojis = ['\U00002642','\U00002640','\U0001F308']
-        pronounRole = ['He/Him','She/Her','They/Them']
+        
+        pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
         for emoji in emojis:
             await message.add_reaction(emoji)
-        
-        def check(reaction, user):
-            for emoji in emojis:
-                if str(reaction.emoji) == emoji:
-                    foundEmoji = True
-                    break
-                else:
-                    foundEmoji = False
-            return user == member and foundEmoji
-
-        try:
-            reaction, user = await kelutralBot.wait_for('reaction_add', timeout=180.0, check=check)
-        except asyncio.TimeoutError:
-            await member.send("Window has passed to self-assign pronouns. Please DM a mod if you would still like to do so.")
-            target = member.guild.get_member(config.botID)
-            for emoji in emojis:
-                await message.remove_reaction(emoji, target)
-            pronounChoice = "Unspecified"
-        else:
-            i = 0
-            while i < 3:
-                if str(reaction) == emojis[i]:
-                    pronounChoice = get(member.guild.roles, name=pronounRole[i])
-                    await member.add_roles(pronounChoice)
-                    now = datetime.strftime(datetime.now(),'%H:%M')
-                    print(now + " -- Assigned " + member.name + " " + pronounRole[i] + " pronouns.")
-                    break
-                else:
-                    i += 1
-            # This creates a profile for new joins.
-            if type(pronounChoice) == str:
-                pronouns = pronounChoice
-            elif type(pronounChoice) == object:
-                pronouns = pronounChoice.id
-            
-            profile = admin.getProfile(member)
-            
-            if profile != None:
-                print(now + " -- This user already has an existing profile. Skipping generation of a new profile.")
-            else:
-                #          [member id, msg count, member name, default language, pronoun role id, frapo role id, translation, thanks count]
-                new_user_profile = [member.id, 0, member.name, "English", pronouns, [config.frapoID, "Everyone"], 0]
-                config.directory.append(new_user_profile)
-                print(now + " -- Created a new profile for " + member.name)
     except:
         now = datetime.strftime(datetime.now(),'%H:%M')
         print(now + " -- Cannot DM this user.")
+        pronounChoice = "Unspecified"
         
-    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-        json.dump(config.directory, fh)
+    # This creates a profile for new joins.
+    pronouns = "Unspecified"
+    profile = admin.readDirectory(member)
     
-    config.directory = config.reloadDir()
-            
+    if profile != None:
+        print(now + " -- This user already has an existing profile. Skipping generation of a new profile.")
+        if type(profile['pronouns']) == int:
+            role_to_add = get(member.guild.roles, id=profile['pronouns'])
+            await member.add_roles(role_to_add)
+            print(now + " -- {} previously had the pronouns {}. Assigning now.".format(member.name, role_to_add.name))
+    else:
+        #          [member id, msg count, member name, default language, pronoun role id, frapo role id, translation, thanks count]
+        config.directory[str(member.id)] = {
+                                            "id" : member.id,
+                                            "message count" : 0,
+                                            "name" : member.name,
+                                            "language" : "English",
+                                            "pronouns" : pronouns,
+                                            "rank" : {
+                                                "id" : config.frapoID,
+                                                "translation" : "Everyone"
+                                            },
+                                            "thanks" : 0
+                                        }
+        print(now + " -- Created a new profile for {}.".format(member.name))
+        
+    admin.updateDirectory()
+    
 ## -- On Leave
 async def onLeave(member, kelutralBot):
     channel = kelutralBot.get_channel(config.modLog)
@@ -148,7 +129,7 @@ async def onLeave(member, kelutralBot):
     embed.set_thumbnail(url=member.avatar_url)
     embed.set_author(name="Member Left",icon_url=member.avatar_url)
     embed.add_field(name="Member:", value=str(member.mention) + " " + str(member), inline=False)
-    embed.set_footer(text="ID: " + str(member.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+    embed.set_footer(text="ID: {} • Today at {}".format(member.id, datetime.now().strftime('%H:%M EST')))
     await channel.send(embed=embed)
     
     # This will add the departure to the count of departures for that day
@@ -185,12 +166,12 @@ async def onDelete(message, kelutralBot):
     member = message.author
     channel = kelutralBot.get_channel(config.modLog)
     
-    if message.author.top_role.id != config.botRoleID:  
+    if message.author.top_role.id != config.botRoleID and message.channel.id != 768599416114118656:  
         embed=discord.Embed(color=config.failColor)
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_author(name=str(member),icon_url=member.avatar_url)
         embed.add_field(name="Message Deleted", value="**Message sent by " + str(member.mention) + " deleted in " + str(message.channel.mention) + "**\n" + str(message.content), inline=False)
-        embed.set_footer(text="ID: " + str(message.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+        embed.set_footer(text="ID: {} • Today at {}".format(message.id, datetime.now().strftime('%H:%M EST')))
         await channel.send(embed=embed)
     
 ## -- On Member Update
@@ -211,8 +192,8 @@ async def onUpdate(before, after, kelutralBot):
         embed=discord.Embed(color=config.reportColor)
         embed.set_thumbnail(url=after.avatar_url)
         embed.set_author(name=str(after),icon_url=after.avatar_url)
-        embed.add_field(name="Member Updated", value=str(after.mention) + "** was removed from `" + ' '.join(nameList) + '`**', inline=False)
-        embed.set_footer(text="ID: " + str(after.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+        embed.add_field(name="Member Updated", value="{}** was removed from `{}`**".format(after.mention, ''.join(nameList)), inline=False)
+        embed.set_footer(text="ID: {} • Today at {}".format(after.id, datetime.now().strftime('%H:%M EST')))
         
         await channel.send(embed=embed)
     elif len(addedRoles) > 0:
@@ -222,8 +203,8 @@ async def onUpdate(before, after, kelutralBot):
         embed=discord.Embed(color=config.reportColor)
         embed.set_thumbnail(url=after.avatar_url)
         embed.set_author(name=str(after),icon_url=after.avatar_url)
-        embed.add_field(name="Member Updated", value=str(after.mention) + "** was added to `" + ' '.join(nameList) + '`**', inline=False)
-        embed.set_footer(text="ID: " + str(after.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+        embed.add_field(name="Member Updated", value="{}** was added to `{}`**".format(after.mention, ''.join(nameList)), inline=False)
+        embed.set_footer(text="ID: {} • Today at {}".format(after.id, datetime.now().strftime('%H:%M EST')))
         
         await channel.send(embed=embed)
         
@@ -234,8 +215,8 @@ async def onUpdate(before, after, kelutralBot):
         embed=discord.Embed(color=config.reportColor)
         embed.set_thumbnail(url=after.avatar_url)
         embed.set_author(name=str(after),icon_url=after.avatar_url)
-        embed.add_field(name="Member Updated", value='`' + str(beforeName) + '`** changed their name to `' + str(afterName) + '`**', inline=False)
-        embed.set_footer(text="ID: " + str(after.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+        embed.add_field(name="Member Updated", value='`{}`** changed their name to `{}`**'.format(beforeName, afterName), inline=False)
+        embed.set_footer(text="ID: {} • Today at {}".format(after.id, datetime.now().strftime('%H:%M EST')))
         
         await channel.send(embed=embed)
 
@@ -246,8 +227,8 @@ async def onBan(guild, user, kelutralBot):
     embed=discord.Embed(color=config.failColor)
     embed.set_thumbnail(url=user.avatar_url)
     embed.set_author(name=str(user),icon_url=user.avatar_url)
-    embed.add_field(name="Member Banned", value=str(user.mention) + '** was banned**', inline=False)
-    embed.set_footer(text="ID: " + str(user.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+    embed.add_field(name="Member Banned", value="{}** was banned.**".format(user.mention), inline=False)
+    embed.set_footer(text="ID: {} • Today at {}".format(user.id, datetime.now().strftime('%H:%M EST')))
     
     await channel.send(embed=embed)
     
@@ -259,8 +240,8 @@ async def onUnban(guild, user, kelutralBot):
     embed=discord.Embed(color=config.reportColor)
     embed.set_thumbnail(url=user.avatar_url)
     embed.set_author(name=str(user),icon_url=user.avatar_url)
-    embed.add_field(name="Member Banned", value=str(user.mention) + '** was unbanned**', inline=False)
-    embed.set_footer(text="ID: " + str(user.id) + " • Today at " + datetime.now().strftime('%H:%M EST'))
+    embed.add_field(name="Member Banned", value='{} ** was unbanned**'.format(str(user.mention)), inline=False)
+    embed.set_footer(text="ID: {} • Today at {}".format(str(user.id), datetime.now().strftime('%H:%M EST')))
     
     await channel.send(embed=embed)
 
@@ -268,22 +249,130 @@ async def onUnban(guild, user, kelutralBot):
 async def onMessage(message, kelutralBot):
     user = message.author
     now = datetime.strftime(datetime.now(),'%H:%M')
-    print(now + " - Analyzing message from " + str(user))
     
     # If message is in-server
     if message.guild:
         # If message is not a command.
-        if not message.content.startswith("!") and not message.content.startswith("?"):
+        if not message.content.startswith("!") and not message.content.startswith("?") and not message.content.startswith("%"):
             # If message is in guild and isn't from the bot.
-            if len(message.content) >= 5 and message.author.top_role.id != config.botRoleID:
-                for entry in config.directory:
-                    if entry[0] == user.id:
-                        entry[1] += 1
-                        break
+            if len(message.content) >= 5 and user.top_role.id != config.botRoleID:
+                print(now + " - Analyzing message from {} in {}.".format(user, message.channel.name))
+                try:
+                    admin.writeDirectory(user, "message count", admin.readDirectory(user, "message count") + 1)
+                except KeyError:
+                    print(now + " -- WARNING: {} does not have a profile!".format(user.name))
                         
                 await admin.roleUpdate(user)
+                admin.updateDirectory()
                 
-                with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-                    json.dump(config.directory, fh)
-                    
-                config.directory = config.reloadDir()
+        elif message.content.startswith("!") and message.author.id == 723257649055006740:
+            user = message.author
+            question = message.content.replace("!8ball ", "")
+            
+            index = random.randint(0,11)
+            options = config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"]
+            embed = discord.Embed(description=config.text_file[admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"][index]))
+            
+            channel = await kelutralBot.get_context(message)
+            await channel.send(embed=embed)
+            
+## -- On Voice State Update
+async def onVCUpdate(member, before, after, kelutralBot):
+    base_channel = kelutralBot.get_channel(768953622003974204)
+    before_channel = before.channel
+    after_channel = after.channel
+    
+    if before_channel:
+        tnp_vc = kelutralBot.get_channel(768591895227007016).voice_channels
+        for channel in tnp_vc:
+            in_channel = len(channel.members)
+            if in_channel == 0 and channel != base_channel:
+                await channel.delete()
+            
+    elif after_channel:
+        in_channel = len(after_channel.members)
+        try:
+            channel_count = int(after_channel.name[-1])
+        except ValueError:
+            return
+        
+        if len(base_channel.members) != 0:
+            if after_channel.user_limit == in_channel and channel_count < 10:
+                await member.guild.create_voice_channel("Private Voice {}".format(channel_count + 1), category = get(member.guild.categories, id=768591895227007016), user_limit = 2)
+
+## -- On Reaction Add
+async def onReaction(payload, kelutralBot):
+    added_emoji = payload.emoji
+    guild = kelutralBot.get_guild(715043968886505484)
+    channel = await kelutralBot.fetch_channel(payload.channel_id)
+    
+    if payload.member == None:
+        member = guild.get_member(payload.user_id)
+    else:
+        member = payload.member
+        
+    emoji = ['<:irayo:715054886714343455>'] 
+    fileName = 'files/config/reactions.txt'
+
+    if isinstance(channel, discord.DMChannel):
+        if member.id != config.botID:
+            emojis = ['♂️','♀️','🏳️‍🌈','♾️']
+            pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
+            
+            if added_emoji.name in emojis:
+                profile = admin.readDirectory(user)
+                pronouns = admin.readDirectory(user, "pronouns")
+                now = datetime.strftime(datetime.now(),'%H:%M')
+                
+                index = emojis.index(added_emoji.name)
+                role_to_add = get(guild.roles, name=pronounRole[index])
+                
+                if pronouns == role_to_add.id:
+                    await member.send("You already have that role!")
+                    print(now + " -- {} attempted to add the {} pronouns, but they already had them.".format(member.name, role_to_add.name))
+                elif pronouns != "Unspecified":
+                    old_role = await get(guild.roles, id=profile['pronouns'])
+                    await member.remove_roles(old_role)
+                    await member.add_roles(role_to_add)
+                    await member.send("Removed {} and added {}.".format(old_role.name, role_to_add.name))
+                    print(now + " -- {} swapped from {} pronouns to {} ones.".format(member.name, old_role.name, role_to_add.name))
+                else:
+                    await member.add_roles(role_to_add)
+                    await member.send("Successfully added you to {}.".format(role_to_add.name))
+                    print(now + " -- {} was given the {} pronouns.".format(member.name, role_to_add.name))
+                
+                admin.writeDirectory(member, 'pronouns', role_to_add.id)
+                return
+    
+    # If reaction was added by the message author (sneaky sneaky!)
+    message = await channel.fetch_message(payload.message_id)
+    if message.author.id == payload.user_id:
+        return
+    else:
+        with open(fileName, 'r') as fh:
+            contents = json.load(fh)
+        
+        # Checks to see if the reaction adder has already added a reaction to that message (prevents duplication)
+        if str(added_emoji) in emoji: 
+            check = [message.id, payload.user_id]
+            if check not in contents:
+                contents.append([message.id, payload.user_id])
+                
+                # Iterates the user directory to find the reaction adder
+                for entry in config.directory:
+                    if message.author.id == entry[0]:
+                        # Tries to pull the thanks data from the user profile
+                        try: 
+                            timesThanked = entry[6]
+                            entry[6] += 1
+                            break
+                        # If no thanks data exists, appends a blank field
+                        except IndexError: 
+                            timesThanked = 0
+                            entry.append(timesThanked)
+                
+                # Updates the reactions log
+                with open(fileName, 'w') as fh:
+                    json.dump(contents, fh)
+        
+        admin.updateDirectory()

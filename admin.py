@@ -40,74 +40,78 @@ def getStats(date):
     rds1 = checkFile('files/logs/rds/'+ date + '*.tsk')
     
     return joins1, leaves1, rds1
-
-def getProfile(user):
-    for entry in config.directory:
-        if entry[0] == user.id:
-            profile = entry
-            return profile
-        else:
-            profile = None
-            
-    return profile
-
-def checkPronouns(message, user):
-    pronounsRole = ['He/Him', 'She/Her', 'They/Them']
-    n = 0
-        
-    while n < len(pronounsRole):
-        role = discord.utils.find(lambda r: r.name == pronounsRole[n], message.guild.roles)
-        if role in user.roles:
-            pronouns = pronounsRole[n]
-            break
-        else:
-            pronouns = "Unspecified"
-            n += 1
     
-    return pronouns
-                    
+def readDirectory(user, *requested_value):
+    try:
+        profile = config.directory[str(user.id)]
+    except (IndexError, KeyError):
+        profile = None
+        return profile
+    
+    if requested_value == ():
+        return profile
+    else:
+        return profile[requested_value[0]]
+    
+def writeDirectory(user, index, value):
+    profile = config.directory[str(user.id)]
+    profile[index] = value
+    
+    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+        json.dump(config.directory, fh)
+
+def updateDirectory():
+    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+        json.dump(config.directory, fh)
+    
+    config.directory = config.reloadDir()
+    
 async def roleUpdate(user):
     i = 0
     activeRoles = user.guild.roles
     
     # Retrieves the user profile
-    profile = getProfile(user)
+    profile = readDirectory(user)
     
     # Unpacks the relevant parts of the user profile
-    message_count = profile[1]
-    language_pref = profile[3]
+    message_count = profile['message count']
+    language_pref = profile['language']
     
     # Retrieves the current and next rank
-    current_rank = get(activeRoles, id=profile[5][0])
+    current_rank = get(activeRoles, id=profile['rank']['id'])
     next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
     next_rank = get(activeRoles, id=config.activeRoleIDs[next_rank_index])
     
     now = datetime.strftime(datetime.now(), '%H:%M')
     if message_count >= config.activeRoleThresholds[next_rank_index]:
         await user.add_roles(next_rank)
-        await user.remove_roles(current_rank)
-        print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
+        if current_rank.id != config.frapoID:
+            await user.remove_roles(current_rank)
+            print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
+        else:
+            print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role.')
         
-        if language_perf == "English":
+        if language_pref == "English":
             embed=discord.Embed(colour=config.rankColor)
-            embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + newRole.name + " (" + config.activeRoleTranslations[i] + ").", inline=False)
-            embed.set_thumbnail(url=ctx.guild.icon_url)
-        elif language_perf == "Na'vi":
+            embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + next_rank.name + " (" + config.activeRoleDict[next_rank_index][1] + ").", inline=False)
+            embed.set_thumbnail(url=user.guild.icon_url)
+        elif language_pref == "Na'vi":
             embed=discord.Embed(colour=config.rankColor)
-            embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + newRole.name + ".", inline=False)
-            embed.set_thumbnail(url=ctx.guild.icon_url)
+            embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + next_rank.name + ".", inline=False)
+            embed.set_thumbnail(url=user.guild.icon_url)
         
         try:
             if user.dm_channel is None:
                 await user.create_dm()
-            await message.author.send(embed=embed)
+            await user.send(embed=embed)
         except:
             print(now + ' -- Cannot DM this user.')
         
         # Updates the directory count.
-        for entry in config.directory:
-            if user.id == entry[0]:
-                entry[5] = config.activeRoleDict[next_rank_index]
+        profile['rank'] = {
+            "id" : config.activeRoleDict[next_rank_index][0],
+            "translation" : config.activeRoleDict[next_rank_index][1]
+            }
         
         with open(config.directoryFile, 'w', encoding='utf-8') as fh:
             json.dump(config.directory, fh)
@@ -148,12 +152,13 @@ async def adminMsgs(ctx, bot):
         Numeyu = 715044972436389890
         Eylan = 715048542468833321
 
-        pre = ["{} : Administrators, responsible for upkeep of the Kelutral network of resources.\n".format(ctx.guild.get_role(oloEyktan).mention),
+        pre = ["Mod Roles: \n",
+               "{} : Administrators, responsible for upkeep of the Kelutral network of resources.\n".format(ctx.guild.get_role(oloEyktan).mention),
                "{} : Moderators, responsible for monitoring content in the Kelutral Discord.\n".format(ctx.guild.get_role(Eyktan).mention),
-               "\n",
+               "\nNa'vi Language: \n",
                "{} : Teacher, a capable, volunteer teacher who has shown willingness to share their knowledge of the Na'vi Language with other learners.\n".format(ctx.guild.get_role(Karyu).mention),
-               "\n",
                "{} : Someone who is learning the Na'vi language.\n".format(ctx.guild.get_role(Numeyu).mention),
+               "\nOther Roles: \n",
                "{} : Inactive or non-language-learning Avatar enthusiasts.\n".format(ctx.guild.get_role(Eylan).mention)]
                
         value = ""
@@ -272,7 +277,7 @@ async def adminMsgs(ctx, bot):
         embede = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(bot.get_channel(715048420691148830).name), description=value4, color=config.reportColor)
         
         games = ["{} - Word Game".format(bot.get_channel(757026975696027688).mention),
-                 "• A game in which you try to think of a word that begins with the previously submitted word. Use `?help wordgame` for more info.\n",
+                 "• A game in which you try to think of a word that begins with the last letter of the previously submitted word. Use `?help wordgame` for more info.\n",
                  "{} - Word Test".format(bot.get_channel(757082428673228838).mention),
                  "• Your standard vocabulary quiz game. Use `!help quiz` for more info.\n"]
                  
@@ -293,22 +298,35 @@ async def adminMsgs(ctx, bot):
             
         embedj = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(bot.get_channel(759900601403834419).name), description=value8, color=config.reportColor)
         
-        changeLog = "10/5/2020 - Updated the channel formatting and added new channels."
+        changeLog = "10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(bot.get_channel(757026975696027688).mention)
         
         embedf = discord.Embed(title="What's Changed (Why are there notifications?)\n――――――――――――――――――――――――――――――", description=changeLog, color=config.reportColor)
+        
+        servInfo = ["The **Kelutral.org** Discord has several unique features thanks to our custom coded bot, {}.".format(ctx.guild.get_member(config.botID).mention),
+                    "\n\nWhile you are here, you will rank up through a series of ranks by participating in the community. You can check your progress to the next rank by using `!profile @yourself` in {}.".format(bot.get_channel(718309398048538687).mention),
+                    "\n\nOur server features a 'karma' system, where you can give people karma by adding <:irayo:766299908159701043> to their message.",
+                    "\n\nUpdates from around the Na'vi Language community can be found in {}.".format(bot.get_channel(746446354196201553).mention)
+                    ]
+        
+        value9 = ""
+        for entry in servInfo:
+            value9 = value9 + entry + "\n"
+            
+        embedk = discord.Embed(title="Server Information\n――――――――――――――――――――――――――――――", description=value9, color=config.reportColor)
 
         channel = bot.get_channel(infoChannel)
 
-        # await channel.send(embed=embeda)
-        # await channel.send(embed=embedb)
-        # await channel.send(embed=embedc)
-        # await channel.send(embed=embedd)
-        # await channel.send(embed=embedg)
-        # await channel.send(embed=embedh)
-        # await channel.send(embed=embede)
-        # await channel.send(embed=embedi)
-        # await channel.send(embed=embedj)
-        # await channel.send(embed=embedf)
+        await channel.send(embed=embedk)
+        await channel.send(embed=embeda)
+        await channel.send(embed=embedb)
+        await channel.send(embed=embedc)
+        await channel.send(embed=embedd)
+        await channel.send(embed=embedg)
+        await channel.send(embed=embedh)
+        await channel.send(embed=embede)
+        await channel.send(embed=embedi)
+        await channel.send(embed=embedj)
+        await channel.send(embed=embedf)
         
         # path1 = 'files/resources1.txt'
         # path2 = 'files/resources2.txt'
