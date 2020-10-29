@@ -90,7 +90,18 @@ def updateProbabilities(letterPrefs):
                     codaProbabilities[codas.index(letter)] = 100
                 
                 consonantProbabilities[consonants.index(letter)] = 100
-
+                
+def revertProbabilities():
+    global vowelProbabilities
+    global onsetProbabilities
+    global codaProbabilities
+    global consonantProbabilities
+    
+    vowelProbabilities = [10,10,10,10,10,10,10,2,2,2,2]
+    consonantProbabilities = [6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6]
+    onsetProbabilities = [6,6,6,6,6,6,6,6,6,6,6,6,6]
+    codaProbabilities = [6,6,6,6,6,6,6,6,6,6,6,6]
+    
 def applyRule(ruleID):
     return {
         1: getRandVowel(),
@@ -125,6 +136,8 @@ def nameGen(numSyllables, letterPrefs):
                 genSyllable = applyRule(chosenRule)
         
         output += genSyllable
+        
+    revertProbabilities()
     
     # Cleanup generated output before returning said output
     return cleanUp(output)
