@@ -1,0 +1,154 @@
+{
+	"8ball" : {
+		"name" : "**8ball**",
+		"aliases" : ["None"],
+		"short" : "Your classic 8ball command. Ask a question, get a random answer!\n",
+		"usage" : "`!8ball <question>`",
+		"example" : "`!8ball Is Eytukan the best bot?`",
+		"description" : "Your classic 8ball command. Ask a question, get a random answer!\n"
+	},
+	"about" : {
+		"name" : "**about**",
+		"aliases" : ["teri"],
+		"short" : "Shows information about the bot.\n",
+		"usage" : "`!about`",
+		"example" : "`!about`",
+		"description" : "Shows information about the bot.\n"
+	},
+	"accept" : {
+		"name" : "**accept**",
+		"aliases" : ["None"],
+		"short" : "Accepts a student application in __The Neytiri Project__. `teacher only`\n",
+		"usage" : "`!accept <student_id>`",
+		"example" : "`!accept 81105065955303424`",
+		"description" : "Accepts a student application in __The Neytiri Project__ to grant them access to your teaching channel. `teacher only`\n"
+	},
+	"ban" : {
+		"name" : "**ban**",
+		"aliases" : ["yitx"],
+		"short" : "Bans the target member. `admin only`\n",
+		"usage" : "`!ban @<member>`",
+		"example" : "`!ban @JohnSmith#1111`",
+		"description" : "Bans the target member. This command is an admin only command.\n"
+	},
+	"createprofile" : {
+		"name" : "**createprofile**",
+		"aliases" : ["None"],
+		"short" : "Creates a teacher profile to pin in a teacher channel in __The Neytiri Project__. `teacher only`\n",
+		"usage" : "`!createprofile`",
+		"example" : "`!createprofile`",
+		"description" : "Creates a teacher profile to pin in a teacher channel in __The Neytiri Project__. This command is for teachers only.\n"
+	},
+	"faq" : {
+		"name" : "**faq**",
+		"aliases" : ["sìpawm"],
+		"short" : "Displays a specified FAQ entry. `admin and teacher only`\n",
+		"usage" : "`!faq <category> <entry>`",
+		"example" : "`!faq hrh`",
+		"description" : "Displays a spedified FAQ entry. Leave blank for a full list of available shortcuts. Usable by admins and teachers only.\n"
+	},
+	"generate" : {
+		"name" : "**generate**",
+		"aliases" : ["ngop"],
+		"short" : "Generates a specified number of Na'vi names.\n",
+		"usage" : "`!generate <number of names> <number of syllables> <preferred letters>`",
+		"example" : "`!generate 10 2`",
+		"description" : "Generates the specified number of Na'vi names (up to 20) with the number of specified syllables (up to 5). Additionally, the user can specify letters they prefer to weight the names in favor of those letters.\n"
+	},
+	"help" : {
+		"name" : "**help**",
+		"aliases" : ["srung"],
+		"short" : "Shows this menu!\n",
+		"usage" : "`!help <command>`",
+		"example" : "`!help thanks`",
+		"description" : "Shows a list of commands and their syntax. `You are here!`\n"
+	},
+	"leaderboard" : {
+		"name" : "**leaderboard**",
+		"aliases" : ["None"],
+		"short" : "Shows the server message or thanks leaderboard.\n",
+		"usage" : "`!leaderboard <messages | thanks>`",
+		"example" : "`!leaderboard messages",
+		"description" : "Shows the server message or thanks count leaderboard.\n"
+	},
+	"lep" : {
+		"name" : "**lep**",
+		"aliases" : ["None"],
+		"short" : "Usable only in DMs. Allows anonymous messaging in the <#715988382706303038> channel.\n",
+		"usage" : "`!lep <message>`",
+		"example" : "`!lep Call tea ma frapo.`",
+		"description" : "Usable in DMs with the bot only. Allows semi-anonymous messaging in the <#715988382706303038> channel. Author is still visible to the mod team to prevent abuse.\n"
+	},
+	"profile" : {
+		"name" : "**profile**",
+		"aliases" : ["yì"],
+		"short" : "Shows the target member's profile.\n",
+		"usage" : "`!profile @<member> <language*>`",
+		"example" : "`!profile @JohnSmith#1111 English`",
+		"description" : "Shows the target member's profile. Is also used to update language output preferences for your own profile by adding `English` or `Na'vi`.\n"
+	},
+	"quit" : {
+		"name" : "**quit**",
+		"aliases" : ["ftang"],
+		"short" : "Shuts down the Bot. `admin only`\n",
+		"usage" : "`!quit`",
+		"example" : "`!quit`",
+		"description" : "Shuts down the Bot. This is an admin only command.\n"
+	},
+	"quiz" : {
+		"name" : "**quiz**",
+		"aliases" : ["fmetok"],
+		"short" : "Starts a vocabulary quiz.\n",
+		"usage" : "`!quiz <rounds> <type of test | English/Na'vi>`",
+		"example" : "`!quiz 4 English`",
+		"description" : "Starts a vocabulary quiz. Defaults to 1 Na'vi word if no arguments. \nUse `English` for Na'vi to English testing and `Na'vi` for English to Na'vi testing.\n"
+	},
+	"qotd" : {
+		"name" : "**qotd**",
+		"aliases" : ["tìpawm"],
+		"short" : "Controls Question of the Day functionality.\n",
+		"usage" : "`!qotd <function> \"question\" <DD-MM-YYYY*>`",
+		"example" : "`!qotd add \"Hello World\" 02-02-2020`",
+		"description" : "Controls Question of the Day functionality. Valid functions are **add**, **edit**, **delete**, **read**, and **schedule**. Date is optional for **add**, and if unspecified will default to the next available date.\n"
+	},
+	"tnp" : {
+		"name" : "**tnp**",
+		"aliases" : ["None"],
+		"short" : "Begins registration for __The Neytiri Project__.\n",
+		"usage" : "`!tnp`",
+		"example" : "`!tnp`",
+		"description" : "Begins registration for __The Neytiri Project__.\n"
+	},
+	"register" : {
+		"name" : "**register**",
+		"aliases" : ["None"],
+		"short" : "Student application for __The Neytiri Project__.\n",
+		"usage" : "`!register`",
+		"example" : "`!register`",
+		"description" : "Begins the application for students interested in __The Neytiri Project__.\n"
+	},
+	"showdata" : {
+		"name" : "**showdata**",
+		"aliases" : ["sd"],
+		"short" : "Shows join/leave statistics for the specified date. `admin only`\n",
+		"usage" : "`!showdata <DD-MM-YYYY>`",
+		"example" : "`!showdata 15-06-2019`",
+		"description" : "Shows join/leave statistics for the specified date. Asterisks `*` can \nbe used to specify a range, ie. **-06-2020 for all days in June, 2020.\n"
+	},
+	"thanks" : {
+		"name" : "**thanks**",
+		"aliases" : ["irayo"],
+		"short" : "Thanks the Bot.\n",
+		"usage" : "`!thanks`",
+		"example" : "`!thanks`",
+		"description" : "Thanks the Bot. He does a good job, so show some love!\n"
+	},
+	"unregister" : {
+		"name" : "**unregister**",
+		"aliases" : ["None"],
+		"short" : "Unregisters a user from __The Neytiri Project__.\n",
+		"usage" : "`!unregister`",
+		"example" : "`!unregister`",
+		"description" : "Unregisters a user from __The Neytiri Project__.\n"
+	}
+}
