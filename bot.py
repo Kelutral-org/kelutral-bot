@@ -330,12 +330,26 @@ async def on_command(ctx):
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Updates the bot and relaunches
 @kelutralBot.command(name='update')
-async def updateBot(ctx):
+async def updateBot(ctx, commit):
     if ctx.message.author.top_role.id == config.adminID:
-        g = git.cmd.Git("C:/Users/Seth/kelutral-bot")
-        await ctx.send("Updating the bot...")
-        g.pull()
+        REPO = r'C:\Users\Seth\kelutral-bot\.git'
+        COMMIT_MESSAGE = commit
         
+        repo = git.Repo(REPO)
+        repo.git.add(update=True)
+        repo.index.commit(COMMIT_MESSAGE)
+        
+        origin = repo.remote(name='kelutral-bot')
+        msg = origin.push()
+        print(msg)
+        await ctx.send("Updating the bot...")
+        msg = origin.pull()
+        print(msg)
+        await ctx.send("Pulling from the repo...")
+        await kelutralBot.close()
+        
+        os.system('python bot.py')
+        quit()
 
 ## Fixes a directory entry
 @kelutralBot.command(name='fix')
