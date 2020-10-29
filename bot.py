@@ -13,10 +13,11 @@ from datetime import datetime
 from datetime import timedelta
 
 import time
-
 import os
-
+import re
+import sys
 import json
+from importlib import reload
 
 import git
 
@@ -258,10 +259,8 @@ def clear():
 async def on_ready():
     nameCount = update(0)
     game = discord.Game("generated " + "{:,}".format(nameCount) + " names!")
-    modChannel = kelutralBot.get_channel(config.modLog)
     
     await kelutralBot.change_presence(status=discord.Status.online, activity=game)
-    await modChannel.send("Launching KelutralBot version {}".format(config.version))
     
     fileName = 'files/config/startup.txt'
     
@@ -328,36 +327,41 @@ async def on_command(ctx):
 
 ##                                                                                          Debug Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Updates the bot and relaunches
-@kelutralBot.command(name='update')
-async def updateBot(ctx, commit):
-    if ctx.message.author.top_role.id == config.adminID:
-        REPO = r'C:\Users\Seth\kelutral-bot\.git'
-        g = git.cmd.Git(r'C:\Users\Seth\kelutral-bot')
-        COMMIT_MESSAGE = commit
-        
-        repo = git.Repo(REPO)
-        repo.git.add(update=True)
-        repo.index.commit(COMMIT_MESSAGE)
-        
-        origin = repo.remote(name='kelutral-bot')
-        msg = origin.push()
-        await ctx.send("Updating the bot...")
-        
-        msg = g.pull()
-        await ctx.send("Pulling from the repo...")
-        
-        await kelutralBot.close()
-        
-        os.system('python bot.py')
-        quit()
+## Utility Command
+@kelutralBot.command(name='test')
+async def test(ctx, *date):
+    with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
+        server_info = json.load(fh)
 
-## Fixes a directory entry
-@kelutralBot.command(name='fix')
-async def fixDirectory(ctx, user: discord.Member, attribute, newVal):
-    if ctx.message.author.top_role.id in modRoles:
-        admin.writeDirectory(user, attribute, newVal)
-        await ctx.send("Updated!")
+    joins = 0
+    leaves = 0
+    rds = 0
+       
+    if date:
+        date = ''.join(date)
+        date = date.replace("*", ".")
+        for entry in server_info:
+            x = re.search(date, entry)
+            if x:
+                joins += server_info[entry]['joins']
+                leaves += server_info[entry]['leaves']
+                rds += server_info[entry]['rds']
+    else:
+        date = datetime.now().strftime("%m-%d-%Y")
+        joins = server_info[date]['joins']
+        leaves = server_info[date]['leaves']
+        rds = server_info[date]['rds']
+    
+    with open('files/config/server_info.json', 'w', encoding='utf-8') as fh:
+        json.dump(server_info, fh)
+    await ctx.send("Found {} joins, {} leaves, and {} rds for that date range.".format(joins, leaves, rds))
+
+## Update Rules
+@kelutralBot.command(name='donotuse')
+async def updateRules(ctx):
+    user = ctx.message.author
+    if user.top_role.id == config.adminID:
+        await admin.adminMsgs(ctx, kelutralBot)
 
 ## Debug toggle
 @kelutralBot.command(name='debug')
@@ -374,14 +378,12 @@ async def debugToggle(ctx):
     else:
         await ctx.send(embed=config.denied)
 
-## Reload command
-@kelutralBot.command(name='reload')
-async def reload(ctx):
-    if ctx.message.author.top_role.id == config.adminID:
-        await ctx.send("Reloading the bot...")
-        await kelutralBot.close()
-        os.system('python bot.py')
-        quit()
+## Fixes a directory entry
+@kelutralBot.command(name='fix')
+async def fixDirectory(ctx, user: discord.Member, attribute, newVal):
+    if ctx.message.author.top_role.id in modRoles:
+        admin.writeDirectory(user, attribute, newVal)
+        await ctx.send("Updated!")
 
 ## Kill Command
 @kelutralBot.command(name='quit', aliases=['ftang'])
@@ -395,6 +397,86 @@ async def botquit(ctx):
         quit()
     else:
         await ctx.send(embed=config.denied)
+
+## Reload command
+@kelutralBot.command(name='reload')
+async def reloadBot(ctx):
+    if ctx.message.author.top_role.id == config.adminID:
+        await ctx.send("Reloading the bot...")
+        reload(config)
+        await ctx.send("Launching KelutralBot version {}".format(config.version))
+        await kelutralBot.close()
+        os.execv(sys.executable, ['python3'] + sys.argv)
+
+## Member Join Stats   
+@kelutralBot.command(name='showdata', aliases=['sd'])
+async def showData(ctx, *date):
+    user = ctx.message.author
+    t1 = time.time()
+    if user.top_role.id == config.adminID:
+        if date:
+            date = ''.join(date)
+            joins1, leaves1, rds1 = admin.getStats(date)
+        else:
+            date = datetime.now().strftime('%m-%d-%Y')
+            joins1, leaves1, rds1 = admin.getStats(date)
+        
+        embed=discord.Embed(title="Requested report for " + date, color=config.reportColor)
+        embed.add_field(name="Joins", value=joins1, inline=True)
+        embed.add_field(name="Leaves", value=leaves1, inline=True)
+        embed.add_field(name="Revolving Doors", value=rds1, inline=True)
+        if joins1 > 0:
+            turnover = round(((leaves1 - rds1) / joins1) * 100, 2)
+        else:
+            turnover = 0
+        embed.add_field(name="Turnover Rate", value=str(turnover) + "%", inline=True)
+        if leaves1 > 0:
+            retention = round((rds1 / leaves1) * 100, 2)
+        else:
+            retention = 0
+        embed.add_field(name="RD %", value=str(retention) + "%", inline=True)
+        
+        t2 = time.time()
+        tDelta = round(t2 - t1, 3)
+        
+        if config.debug == True:
+            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.  |  Executed in " + str(tDelta) + " seconds.")
+        else:
+            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
+        embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
+        
+        await ctx.send(embed=embed)
+        
+    else:
+        await ctx.send(embed=config.denied)
+
+## Updates the bot and relaunches
+@kelutralBot.   command(name='update')
+async def updateBot(ctx, version, commit):
+    if ctx.message.author.top_role.id == config.adminID:
+        config.version = version
+        
+        REPO = r'C:\Users\Seth\kelutral-bot\.git'
+        g = git.cmd.Git(REPO)
+        COMMIT_MESSAGE = commit
+        
+        repo = git.Repo(REPO)
+        repo.git.add(update=True)
+        repo.index.commit(COMMIT_MESSAGE)
+        
+        origin = repo.remote(name='kelutral-bot')
+        msg = origin.push()
+        await ctx.send("Updating the bot...")
+        
+        msg = g.pull()
+        await ctx.send("Pulling from the repo...")
+        
+        reload(config)
+        await ctx.send("Launching KelutralBot version {}".format(config.version))
+        
+        await kelutralBot.close()
+        
+        os.execv(sys.executable, ['python3'] + sys.argv)
 
 ##                                                                                          Bot Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -948,13 +1030,6 @@ async def ban(ctx, user: discord.Member):
         embed=discord.Embed(description=str(user.mention) + "** was banned**", colour=config.failColor)
         await ctx.send(embed=embed)
 
-## Update Rules
-@kelutralBot.command(name='donotuse')
-async def updateRules(ctx):
-    user = ctx.message.author
-    if user.top_role.id == config.adminID:
-        await admin.adminMsgs(ctx, kelutralBot)
-
 ## FAQ Command
 @kelutralBot.command(name="faq",aliases=['sìpawm'])
 async def faq(ctx, *topic):
@@ -1041,48 +1116,6 @@ async def generate(ctx, numOut, numSyllables, *letterPrefs):
     
     now = datetime.strftime(datetime.now(),'%H:%M')
     print(now + " -- " + ctx.author.name + " generated " + str(n) + " names.")
-
-## Member Join Stats   
-@kelutralBot.command(name='showdata', aliases=['sd'])
-async def showData(ctx, *date):
-    user = ctx.message.author
-    t1 = time.time()
-    if user.top_role.id == config.adminID:
-        if date:
-            date = ''.join(date)
-            joins1, leaves1, rds1 = admin.getStats(date)
-        else:
-            date = datetime.now().strftime('%m-%d-%Y')
-            joins1, leaves1, rds1 = admin.getStats(date)
-        
-        embed=discord.Embed(title="Requested report for " + date, color=config.reportColor)
-        embed.add_field(name="Joins", value=joins1, inline=True)
-        embed.add_field(name="Leaves", value=leaves1, inline=True)
-        embed.add_field(name="Revolving Doors", value=rds1, inline=True)
-        if joins1 > 0:
-            turnover = round(((leaves1 - rds1) / joins1) * 100, 2)
-        else:
-            turnover = 0
-        embed.add_field(name="Turnover Rate", value=str(turnover) + "%", inline=True)
-        if leaves1 > 0:
-            retention = round((rds1 / leaves1) * 100, 2)
-        else:
-            retention = 0
-        embed.add_field(name="RD %", value=str(retention) + "%", inline=True)
-        
-        t2 = time.time()
-        tDelta = round(t2 - t1, 3)
-        
-        if config.debug == True:
-            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.  |  Executed in " + str(tDelta) + " seconds.")
-        else:
-            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
-        embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
-        
-        await ctx.send(embed=embed)
-        
-    else:
-        await ctx.send(embed=config.denied)
 
 ## Display Server Leaderboard
 @kelutralBot.command(name='leaderboard')
