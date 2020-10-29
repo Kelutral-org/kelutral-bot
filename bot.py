@@ -341,10 +341,10 @@ async def updateBot(ctx, commit):
         
         origin = repo.remote(name='kelutral-bot')
         msg = origin.push()
-        print(msg)
+        
         await ctx.send("Updating the bot...")
         msg = origin.pull()
-        print(msg)
+
         await ctx.send("Pulling from the repo...")
         await kelutralBot.close()
         
