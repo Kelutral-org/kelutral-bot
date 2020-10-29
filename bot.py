@@ -333,6 +333,7 @@ async def on_command(ctx):
 async def updateBot(ctx, commit):
     if ctx.message.author.top_role.id == config.adminID:
         REPO = r'C:\Users\Seth\kelutral-bot\.git'
+        g = git.cmd.Git(r'C:\Users\Seth\kelutral-bot')
         COMMIT_MESSAGE = commit
         
         repo = git.Repo(REPO)
@@ -343,7 +344,7 @@ async def updateBot(ctx, commit):
         msg = origin.push()
         await ctx.send("Updating the bot...")
         
-        msg = origin.pull()
+        msg = g.pull()
         await ctx.send("Pulling from the repo...")
         
         await kelutralBot.close()
