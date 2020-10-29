@@ -457,7 +457,7 @@ async def updateBot(ctx, version, commit):
         config.version = version
         
         REPO = r'C:\Users\Seth\kelutral-bot\.git'
-        g = git.cmd.Git(REPO)
+        g = git.cmd.Git(r'C:\Users\Seth\kelutral-bot')
         COMMIT_MESSAGE = commit
         
         repo = git.Repo(REPO)
