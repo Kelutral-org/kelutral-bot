@@ -328,33 +328,8 @@ async def on_command(ctx):
 ##                                                                                          Debug Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Utility Command
-@kelutralBot.command(name='test')
-async def test(ctx, *date):
-    with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
-        server_info = json.load(fh)
-
-    joins = 0
-    leaves = 0
-    rds = 0
-       
-    if date:
-        date = ''.join(date)
-        date = date.replace("*", ".")
-        for entry in server_info:
-            x = re.search(date, entry)
-            if x:
-                joins += server_info[entry]['joins']
-                leaves += server_info[entry]['leaves']
-                rds += server_info[entry]['rds']
-    else:
-        date = datetime.now().strftime("%m-%d-%Y")
-        joins = server_info[date]['joins']
-        leaves = server_info[date]['leaves']
-        rds = server_info[date]['rds']
-    
-    with open('files/config/server_info.json', 'w', encoding='utf-8') as fh:
-        json.dump(server_info, fh)
-    await ctx.send("Found {} joins, {} leaves, and {} rds for that date range.".format(joins, leaves, rds))
+# @kelutralBot.command(name='test')
+# async def test(ctx, *date):
 
 ## Update Rules
 @kelutralBot.command(name='donotuse')
@@ -412,41 +387,59 @@ async def reloadBot(ctx):
 @kelutralBot.command(name='showdata', aliases=['sd'])
 async def showData(ctx, *date):
     user = ctx.message.author
+    joins = 0
+    leaves = 0
+    rds = 0
     t1 = time.time()
+    
+    with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
+        server_info = json.load(fh)
+        
     if user.top_role.id == config.adminID:
         if date:
             date = ''.join(date)
-            joins1, leaves1, rds1 = admin.getStats(date)
+            date = date.replace("*", ".")
+            split_date = date.split('-')
+            for entry in server_info:
+                x = re.search(date, entry)
+                if x:
+                    joins += server_info[entry]['joins']
+                    leaves += server_info[entry]['leaves']
+                    rds += server_info[entry]['rds']
         else:
-            date = datetime.now().strftime('%m-%d-%Y')
-            joins1, leaves1, rds1 = admin.getStats(date)
+            date = datetime.now().strftime("%m-%d-%Y")
+            split_date = date.split('-')
+            joins = server_info[date]['joins']
+            leaves = server_info[date]['leaves']
+            rds = server_info[date]['rds']
         
-        embed=discord.Embed(title="Requested report for " + date, color=config.reportColor)
-        embed.add_field(name="Joins", value=joins1, inline=True)
-        embed.add_field(name="Leaves", value=leaves1, inline=True)
-        embed.add_field(name="Revolving Doors", value=rds1, inline=True)
-        if joins1 > 0:
-            turnover = round(((leaves1 - rds1) / joins1) * 100, 2)
-        else:
-            turnover = 0
-        embed.add_field(name="Turnover Rate", value=str(turnover) + "%", inline=True)
-        if leaves1 > 0:
-            retention = round((rds1 / leaves1) * 100, 2)
-        else:
-            retention = 0
-        embed.add_field(name="RD %", value=str(retention) + "%", inline=True)
+        # Finalizing date output for embed
+        output_month = ''
+        output_day = ''
+        output_year = ''
+        
+        if "." not in split_date[0] and int(split_date[0]) < 12:
+            output_month = months[int(split_date[0]) - 1]
+        if "." not in split_date[1] and int(split_date[1]) < 31:
+            output_day = ' ' + split_date[1] + ','
+        if "." not in split_date[2] and int(split_date[2]) > 0:
+            output_year = int(split_date[2])
+        
+        embed=discord.Embed(title="Requested report for {}{} {}".format(output_month, output_day, output_year), color=config.reportColor)
+        embed.add_field(name="Joins:", value=joins, inline=True)
+        embed.add_field(name="Leaves:", value=leaves, inline=True)
+        embed.add_field(name="Revolving Doors:", value=rds, inline=True)
+        embed.add_field(name="Total Members:", value=len([m for m in ctx.guild.members if not m.bot]), inline=True)
         
         t2 = time.time()
         tDelta = round(t2 - t1, 3)
         
         if config.debug == True:
-            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.  |  Executed in " + str(tDelta) + " seconds.")
+            embed.set_footer(text="Use !sd mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.  |  Executed in " + str(tDelta) + " seconds.")
         else:
-            embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
-        embed.set_footer(text="Use !find mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
+            embed.set_footer(text="Use !sd mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
         
         await ctx.send(embed=embed)
-        
     else:
         await ctx.send(embed=config.denied)
 
@@ -1018,6 +1011,25 @@ async def about(ctx):
     else:
         embed.set_footer(text="Use !help to learn more about the available commands.")
         
+    await ctx.send(embed=embed)
+
+## Server information
+@kelutralBot.command(name='serverinfo')
+async def serverInfo(ctx):
+    guild = ctx.guild
+    
+    embed = discord.Embed(color=config.reportColor)
+    embed.set_author(name=guild.name, icon_url=guild.icon_url)
+    embed.add_field(name="Owner", value=guild.owner, inline=True)
+    embed.add_field(name="Region", value=guild.region, inline=True)
+    embed.add_field(name="Channel Categories", value=len(guild.categories), inline=True)
+    embed.add_field(name="Text Channels", value=len(guild.text_channels), inline=True)
+    embed.add_field(name="Voice Channels", value=len(guild.voice_channels), inline=True)
+    embed.add_field(name="Members", value=len([m for m in guild.members if not m.bot]), inline=True)
+    embed.add_field(name="Bots", value=len([m for m in guild.members if m.bot]), inline=True)
+    embed.add_field(name="Roles", value=len(guild.roles), inline=True)
+    embed.set_footer(text="ID: {} | Server Created: {}".format(guild.id, guild.created_at.strftime("%m/%d/%Y")))
+    
     await ctx.send(embed=embed)
 
 ## Ban Command
