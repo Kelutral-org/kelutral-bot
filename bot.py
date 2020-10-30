@@ -10,6 +10,7 @@ import time
 import os
 import json
 from datetime import datetime
+from datetime import timedelta
 
 import config
 import admin
@@ -53,6 +54,18 @@ naviVocab = [
     # 0 1 2 3 4 powers of 8 last digit
     ["", "l", "", "", ""],
 ]
+
+## -- Function for finding the next available date relative to the current date.
+def nextAvailableDate():
+    tomorrow = datetime.today() + timedelta(days=1)
+    nextDay = tomorrow.strftime("%d-%m-%Y")
+    fileName = 'files/qotd/' + str(nextDay) + '.tsk'
+    
+    while os.path.exists(fileName): # Iterates through the directory to find the first file that doesn't exist. That file is the next available date.
+        tomorrow = tomorrow + timedelta(days=1)
+        nextDay = tomorrow.strftime("%d-%m-%Y")
+        fileName = 'files/qotd/' + str(nextDay) + '.tsk'
+    return nextDay
 
 ## -- System time check for QOTD and RSS Update.
 async def time_check():
