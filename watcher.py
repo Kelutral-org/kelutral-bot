@@ -61,19 +61,22 @@ async def onJoin(member, kelutralBot):
 
     print(now + " -- Gave {} the role {}.".format(member.name, frapoRole.name))
     
-    # This will add the join to the count of joins for that day
-    today = datetime.now().strftime('%m-%d-%Y')
-    fileName = 'files/logs/join_data/' + today + '.tsk'
-    if not os.path.exists(fileName):
-        with open(fileName, 'w', encoding='utf-8') as fh:
-            fh.write('1')
-    else:
-        with open(fileName, 'r', encoding='utf-8') as fh:
-            total = fh.read()
-        
-        total = int(total) + 1
-        with open(fileName, 'w', encoding='utf-8') as fh:
-            fh.write(str(total))
+    with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
+        server_info = json.load(fh)
+    
+    date = datetime.now().strftime("%m-%d-%Y")
+    try:
+        today_dict = server_info[date]
+        today_dict['joins'] += 1
+    except KeyError:
+        server_info[date] = {
+            "joins" : 1,
+            "leaves" : 0,
+            "rds" : 0
+            }
+    
+    with open('files/config/server_info.json', 'w', encoding='utf-8') as fh:
+        json.dump(server_info, fh)
     
     try:
         emojis = ['\U00002642','\U00002640','\U0001F3F3\U0000fe0f\U0000200d\U0001f308','\U0000267E']
@@ -137,29 +140,36 @@ async def onLeave(member, kelutralBot):
     checkJoin = member.joined_at.strftime('%m-%d-%Y')
     
     now = datetime.strftime(datetime.now(),'%H:%M')
-    print(now + " -- " + member.name + " left the server.")    
-    if checkJoin == today:
-        fileName = 'files/logs/rds/' + today + '.tsk'
-        if not os.path.exists(fileName):
-            with open(fileName, 'w', encoding='utf-8') as fh:
-                fh.write('1')
-        else:
-            with open(fileName, 'r', encoding='utf-8') as fh:
-                total = fh.read()
-            total = int(total) + 1
-            with open(fileName, 'w', encoding='utf-8') as fh:
-                fh.write(str(total))
+    print(now + " -- " + member.name + " left the server.")   
+
     
-    fileName = 'files/logs/leave_data/' + today + '.tsk'
-    if not os.path.exists(fileName):
-        with open(fileName, 'w', encoding='utf-8') as fh:
-            fh.write('1')
+    with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
+        server_info = json.load(fh)
+    
+    if checkJoin == today:
+        try:
+            today_dict = server_info[checkJoin]
+            today_dict['leaves'] += 1
+            today_dict['rds'] += 1
+        except KeyError:
+            server_info[date] = {
+                "joins" : 0,
+                "leaves" : 1,
+                "rds" : 1
+                }
     else:
-        with open(fileName, 'r', encoding='utf-8') as fh:
-            total = fh.read()
-        total = int(total) + 1        
-        with open(fileName, 'w', encoding='utf-8') as fh:
-            fh.write(str(total))
+        try:
+            today_dict = server_info[checkJoin]
+            today_dict['leaves'] += 1
+        except KeyError:
+            server_info[date] = {
+                "joins" : 0,
+                "leaves" : 1,
+                "rds" : 0
+                }
+    
+    with open('files/config/server_info.json', 'w', encoding='utf-8') as fh:
+        json.dump(server_info, fh)
 
 ## -- On Message Delete
 async def onDelete(message, kelutralBot):
