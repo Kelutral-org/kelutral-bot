@@ -106,29 +106,29 @@
 			},
 			"help" : "**Help Error: ** \n",
 			"help_errors" : {
-				"unknown_command" : "Unknown command specified. Please check your spelling and try again, or use `!help` to see a list of all commands."
+				"unknown_command" : "Kawnomuma tìnvit solar. \n Rutxe ftxey tìnvit awnomum ulte fmi nìmun, fu sar `!srung` fte tsive'a frasìnvit."
 			},
 			"permission" : "**Permission Error:** \n",
 			"permission_errors" : {
-				"missing_perms" : "You do not have permission to run this command!",
-				"dm_only" : "This command is usable in DMs only."
+				"missing_perms" : "Tsatìnvìri ke tsun tivìng Eytukanur!",
+				"dm_only" : "Tsatìnvìri tsun tìving mì snomo nì'aw."
 			},
 			"profile" : "**Profile Error** \n",
 			"profile_errors" : {
-				"invalid_language" : "Invalid criteria entered. \n Please select `English` or `Na'vi` to update your current settings.",
-				"missing_perms" : "You can only change your own output settings."
+				"invalid_language" : "Keyawra tìftxeyti solar. \n Rutxe ftxey lì'fyat alu `'Ìnglìsì` fu pum alu `Na'vi` fte livatem pumti ngeyä.",
+				"missing_perms" : "Nga tsun livatem ngeyä lì'fyati nì'aw."
 			},
 			"qotd" : "**QOTD Error:** \n",
 			"qotd_errors" : {
 				"date_taken" : "Fìtìpawm mi fkeytok! Haya trr a fkol tsun ngivop tìpawmit lu {}.",
 				"no_file" : "Kea tìpawm mi fkeytok mì tsatrr!",
-				"invalid_function" : "Invalid function entered. The valid functions are:\n**- add\n- edit\n- delete\n- view\n- schedule**"
+				"invalid_function" : "Keyawra tìftxeyti solar. Tìftxey aeyawr lu:\n**- add\n- edit\n- delete\n- view\n- schedule**"
 			},
 			"syntax" : "**Syntax Error:** \n",
 			"syntax_errors" : {
-				"less_arguments" : "Too many arguments used.",
-				"more_arguments" : "{} is a required argument that is missing.",
-				"general" : "If you need help with a command, please use `!help <command name>`."
+				"less_arguments" : "Sìftxeyti solar nìhawng!",
+				"more_arguments" : "{} lu kawnina tìftxey a lu lekin.",
+				"general" : "Txo kivin futa tìnvìri Eytukan ngaru srung sivi, rutxe sar tìnvìt alu `!srung <tìnviä tstxo>`."
 			}
 		}
 	}
