@@ -9,6 +9,7 @@ import random
 import time
 import os
 import json
+import re
 from datetime import datetime
 from datetime import timedelta
 
@@ -432,6 +433,97 @@ async def lepCommand(ctx, *args):
         message = ctx.message
         await ctx.send(embed=config.dm_only)
         await message.delete()
+        
+## Search Command
+@kelutralBot.command(name="search")
+async def search(ctx, *words):
+    user = ctx.message.author
+    word_list = list(words)
+    
+    with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
+        dictionary = json.load(fh)
+    
+    results = ''
+    alphabet = ['a','b','c','d','e']
+    for i, word in enumerate(word_list):
+        found = False
+        for key, value in dictionary.items():
+            if key == word.lower():
+                found = True
+                if len(value) > 1:
+                    results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
+                    for j, sub in enumerate(value):
+                        results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
+                else:
+                    results += "`{}.` **{}** *{}* {}\n".format(i+1, word, value[0]['partOfSpeech'], value[0]['translation'])
+            
+            if key != word.lower():
+                for k, sub in enumerate(value):
+                    x = re.search(r"\b"+word+"$", sub['translation'])
+                    y = re.search(r"\b"+word+"[,]", sub['translation'])
+                    if x != None or y != None:
+                        found = True
+                        results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
+        if not found:
+            results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
+            
+        results += "\n"
+
+    embed = discord.Embed(title="Search Results:", description=results, color=config.reportColor)
+    await ctx.send(embed=embed)
+    
+@kelutralBot.command(name="type")
+async def typeWord(ctx, word):
+    with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
+        dictionary = json.load(fh)
+    
+    agent = re.search(r"l\Z|ìl\Z", word)
+    patient = re.search(r"t\Z|ti\Z|it\Z", word)
+    dative = re.search(r"r\Z|ur\Z|ru\Z", word)
+    genitive = re.search(r"ä\Z|yä\Z", word)
+    topic = re.search(r"ri\Z|ìri\Z", word)
+    
+    # ADD PART OF SPEECH CHECKING NEXT
+    if agent != None:
+        core_word = re.sub(r"l\Z|ìl\Z", '', word)
+        try:
+            dictionary[core_word]
+            await ctx.send("{} is the agent.".format(core_word))
+        except:
+            await ctx.send("{} is not a Na'vi word.".format(core_word))
+    
+    if patient != None:
+        core_word = re.sub(r"t\Z|ti\Z|it\Z", '', word)
+        try:
+            dictionary[core_word]
+            await ctx.send("{} is the patient.".format(core_word))
+        except:
+            await ctx.send("{} is not a Na'vi word.".format(core_word))
+
+    if dative != None:
+        core_word = re.sub(r"r\Z|ur\Z|ru\Z", '', word)
+        try:
+            dictionary[core_word]
+            await ctx.send("{} is the dative.".format(core_word))
+        except:
+            await ctx.send("{} is not a Na'vi word.".format(core_word))
+
+    if genitive != None:
+        core_word = re.sub(r"ä\Z|yä\Z", '', word)
+        try:
+            dictionary[core_word]
+            await ctx.send("{} is the genitive.".format(core_word))
+        except:
+            await ctx.send("{} is not a Na'vi word.".format(core_word))
+
+    if topic != None:
+        core_word = re.sub(r"ri\Z|ìri\Z", '', word)
+        try:
+            dictionary[core_word]
+            await ctx.send("{} is the topic.".format(core_word))
+        except:
+            await ctx.send("{} is not a Na'vi word.".format(core_word))
+
 
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
