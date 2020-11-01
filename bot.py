@@ -438,34 +438,139 @@ async def lepCommand(ctx, *args):
 @kelutralBot.command(name="search")
 async def search(ctx, *words):
     user = ctx.message.author
-    word_list = list(words)
     
+    word_list = []
+    i = 0
+    for word in words:
+        check_word = re.search(r"si|s..i|s...i", word)
+        if check_word != None:
+            if len(word_list) == 0:
+                word_list.append(word)
+            else:
+                word_list[i-1] += " {}".format(word)
+                i -= 1
+        else:
+            word_list.append(word)
+        i += 1
+            
     with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
-        dictionary = json.load(fh)
+        dictionary = json.load(fh)    
+    
+    async def stripAffixes(word):
+        parsed_word = {}
+        mod = ""
+        output = ""
+        cases = {
+            "agentive" : ["l\Z","ìl\Z"],
+            "patientive" : ["t\Z","ti\Z","it\Z"],
+            "dative" : ["r\Z","ur\Z","ru\Z"],
+            "genitive" : ["ä\Z","yä\Z"],
+            "topical" : ["ri\Z","ìri\Z"]
+            }
+        
+        infixes = [{"general past" : 'am'},{"near past" : 'ìm'},{"general future" : 'ay'},{"near future" : 'ìy'},{"general future intent" : 'asy'},{"near future intent" : 'ìsy'},{"general past perfective" : 'alm'},{"near past perfective" : 'ìlm'},{"general future perfective" : 'aly'},{"near future perfective" : 'ìly'},{"general past progressive" : 'arm'},{"near past progressive" : 'ìrm'},{"general future progressive" : 'ary'},{"near future progressive" : 'ìry'},{"positive mood" : 'ei'},{"negative mood" : 'äng'},{"perfective" : 'ol'},{"progressive" : 'er'},{"progressive participle" : 'us'},{"passive participle" : 'awn'}]
+        
+        isverb = False
+        isnoun = False
+        isadj = False
+        try:
+            check = re.search(r"\s", word)
+            if check != None:
+                isverb = True
+            dictionary[word]
+            core_word = word
+            parsed_word[word] = {"stripped" : core_word, "notes" : ""}
+        except KeyError:
+            # Noun Checking
+            if not isverb:
+                for key, value in cases.items():
+                    for suffix in value:
+                        case = re.search(r""+suffix, word)
+                        if case != None:
+                            isnoun = True
+                            core_word = re.sub(r""+suffix, '', word)
+                            case_name = key
+                            parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(case_name)}
+                            break
+            # Verb Checking
+            if not isnoun:
+                isverb = False
+                if " s.i " in word:
+                    for infix in infixes:
+                        if not isverb:
+                            for key, value in infix.items():
+                                verb = re.search(r"s"+value+"i", word)
+                                if verb != None:
+                                    isverb = True
+                                    core_word = re.sub(r"s"+value+"i", 'si', word)
+                                    tense = key
+                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
+                                    break
+                else:
+                    for infix in infixes:
+                        if not isverb:
+                            for key, value in infix.items():
+                                verb = re.search(r""+value, word)
+                                if verb != None:
+                                    isverb = True
+                                    core_word = re.sub(r""+value, '', word)
+                                    tense = key
+                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
+                                    break
+            # Adjective Checking
+            if not isnoun and not isverb:
+                adj = re.search(r"\Aa|\Ale|a\Z", word)
+                if adj != None:
+                    isadj = True
+                    if word.endswith("a"):
+                        mod = "right"
+                    elif mod != "right":
+                        if word.startswith("a") or word.startswith("le"):
+                            mod = "left"
+                    core_word = re.sub(r"\Aa|a\Z", '', word)
+                    parsed_word[word] = {"stripped" : core_word, "notes" : ""}
+
+        return parsed_word
     
     results = ''
-    alphabet = ['a','b','c','d','e']
+    not_found = []
+    
     for i, word in enumerate(word_list):
+        print(word)
         found = False
-        for key, value in dictionary.items():
-            if key == word.lower():
-                found = True
-                if len(value) > 1:
-                    results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
-                    for j, sub in enumerate(value):
-                        results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
-                else:
-                    results += "`{}.` **{}** *{}* {}\n".format(i+1, word, value[0]['partOfSpeech'], value[0]['translation'])
-            
-            if key != word.lower():
+        try:
+            word_entry = dictionary[word.lower()]
+            found = True
+            if len(word_entry) > 1:
+                alphabet = ['a','b','c','d','e']
+                results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
+                for j, sub in enumerate(word_entry):
+                    results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
+            else:
+                results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
+        except KeyError:
+            for key, value in dictionary.items():
                 for k, sub in enumerate(value):
                     x = re.search(r"\b"+word+"$", sub['translation'])
                     y = re.search(r"\b"+word+"[,]", sub['translation'])
                     if x != None or y != None:
                         found = True
                         results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
+        
         if not found:
-            results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
+            parsed_word = await stripAffixes(word)
+            try:
+                word_entry = dictionary[parsed_word[word]["stripped"].lower()]
+                found = True
+                if len(word_entry) > 1:
+                    alphabet = ['a','b','c','d','e']
+                    results += "`{}.` **{}** has multiple definitions: \n".format(i+1, parsed_word[word]["stripped"])
+                    for j, sub in enumerate(word_entry):
+                        results += "`     {}.` **{}** *{}* {} {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'], parsed_word[word]["notes"])
+                else:
+                    results += "`{}.` **{}** *{}* {} {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], parsed_word[word]["notes"])
+            except KeyError: 
+                results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
             
         results += "\n"
 
@@ -473,57 +578,114 @@ async def search(ctx, *words):
     await ctx.send(embed=embed)
     
 @kelutralBot.command(name="type")
-async def typeWord(ctx, word):
+async def typeWord(ctx, *words):
+    list_words = []
+    for i, word in enumerate(words):
+        if word == 'si':
+            list_words[i-1] += " {}".format(word)
+        else:
+            list_words.append(word)
+    
+    output_list = []
+    mod = ""
+    output = ""
+    cases = {
+        "agentive" : ["l\Z","ìl\Z"],
+        "patientive" : ["t\Z","ti\Z","it\Z"],
+        "dative" : ["r\Z","ur\Z","ru\Z"],
+        "genitive" : ["ä\Z","yä\Z"],
+        "topical" : ["ri\Z","ìri\Z"]
+        }
+    
+    infixes = [{"general past" : 'am'},{"near past" : 'ìm'},{"general future" : 'ay'},{"near future" : 'ìy'},{"general future intent" : 'asy'},{"near future intent" : 'ìsy'},{"general past perfective" : 'alm'},{"near past perfective" : 'ìlm'},{"general future perfective" : 'aly'},{"near future perfective" : 'ìly'},{"general past progressive" : 'arm'},{"near past progressive" : 'ìrm'},{"general future progressive" : 'ary'},{"near future progressive" : 'ìry'},{"positive mood" : 'ei'},{"negative mood" : 'äng'},{"perfective" : 'ol'},{"progressive" : 'er'}]
+    
     with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
         dictionary = json.load(fh)
     
-    agent = re.search(r"l\Z|ìl\Z", word)
-    patient = re.search(r"t\Z|ti\Z|it\Z", word)
-    dative = re.search(r"r\Z|ur\Z|ru\Z", word)
-    genitive = re.search(r"ä\Z|yä\Z", word)
-    topic = re.search(r"ri\Z|ìri\Z", word)
-    
-    # ADD PART OF SPEECH CHECKING NEXT
-    if agent != None:
-        core_word = re.sub(r"l\Z|ìl\Z", '', word)
+    for word in list_words:
+        isverb = False
+        isnoun = False
+        isadj = False
         try:
-            dictionary[core_word]
-            await ctx.send("{} is the agent.".format(core_word))
-        except:
-            await ctx.send("{} is not a Na'vi word.".format(core_word))
-    
-    if patient != None:
-        core_word = re.sub(r"t\Z|ti\Z|it\Z", '', word)
-        try:
-            dictionary[core_word]
-            await ctx.send("{} is the patient.".format(core_word))
-        except:
-            await ctx.send("{} is not a Na'vi word.".format(core_word))
-
-    if dative != None:
-        core_word = re.sub(r"r\Z|ur\Z|ru\Z", '', word)
-        try:
-            dictionary[core_word]
-            await ctx.send("{} is the dative.".format(core_word))
-        except:
-            await ctx.send("{} is not a Na'vi word.".format(core_word))
-
-    if genitive != None:
-        core_word = re.sub(r"ä\Z|yä\Z", '', word)
-        try:
-            dictionary[core_word]
-            await ctx.send("{} is the genitive.".format(core_word))
-        except:
-            await ctx.send("{} is not a Na'vi word.".format(core_word))
-
-    if topic != None:
-        core_word = re.sub(r"ri\Z|ìri\Z", '', word)
-        try:
-            dictionary[core_word]
-            await ctx.send("{} is the topic.".format(core_word))
-        except:
-            await ctx.send("{} is not a Na'vi word.".format(core_word))
-
+            dictionary[word]
+            pos = dictionary[word][0]['partOfSpeech']
+            core_word = word
+            if pos == "adj.":
+                isadj = True
+                if word.endswith("a"):
+                    mod = "right"
+                elif mod != "right":
+                    if word.startswith("a") or word.startswith("le"):
+                        mod = "left"
+            await ctx.send("{} is an unmodified {}".format(word, pos))
+            
+        except KeyError:
+            # Noun Checking
+            for key, value in cases.items():
+                for suffix in value:
+                    case = re.search(r""+suffix, word)
+                    if case != None:
+                        isnoun = True
+                        core_word = re.sub(r""+suffix, '', word)
+                        case_name = key
+                        pos = dictionary[core_word][0]['partOfSpeech']
+                        break
+            # Verb Checking
+            if not isnoun:
+                if " s.i " in word:
+                    for infix in infixes:
+                        if not isverb:
+                            for key, value in infix.items():
+                                verb = re.search(r"s"+value+"i", word)
+                                if verb != None:
+                                    isverb = True
+                                    core_word = re.sub(r"s"+value+"i", 'si', word)
+                                    tense = key
+                                    pos = dictionary[core_word][0]['partOfSpeech']
+                                    break
+                else:
+                    for infix in infixes:
+                        if not isverb:
+                            for key, value in infix.items():
+                                verb = re.search(r""+value, word)
+                                if verb != None:
+                                    isverb = True
+                                    core_word = re.sub(r""+value, '', word)
+                                    tense = key
+                                    pos = dictionary[core_word][0]['partOfSpeech']
+                                    break
+            # Adjective Checking
+            if not isnoun and not isverb:
+                adj = re.search(r"\Aa|\Ale|a\Z", word)
+                if adj != None:
+                    isadj = True
+                    if word.endswith("a"):
+                        mod = "right"
+                    elif mod != "right":
+                        if word.startswith("a") or word.startswith("le"):
+                            mod = "left"
+                    core_word = re.sub(r"\Aa|a\Z", '', word)
+                    pos = dictionary[core_word][0]['partOfSpeech']
+                
+        if isnoun:
+            await ctx.send("{} is in the {} case.".format(core_word, case_name))
+        elif isverb:
+            if pos == 'vin.':
+                await ctx.send("{} is an intransitive verb in the {}.".format(core_word, tense))
+            elif pos == 'vtr.':
+                await ctx.send("{} is a transitive verb in the {}.".format(core_word, tense))
+            elif pos == 'vim.':
+                await ctx.send("{} is an intransitive modal verb in the {}.".format(core_word, tense))
+            elif pos == 'vtrm.':
+                await ctx.send("{} is a transitive modal verb in the {}.".format(core_word, tense))
+            elif pos == 'v.':
+                await ctx.send("{} is a verb in the {}.".format(core_word, tense))
+        elif isadj:
+            if mod == "left":
+                indexmod = -1
+            elif mod == "right":
+                indexmod = 1
+            await ctx.send("{} is an adjective modifying the noun on the {}.".format(core_word, mod))
 
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
