@@ -434,149 +434,6 @@ async def lepCommand(ctx, *args):
         await ctx.send(embed=config.dm_only)
         await message.delete()
         
-## Search Command
-@kelutralBot.command(name="search")
-async def search(ctx, *words):
-    user = ctx.message.author
-    
-    word_list = []
-    i = 0
-    for word in words:
-        check_word = re.search(r"si|s..i|s...i", word)
-        if check_word != None:
-            if len(word_list) == 0:
-                word_list.append(word)
-            else:
-                word_list[i-1] += " {}".format(word)
-                i -= 1
-        else:
-            word_list.append(word)
-        i += 1
-            
-    with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
-        dictionary = json.load(fh)    
-    
-    async def stripAffixes(word):
-        parsed_word = {}
-        mod = ""
-        output = ""
-        cases = {
-            "agentive" : ["l\Z","ìl\Z"],
-            "patientive" : ["t\Z","ti\Z","it\Z"],
-            "dative" : ["r\Z","ur\Z","ru\Z"],
-            "genitive" : ["ä\Z","yä\Z"],
-            "topical" : ["ri\Z","ìri\Z"]
-            }
-        
-        infixes = [{"general past" : 'am'},{"near past" : 'ìm'},{"general future" : 'ay'},{"near future" : 'ìy'},{"general future intent" : 'asy'},{"near future intent" : 'ìsy'},{"general past perfective" : 'alm'},{"near past perfective" : 'ìlm'},{"general future perfective" : 'aly'},{"near future perfective" : 'ìly'},{"general past progressive" : 'arm'},{"near past progressive" : 'ìrm'},{"general future progressive" : 'ary'},{"near future progressive" : 'ìry'},{"positive mood" : 'ei'},{"negative mood" : 'äng'},{"perfective" : 'ol'},{"progressive" : 'er'},{"progressive participle" : 'us'},{"passive participle" : 'awn'}]
-        
-        isverb = False
-        isnoun = False
-        isadj = False
-        try:
-            check = re.search(r"\s", word)
-            if check != None:
-                isverb = True
-            dictionary[word]
-            core_word = word
-            parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-        except KeyError:
-            # Noun Checking
-            if not isverb:
-                for key, value in cases.items():
-                    for suffix in value:
-                        case = re.search(r""+suffix, word)
-                        if case != None:
-                            isnoun = True
-                            core_word = re.sub(r""+suffix, '', word)
-                            case_name = key
-                            parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(case_name)}
-                            break
-            # Verb Checking
-            if not isnoun:
-                isverb = False
-                if " s.i " in word:
-                    for infix in infixes:
-                        if not isverb:
-                            for key, value in infix.items():
-                                verb = re.search(r"s"+value+"i", word)
-                                if verb != None:
-                                    isverb = True
-                                    core_word = re.sub(r"s"+value+"i", 'si', word)
-                                    tense = key
-                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
-                                    break
-                else:
-                    for infix in infixes:
-                        if not isverb:
-                            for key, value in infix.items():
-                                verb = re.search(r""+value, word)
-                                if verb != None:
-                                    isverb = True
-                                    core_word = re.sub(r""+value, '', word)
-                                    tense = key
-                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
-                                    break
-            # Adjective Checking
-            if not isnoun and not isverb:
-                adj = re.search(r"\Aa|\Ale|a\Z", word)
-                if adj != None:
-                    isadj = True
-                    if word.endswith("a"):
-                        mod = "right"
-                    elif mod != "right":
-                        if word.startswith("a") or word.startswith("le"):
-                            mod = "left"
-                    core_word = re.sub(r"\Aa|a\Z", '', word)
-                    parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-
-        return parsed_word
-    
-    results = ''
-    not_found = []
-    
-    for i, word in enumerate(word_list):
-        print(word)
-        found = False
-        try:
-            word_entry = dictionary[word.lower()]
-            found = True
-            if len(word_entry) > 1:
-                alphabet = ['a','b','c','d','e']
-                results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
-                for j, sub in enumerate(word_entry):
-                    results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
-            else:
-                results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
-        except KeyError:
-            for key, value in dictionary.items():
-                for k, sub in enumerate(value):
-                    x = re.search(r"\b"+word+"$", sub['translation'])
-                    y = re.search(r"\b"+word+"[,]", sub['translation'])
-                    if x != None or y != None:
-                        found = True
-                        results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
-        
-        if not found:
-            parsed_word = await stripAffixes(word)
-            try:
-                word_entry = dictionary[parsed_word[word]["stripped"].lower()]
-                found = True
-                if len(word_entry) > 1:
-                    alphabet = ['a','b','c','d','e']
-                    results += "`{}.` **{}** has multiple definitions: \n".format(i+1, parsed_word[word]["stripped"])
-                    for j, sub in enumerate(word_entry):
-                        results += "`     {}.` **{}** *{}* {} {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'], parsed_word[word]["notes"])
-                else:
-                    results += "`{}.` **{}** *{}* {} {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], parsed_word[word]["notes"])
-            except KeyError: 
-                results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
-            
-        results += "\n"
-
-    embed = discord.Embed(title="Search Results:", description=results, color=config.reportColor)
-    await ctx.send(embed=embed)
-    
 @kelutralBot.command(name="type")
 async def typeWord(ctx, *words):
     list_words = []
@@ -687,6 +544,100 @@ async def typeWord(ctx, *words):
                 indexmod = 1
             await ctx.send("{} is an adjective modifying the noun on the {}.".format(core_word, mod))
 
+
+## Horen Command
+@kelutralBot.command(name="horen")
+async def horen(ctx, query):
+    user = ctx.message.author
+    found_list = []
+    output = ""
+    
+    with open('files/horen.json', 'r', encoding='utf-8') as fh:
+        horen = json.load(fh)
+        
+    def getpath(nested_dict, value, list_obj, prepath=[]):
+        for k, v in nested_dict.items():
+            path = prepath + [k,]
+            if type(v) == str:
+                check = re.search(r""+value, v.lower())
+                if check != None:
+                    list_obj.append(path)
+            elif hasattr(v, 'items'): # v is a dict
+                p = getpath(v, value, list_obj, path) # recursive call
+                if p is not None:
+                    p + list_obj
+        
+        return list_obj
+        
+    def findEntry(path_list):
+        try:
+            section = horen[path_list[0]]
+        except KeyError:
+            return None
+        
+        for i in range(1,len(path_list)):
+            try:
+                section = section[path_list[i]]
+            except KeyError:
+                break
+
+        return section
+    
+    if re.search(r".\..\..", query) == None:
+        paths = getpath(horen, query, found_list)
+        for path in paths:
+            for i in range(1, len(path)):
+                section = findEntry(path)
+                if section != None:
+                    if path[-1] == "info" or path[-1] == "header" or path[-1] == "section" or path[-1] == "footer":
+                        rule_number = path[-2]
+                    else:
+                        rule_number = path[-1]
+                    output += "{}: {}\n".format(rule_number, section[0:60] + "[...]")
+                    embed = discord.Embed(title="Horen Query: {}".format(query), description=output, color=config.reportColor)
+                    break
+
+    else:
+        rule_levels = query.split(".")
+        for i, level in enumerate(rule_levels):
+            if i > 0:
+                level = rule_levels[i-1] + "." + rule_levels[i]
+                rule_levels[i] = level
+        section = findEntry(rule_levels)
+           
+        try:    
+            if "header" in section.keys():
+                embed = discord.Embed(title="Horen {}: {}".format(query, section["header"]), description = "{}".format(section["info"]), color=config.reportColor)
+            elif "info" in section.keys():
+                embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section["info"]), color=config.reportColor)
+            
+            if "footer" in section.keys():
+                embed.set_footer(text=section["footer"])
+                
+            if "table" in section.keys():
+                for key, value in section["table"].items():
+                    for sub in value:
+                        if type(sub) == dict:
+                            for row, coldumn in sub.items():
+                                embed.add_field(name=column, value=row, inline=True)
+                        else:
+                            if len(value) > 1:
+                                i = 1
+                                if i == len(value):
+                                    check_inline = False
+                                    i += 1
+                                else:
+                                    check_inline = True
+                                    i = 1
+                            else:
+                                check_inline = False
+                            
+                            embed.add_field(name="⠀", value=sub, inline=check_inline)
+        except AttributeError:
+            embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
+    
+    await ctx.send(embed=embed)
+            
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
 @help.error

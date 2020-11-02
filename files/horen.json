@@ -1,0 +1,323 @@
+{
+	"2" : {
+		"header" : "Letters and Sounds",
+		"info" : "",
+		"2.1" : {
+			"header" : "Sound System",
+			"info" : "The Na'vi Language has 20 consonants, 7 vowels, and two \"pseudovowels\".",
+			"2.1.1" : {
+				"header" : "Consonants",
+				"info" : "",
+				"table" : {
+					"ejectives" : [{"px" : "labial","tx" : "alveolar","kx" : "velar"}],
+					"voiceless stops" : [{"p" : "labial", "t" : "alveolar", "k" : "velar", "\"" : "glottal"}],
+					"affricate" : [{"ts" : "alveolar"}],
+					"voiceless fricatives" : [{"f" : "labial", "s" : "alveolar", "h" : "glottal"}],
+					"voiced fricatives" : [{"v" : "labial", "z" : "alveolar"}],
+					"nasals" : [{"m" : "labial", "n" : "alveolar", "ng" : "velar"}],
+					"liquids" : [{"r" : "alveolar", "l" : "alveolar"}],
+					"glides" : [{"w" : "labial", "y" : "palatal"}]
+				},
+				"2.1.1.1" : "The voiceless stops are unaspirated when not at the end of a word, and unreleased when they are. However, within a phrase a final stop coming before a vowel will in natural speech be released as the words flow together, **oel set omum**. Unreleased stops will be most noticeable at major pauses, as in **oel omum set**.",
+				"1.1.1.2" : "The **r** is an alveolar flap. The **l** is clear and front, as in \"leaf\", not dark as in English \"call\".",
+				"1.1.1.3" : "Because plain stops can be used as syllable codas, the more common ejective notation, **p'** is too ambiguous: **tsap'alute is not **\\*tsapxalute**."
+			},
+			"2.1.2" : {
+				"header" : "Vowels",
+				"info" : {
+					"vowels" : ["i","ì","e","ä","a","u","o"]
+				},
+				"2.1.2.1" : "The phoneme **u** is always [u] in open syllables, and may be either [u] or [u] in closed syllables.",
+				"2.1.2.2" : "The dipthongs are **aw**, **ay**, **ew** and **ey**. Only in diphthongs will **w** or **y** be seen at the end of a syllable (**new**) or before a final consonant (**hawng**)."
+			},
+			"2.1.3" : {
+				"header" : "Pseudovowels",
+				"info" : "The pseudovowel **rr** is a syllabic, trilled [r:], and **ll** is a syllabic [l:]."
+			},
+			"2.1.4" : {
+				"header" : "Syllable Structure",
+				"info" : "Na'vi has a strict but straightforward syllable structure.",
+				"table" : {
+					"rule 1" : ["• A syllable may start with a vowel."],
+					"rule 2" : ["• A syllable may end with a vowel."],
+					"rule 3" : ["• Any consonant may begin a syllable."],
+					"rule 4" : ["• A consonant cluster of **f s ts** + **p, t, k, px, tx, kx, m, n, ng, r, l, w, y** may start a syllable."],
+					"rule 5" : ["• **Px tx kx p t k 'm n l r ng** may occur in syllable-final position."],
+					"rule 6" : ["• **Ts f s h v z w y** may *not* occur in syllable-final position."],
+					"rule 7" : ["• There are no consonant clusters in syllable-final position."],
+					"rule 8" : ["• A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant; this plays a role in lenition (**2.2**) and the declension of nouns (**3.1.1.1**)."]
+				},
+				"2.1.4.1" : "Since a syllable may have no consonant onset or coda, it is not unusual to see several vowels next to each other in a word. In that case, each vowel is a syllable, **muiä** [mu.i.ae], **ioang** [i.o.ang]",
+				"2.1.4.2" : "In general, the sequence VCV will be syllabified V.CV rather than VC.V, so **tsenge** is [tse.nge] not \\*[tseng.e]. Onomatopoeia may override this, as in **kxangangang** [k'ang.ang.ang], where the echo effect is desired.",
+				"2.1.4.3" : "There are no long vowels in Na'vi, meaning identical vowels will not occur next to each other (but see **2.3.1**)",
+				"2.1.4.4" : "Double consonants do not occur within root words, but may occur at morpheme boundaries, for example in derivations, **tsukkäteng** < **tsuk** + **käteng**, or with enclitics **Mo'atta** < **Mo'at** + **ta** (**2.1.5.3**).",
+				"2.1.4.5" : "As usual in most Human languages, some interjections break the rules, such as **oìsss**, a sound for anger, or **saa**, a threat cry."
+			},
+			"2.1.5" : {
+				"header" : "Stress Accent",
+				"info" : "Every Na'vi word has at least one stress accent, which is not predictable. In a very few situations otherwise identical words may differ only by accent, such as **__tu__te** *person* vs. **tu__te__** *woman*.",
+				"2.1.5.1" : "For **tute**, *woman*, alone, an accent may be written in normal Na'vi to indicate the accent, **tuté**.",
+				"2.1.5.2" : "Some word creation processes may cause accent shifts (**5.1.2.3**, **5.1.8**).",
+				"2.1.5.3" : "All adpositions as well as a few conjunctions and particles may be enclitic. They give up their own stress accent and effectively become part of the word to which they are attached, and are written so.",
+				"2.1.5.4" : "Though a noun compound is written as a single word, the individual parts of that compound may retain their original accent, as in **tireafya'o** *spirit path*."
+			},
+			"2.1.6" : {
+				"header" : "Spoken Alphabet",
+				"info" : "Except for **tìftang**, the glottal stop, the names of the phonemes encode information about how the sound is used. They also have unusual capitalization when written out:",
+				"table" : {
+					"row 1" : ["tìftang", "Ì", "ReR"],
+					"row 2" : ["A", "KeK", "'Rr"],
+					"row 3" : ["AW", "KxeKx", "Sä"],
+					"row 4" : ["AY", "LeL", "TeT"],
+					"row 5" : ["Ä", "'Ll", "TxeTx"],
+					"row 6" : ["E", "MeM", "Tsä"],
+					"row 7" : ["EW", "NeN", "U"],
+					"row 8" : ["EY", "NgeNg", "Vä"],
+					"row 9" : ["Fä", "O", "Wä"],
+					"row 10" : ["Hä", "PeP", "Yä"],
+					"row 11" : ["I", "PxePx", "Zä"]
+				},
+				"2.1.6.1" : "Vowels and diphthongs are simply pronounced and spelled as themselves. The pseudovowels take a leading glottal stop, since they require a consonant onset (**2.1.4**).",
+				"2.1.6.2" : "The name for consonants which cannot end a syllable are formed by adding **ä**, as in **Tsä**. Those which can end a syllable use the vowel **e** and repeat the consonant at the end of the name, **PeP**."
+			}
+		},
+		"2.2" : {
+			"header" : "Lenition",
+			"info" : "Certain grammatical processes cause changes in the first consonant of a word. This change is called \"lenition.\" Only eight consonants undergo lenition.",
+			"table" : {
+				"row 1" : ["Consonant", "Lenition", "Example"],
+				"row 2" : ["**px, tx, kx**", "**p, t, k**", "**__tx__ep** but **mì __t__ep**"],
+				"row 3" : ["**p, t, k**", "**f, s, h**", "**__k__elku** but **ro __h__elku**"],
+				"row 4" : ["**ts**", "**s**", "**__ts__mukan** but **ay__s__mukan**"],
+				"row 5" : ["**'**", "disappears", "**'eylan** but **fpi eylan**"]
+			},
+			"2.2.1" : {
+				"header" : "Glottal Stop",
+				"info" : "The glottal stop is not lenited when it is followed by a pseudovowel (**mì 'Rrta** not \\***mì Rrta**)."
+			},
+			"2.2.2" : {
+				"header" : "Adpositions",
+				"info" : "A few adpositions cause lenition when they precede a word: **fpi, ìlä, mì, nuä, ro, sko, sre** (and derived **lisre** and **pxisre**)**, wä**. When suffixed they do not cause lenition in either the word they are attached to or the following word."
+			},
+			"2.2.3" : {
+				"header" : "Number Prefixes",
+				"info" : "Prefixes which cause lenition are indicated with a plus sign, rather than the usual dash, as in **ay+**, the leniting plural prefix."
+			},
+			"2.2.4" : {
+				"header" : "Question Prenoun",
+				"info" : "When used as a prefix, the question prenoun **pe+** causes lenition (**3.3.3**)."
+			},
+			"2.2.5" : {
+				"header" : "Numbers",
+				"info" : "Suffixed, dependent forms of the numbers are lenited (**4.1.3**)."
+			}
+		},
+		"2.3" : {
+			"header" : "Morphophonology",
+			"info" : "",
+			"2.3.1" : {
+				"header" : "Vowel Contraction",
+				"info" : "Since identical vowels may not occur next to each other, a few grammatical processes involve a doubled vowel reducing to just one.",
+				"2.3.1.1" : "The adjective morpheme **-a-** disappears when attached to an **a** at the start or end of an adjective, as in **apxa tute** not \\***apxaa tute**.",
+				"2.3.1.2" : "When the dual and trial prefixes leave a sequence of two **e**s, as in **me** + **'eveng** > \\***meeveng** (note lenition), the two vowels contract to just one, **meveng**.",
+				"2.3.1.3" : {
+					"info" : "When the prenoun prefixes end in the same vowel the vollowing word starts with, they reduce to just one, as in **tsatan** < **tsa-** + **atan**, **fìlva** < **fì-** + **ìlva** (**3.3.6**). 1",
+					"footer" : "1  The glottal stop is a consonant, so fì'ìheyu from fì- + 'ìheyu."
+				},
+				"2.3.1.4" : {
+					"info" : "Contraction does not occur for indefinite **-o** or enclitic adpositions. When two identical vowels occur next to each other, they are written witha  hyphen between them, **fya'o-o** *some-way*, **zekwä-äo** *under a finger*. 2",
+					"footer" : "2  Though Na'vi does not technically have long vowels, the effect of long vowels occurs in this situation. Take care to pronounce both ä in a word such as zekwä-äo."
+				}
+			},
+			"2.3.2" : {
+				"header" : "Pseudovowel Contraction",
+				"info" : "Due to the shape of the aspect infixes **<er>** and **<ol>**, it is possible for the pseudovowels to occur immediately after their consonantal counterpart, as in \\***p<ol>ll__txe__**. When this happens in an unstressed syllable, the pseudovowel disappears, **pol__txe__**. In a stressed syllable, the infix disappears, \\***__f__<er>__rr__fen** > **__frr__fen**. Pseudovowels in monsyllables behave as though unaccented, **vol** from \\***v<ol>ll**."
+			},
+			"2.3.3" : {
+				"header" : "Affect Infix Epenthesis",
+				"info" : "When the positive affect infix **<ei>** is followed by the vowel **i, ì,** or a pseudovowel, a **y** is inserted, **seiyi** < \\***s<ei>i**, **veykrreiyìn** < \\***veykrr<ei>ìn**; **v<ei>yll** < \\***v<ei>ll**."
+			},
+			"2.3.4" : {
+				"header" : "Nasal Assimilation",
+				"info" : "In many compounds as well as some idioms, final nasals assimilate to the position of the following word, as in **lumpe** as a variant of **pelun**. Such assimilation is not always written, which may make the etymology of a word clearer, as in **zenke** instead of \\***zengke**, from **zene ke**, or in the several idioms with the verb **tìng** *give*, **tìng mikyun** being pronounced **tìm mikyun**."
+			},
+			"2.3.5" : {
+				"header" : "Vowel Harmony",
+				"info" : "Na'vi has two instances of optional regressive vowel harmony in verb infixes.",
+				"2.3.5.1" : "The subjunctive future infix, **<iyev>**, most frequently appears as **<ìyev>**, with backing of the first vowel.",
+				"2.3.5.2" : "The vowel of the negative attitude infix, **<äng>**, may be raised if it is immediately followed by the vowel **i**, becoming **<eng>**, as in **tsap'alute __sengi__ oe**."
+			},
+			"2.3.6": {
+				"header" : "Elision",
+				"info" : "In rapid speech final **-e** is frequently elided when the following word starts with a vowel. **Kìyevam~~e~~ ult~~e~~ Eywa ngahu**. This is not indicated in writing.",
+				"2.3.6.1" : "The vowel **ì** in **mì, sì** and the adverb prefix **nì-** drops before the plural prefix **ay+**, though there is no change in writing. So, **nìayfo** *like them* is pronounced as **nayfo**.",
+				"2.3.6.2" : "The vowel in **nì-** will usually elide before a stressed **e**, as in **nì-** + **etrìp** > **netrìp**. If the **e** is unstressed, it will usually, though not always, elide, **nì-** + **eyawr** > **nìyawr**. One exception: **nìean** instead of \\***nìan**."
+			}
+		},
+		"2.4" : {
+			"header" : "Orthographic Conventions",
+			"info" : "Na'vi in general follows the spelling, punctuation and capitalization habits of English, but there are a few differences.",
+			"2.4.1" : {
+				"header" : "Proper Names",
+				"info" : "When taking lexical prefixes (**5.1**), proper names retain their original capitalization, as in **lì'fya le__Na'vi__**."
+			},
+			"2.4.2" : {
+				"header" : "Quotation",
+				"info" : "Direct quotes are not punctuated with quotation marks in Na'vi. Instead it relies on the quotation particles **san...sìk** (**6.21**)."
+			},
+			"2.4.3" : {
+				"header" : "Etymological Spelling",
+				"info" : "In addition to the occasional spelling of nasals to reflect etymology (**2.3.4**), there are a few grammatical processes which result in spelling that reflects the grammar more than the pronunciation.",
+				"2.4.3.1" : "The first person pronoun root **oe**, though pronounced **we** when taking a suffix, retains the original spelling (**3.2.2.1**).",
+				"2.4.3.2" : "Before words starting with **y** the plural prefix **ay+** is unchanged, **ayyerik**."
+			},
+			"2.4.4" : {
+				"header" : "Attributive Phrase Hyphenation",
+				"info" : "Certain short attributive phrases are written with hyphens joining the elements.",
+				"2.4.4.1" : "Attributive phrases of color using **na** *like* are hyphenated, **fìsyulang aean-na-ta'leng** *this skin-blue flower* (**6.18.3.1).",
+				"2.4.4.2" : "Participles of **si** construction verbs are also hyphenated, **srung-susia tute** *a helping person* (**6.9.1.2**)."
+			}
+		}
+	},
+	"3" : {
+		"header" : "Morphology",
+		"info" : "",
+		"3.1" : {
+			"header" : "The Noun",
+			"info" : "",
+			"3.1.1" : {
+				"header" : "Cases",
+				"info" : "The Na'vi case endings change depending on whether the word ends in a consonant, a vowel or a diphthong. 1",
+				"footer" : "1  The case names Frommer uses reflect the terminology used by Bernard Comrie in his writings on ergative languages. In most linguistic writing Frommer's \"subjective\" is called the intransitive, the \"agentive\" is the ergative, and the \"patientive\" the accusative.",
+				"table" : {
+					"row 1" : ["⠀", "Vowel", "Consonant & Pseudovowel", "Diphthong"],
+					"row 2" : ["Subjective","—","—","—"],
+					"row 3" : ["Agentive","-l","-ìl","-ìl"],
+					"row 4" : ["Patientive","-t, -ti","-it, -ti","-ti, -t"],
+					"row 5" : ["Dative","-r, -ru","-ur","-ru, -r"],
+					"row 6" : ["Genitive","-yä, -o-ä, -u-ä","-ä","-ä"],
+					"row 7" : ["Topical","-ri","-ìri","-ri"]
+				},
+				"3.1.1.1" : "Note that words ending in the pseudovowels **ll** and **rr** take the consonant endings: **trr-ä**, **'ewll-it**.",
+				"3.1.1.2" : "After the vowels **o** and **u** the genitive is just **-ä**, but after all other vowels it is **-yä**. So, **tsulfätuä** from **tsulfätu**, but **Na'viyä** from **Na'vi** and **lì'fyayä** from **lì'fya**.",
+				"3.1.1.3" : "Nouns ending in **-ia** have the genitive in **-iä**, as in **soaiä** from **soaia**.",
+				"3.1.1.4" : "In addition to several pronouns (**3.2.2.5**), there are a few nouns with irregular genitives: **Omatikayaä** (from **Omatikaya**).",
+				"3.1.1.5" : "Due to the similarity in sound between **y** and **i**, the patientive ending **-it** is simplified when suffixed to a diphthong ending in **y**, as in **keyeyt** *errors* instead of \\***keyeyit**. And due to similarity in sound between **w** and **u**, the same simplification happens to the dative **-ur**, as in **'etnawr** *to/for a shoulder* instead of \\***'etnawur**.",
+				"3.1.1.6" : "The variation between the long and short endings in the patientive and dative appears to be largely a matter of style and euphony."	
+			},
+			"3.1.2" : {
+				"header" : "Indefinite -o",
+				"info" : "A noun may take the indefinite suffix **-o** *one, some*. Case endings follow the **-o**."
+			},
+			"3.1.3" : {
+				"header" : "Number",
+				"info" : "Na'vi nouns and pronouns may be singular, dual, trial or plural (four or more). Number is indicated by prefixes, all of which cause lenition.",
+				"table" : {
+					"row 1" : ["Dual", "me+", "**mefo** (< **me+** + **po**)"],
+					"row 2" : ["Trial", "pxe+", "**pxehilvan** (< **pxe+** + **kilvan**)"],
+					"row 3" : ["Plural", "ay+", "**ayswizaw**"]
+				},
+				"3.1.3.1" : {
+					"info" : "The plural prefix *only* may be dropped if there is lenition. The plural of **prrnen** is either **ayfrrnen** or the short plural **frrnen** (but see **6.5.2.2**). The dual and trial prefix are never dropped this way. 2",
+					"footer" : "2  Exception: 'u, thing, does not take the short plural, always occuring as ayu."
+				},
+				"3.1.3.2" : "In the dual and trial, if a word begins with **e** or **'e**, the resulting \\***ee** is simplified, so **me+** + **'eveng** is **meveng**. See also **2.3.1.2**."
+			}
+		},
+		"3.2" : {
+			"header" : "The Pronoun",
+			"info" : "",
+			"3.2.1" : {
+				"header" : "Animacy",
+				"info" : "Animals may be referred to with the animate pronoun **po**, but bugs are not. The more important the speaker's relationship to the animal, the more likely a form of **po** is used."
+			},
+			"3.2.2" : {
+				"header" : "The Basic Pronouns",
+				"info" : "The pronouns take the same case endings as nouns.",
+				"table" : {
+					"row 1" : ["Person","Singular","Dual","Trial","Plural"],
+					"row 2" : ["1st exclusive", "__o__e", "m__o__e", "px__o__e", "ay__o__e"],
+					"row 3" : ["1st inclusive", "—", "o__e__ng", "px__o__eng", "ayo__e__ng, aw__nga__"],
+					"row 4" : ["2nd", "nga", "me__nga__", "pxe__nga__", "ay__nga__"],
+					"row 5" : ["3rd Animate", "po", "me__fo__", "pxe__fo__", "ay__fo__, fo"],
+					"row 6" : ["3rd Inanimate", "__tsa__'u, tsaw", "me__sa__'u", "pxe__sa__'u", "ay__sa__'u, sa'u"],
+					"row 7" : ["Reflexive", "sno", "—", "—", "—"]
+				},
+				"3.2.2.1" : "In everyday speech, when the first person root **oe** does not occur at the end of the word, its pronunciation changes to **we** as in **oel** pronounced **wel**, **oeru** as **weru**. However, this pronunciation does not happen to the dual and trial forms **moe** and **pxoe**, which would result in illegal consonant clusters at the start of a word, such as \\***mwel**. This pronunciation is indicated with the accenting underline on the **e**.",
+				"3.2.2.2" : "The non-singular first person pronouns are either exclusive (excluding the person addressed) or inclusive (including the person addressed). The inclusive ending, **-ng**, is from **nga**, which reappears in full when a case ending is added. The agentive of **oeng** is **oengal**, not \\***oengìl**.",
+				"3.2.2.3" : "**Ayoeng** has the short form **aw__nga__**. Both may be used freely with any case ending, though **awnga** is more common.",
+				"3.2.2.4" : "The third person animate **po** does not disginguish gender — it will do for \"he\" or \"she\" in English. However, gendered forms do exist, **po__an__** *he* and **po__e__** *she*, which are declined regularly, though they do not have plural forms. See **6.3.1** for their use.",
+				"3.2.2.5" : {
+					"info" : "Several pronouns have irregular genitives with vowel changes. This vowel change occurs in all numbers, **feyä** < **fo**, and in the first person inclusives, **awngeyä** < **awnga**.",
+					"table" : {
+						"row 1" : ["Subjective", "Genitive"],
+						"row 2" : ["fko", "fkeyä"],
+						"row 3" : ["nga", "ngeyä"],
+						"row 4" : ["po", "peyä"],
+						"row 5" : ["sno", "sneyä"],
+						"row 6" : ["tsa'u", "tseyä"]
+					}
+				},
+				"3.2.2.6" : "In informal and clipped military speech the final ä may drop from the genitive of pronouns, **ngey 'upxaret**.",
+				"3.2.2.7" : "The third person inanimate, **tsa'u**, is simply the demonstrative pronoun *that*, and has the genitive in **tseyä**. In informal, rapid speech it may take the form **tsaw**, which may be used with postpositions, **tsawfa**, but may not take case marking (there is no \\***tsawl**). However, the stem **tsa-** may be used with the case endings, **tsal, tsar**, etc., again in rapid speech.",
+				"3.2.2.8" : "The reflexive pronoun **sno** is not altered for number.",
+				"3.2.2.9" : "The third person animate indefinite pronoun is **fko** (gen. **fkeyä**)."
+			},
+			"3.2.3" : {
+				"header" : "Ceremonial/Honorific Pronouns",
+				"info" : "",
+				"table" : {
+					"row 1" : ["⠀", "Singular", "Dual", "Trial", "Plural"],
+					"row 2" : ["1st exclusive", "__o__he", "__mo__he", "__pxo__he", "ay__o__he"],
+					"row 3" : ["2nd", "nge__nga__", "menge__nga__", "pxenge__nga__", "aynge__nga__"]
+				},
+				"3.2.3.1" : {
+					"info" : "For the inclusive first person forms, use separate pronouns, **ohe ngengasì** (with enclitic **sì** *and*). 1",
+					"footer" : "1  In the film we apparently get ohengeyä."
+				}
+			},
+			"3.2.4" : {
+				"header" : "Lahe",
+				"info" : "When used as a pronoun, the adjective **lahe** *other* has an irregular dative plural **aylaru**."
+			}
+		},
+		"3.3" : {
+			"header" : "Prenouns",
+			"info" : "The prenouns are adjective-like noun prefixes.",
+			"3.3.1" : {
+				"header" : "Fì-",
+				"info" : "This prenoun is for proximal deixis, *this*. When it is followed by the plural prefix **ay+** they generally contract into **fay+** *these* in casual speech. However, in precise or formal speech, **fìay+** may be used, **oel foru fìaylì'ut tolìng a krr, kxawm oe harmahängaw**.",
+				"3.3.1.1" : "Some nouns and adjectives pair with **fì-** to form adverbs, such as **fìtrr** *today* and **fìtxan** *so (much)*."
+			},
+			"3.3.2" : {
+				"header" : "Tsa-",
+				"info" : "This is distal deixis, *that*. When it is followed by the plural prefix **ay+** they contract into **tsay+** *those*."
+			},
+			"3.3.3" : {
+				"header" : "-Pe+",
+				"info" : "This question prenoun means *what, which* as in **pelì'u** *which word?* It is unusual in that it may be either a prefix (**pelì'u**) or a suffix (**lì'upe**). When prefixed, the following word takes lenition. When the prefix is followed by the plural prefix **ay+** they contract into **pay+**."
+			},
+			"3.3.4" : {
+				"header" : "Fra-",
+				"info" : "This prenoun means **all, every**. When it is followed by the plural prefix **ay+** they contract into **fray+**."
+			},
+			"3.3.5" : {
+				"header" : "Fne-",
+				"info" : "This prefix means *type (of), sort (of)*.",
+				"3.3.5.1" : "The prefix is related to the noun **fnel**, also meaning *type, sort*. It can occur with a noun in the genitive to get the same meaning as the prefix. **Tsafnel syulangä** and **tsafnesyulang** both mean *that kind of flower*."
+			},
+			"3.3.6" : {
+				"header" : "Contraction",
+				"info" : "When a prenoun ends with the same vowel the following word starts with, the vowels contract, as in **tsatan** *that light* from **tsa-atan** (**2.3.1.3**)."
+			},
+			"3.3.7" : {
+				"header" : "Combinations",
+				"info" : "The prenouns may combine on a single word, in the order listed below. Only one from each column may be used, and the question affix is only used once.",
+				"table" : {
+					"row 1" : ["**fì-**\n**tsa-**\n**pe+**", "⠀\n**fra-** number marking **fne-** the noun **-pe**"]
+				},
+				"3.3.7.1" : "Short plurals (**3.1.3.1**) are not used with the deictic pronouns; **tsaytele** *those matters*, never \\***tsatele** (singular **txele**)."
+			}
+		}
+	}
+}
