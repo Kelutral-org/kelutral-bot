@@ -241,11 +241,13 @@ class Games(commands.Cog):
         user = ctx.message.author
         question = " ".join(args)
         
-        index = random.randint(0,11)
+        index = random.randint(0,12)
         options = config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"]
-        embed = discord.Embed(description=config.text_file[admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"][index]))
+        embed = discord.Embed(description=config.text_file[admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"][index].format(question)))
         
         await ctx.send(embed=embed)
+        if index == 12:
+            await ctx.send("%q {}".format(question))
         
     ## Thank the Bot
     @commands.command(name="thanks", aliases=['irayo'])

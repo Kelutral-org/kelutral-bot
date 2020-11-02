@@ -258,6 +258,7 @@ async def onUnban(guild, user, kelutralBot):
 ## -- On Member Message
 async def onMessage(message, kelutralBot):
     user = message.author
+    ctx = await kelutralBot.get_context(message)
     now = datetime.strftime(datetime.now(),'%H:%M')
     
     # If message is in-server
@@ -280,17 +281,24 @@ async def onMessage(message, kelutralBot):
                         
                 await admin.roleUpdate(user)
                 admin.updateDirectory()
+            
+            if "eytukan" in message.content.lower():
+                await message.add_reaction("👀")
+                
+            for user in message.mentions:
+                if config.botID == user.id:
+                    responses = config.text_file[admin.readDirectory(user, "language")]["@"]
+                    index = random.randint(0,len(responses)-1)
+                    await ctx.send(responses[index].format(message.guild.get_member(723257649055006740).mention))
                 
         elif message.content.startswith("!") and message.author.id == 723257649055006740:
-            user = message.author
             question = message.content.replace("!8ball ", "")
             
-            index = random.randint(0,11)
             options = config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"]
+            index = random.randint(0, len(options) - 1)
             embed = discord.Embed(description=config.text_file[admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"][index]))
             
-            channel = await kelutralBot.get_context(message)
-            await channel.send(embed=embed)
+            await ctx.send(embed=embed)
             
 ## -- On Voice State Update
 async def onVCUpdate(member, before, after, kelutralBot):
