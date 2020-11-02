@@ -114,9 +114,11 @@ class Server(commands.Cog):
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["language"], value=language_pref, inline=True)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["pronouns"], value=pronoun_role, inline=True)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["current_rank"], value=get(user.guild.roles, id=active_roles["id"]).mention + ", \"" + active_roles["translation"] + "\"")
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["message_count"], value=to_next_level, inline=False)
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], value=await self.buildLeaderboard(ctx, user.id, variant, "position"))
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["times_thanked"], value=admin.readDirectory(user, "thanks"))
+            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["message_count"], value=to_next_level, inline=True)
+            if type(admin.readDirectory(user, "na'vi only")) == int:
+                embed.add_field(name="Na'vi Only Messages", value=admin.readDirectory(user, "na'vi only"), inline=False)
+            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], value=await self.buildLeaderboard(ctx, user.id, variant, "position"), inline=False)
+            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["times_thanked"], value=admin.readDirectory(user, "thanks"), inline=False)
             embed.set_footer(text=config.text_file[language_pref]["profile"]["embed"]["footer"])
             embed.set_thumbnail(url=user.avatar_url) 
             
@@ -205,10 +207,10 @@ class Server(commands.Cog):
         await ctx.send(embed=embed)
 
     # Error Handling for !profile
-    @profile.error
-    async def profile_error(self, ctx, error):
-        if isinstance(error, commands.CommandError):
-            await ctx.send(embed=config.syntax)
+    # @profile.error
+    # async def profile_error(self, ctx, error):
+        # if isinstance(error, commands.CommandError):
+            # await ctx.send(embed=config.syntax)
 
 def setup(bot):
     bot.add_cog(Server(bot))

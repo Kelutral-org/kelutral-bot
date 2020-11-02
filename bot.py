@@ -544,7 +544,6 @@ async def typeWord(ctx, *words):
                 indexmod = 1
             await ctx.send("{} is an adjective modifying the noun on the {}.".format(core_word, mod))
 
-
 ## Horen Command
 @kelutralBot.command(name="horen")
 async def horen(ctx, query):

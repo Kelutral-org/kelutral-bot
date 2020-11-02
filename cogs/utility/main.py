@@ -60,8 +60,9 @@ class Utility(commands.Cog):
     @commands.command(name='donotuse')
     async def updateRules(self, ctx):
         user = ctx.message.author
+        guild = ctx.message.guild
         if user.top_role.id == config.adminID:
-            await admin.adminMsgs(ctx, bot)
+            await admin.adminMsgs(ctx, bot, guild)
 
     ## Debug toggle
     @commands.command(name='debug')

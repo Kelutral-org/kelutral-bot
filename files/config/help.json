@@ -63,6 +63,14 @@
 		"example" : "`!help thanks`",
 		"description" : "Shows a list of commands and their syntax. `You are here!`\n"
 	},
+	"horen" : {
+		"name" : "**horen**",
+		"aliases" : ["None"],
+		"short" : "Searches the Horen leNa'vi.\n",
+		"usage" : "`!horen <#.#.#.#|term>`",
+		"example" : "`!horen 2.1.1",
+		"description" : "Searches the Horen leNa'vi for the specified rule or term. Porting of Horen to Discord is in progress, so some rules may be missing.\n"
+	},
 	"leaderboard" : {
 		"name" : "**leaderboard**",
 		"aliases" : ["None"],
@@ -126,6 +134,14 @@
 		"usage" : "`!register`",
 		"example" : "`!register`",
 		"description" : "Begins the application for students interested in __The Neytiri Project__.\n"
+	},
+	"search" : {
+		"name" : "**search**",
+		"aliases" : ["None"],
+		"short" : "Searches the dictionary for the specified word(s).\n",
+		"usage" : "`!search <words>`",
+		"example" : "`!search kaltxì si`",
+		"description" : "Searches the dictionary for the specified word(s) in Na'vi or English. Partial infix/affix support, but there are bound to be a few bugs.\n"
 	},
 	"showdata" : {
 		"name" : "**showdata**",

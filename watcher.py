@@ -264,6 +264,12 @@ async def onMessage(message, kelutralBot):
     if message.guild:
         # If message is not a command.
         if not message.content.startswith("!") and not message.content.startswith("?") and not message.content.startswith("%"):
+            # If message is in the #nìNa'vi-nì'aw channel
+            if message.channel.id == 715050499203661875:
+                try:
+                    admin.writeDirectory(user, "na'vi only", admin.readDirectory(user, "na'vi only") + 1)
+                except KeyError:
+                    admin.writeDirectory(user, "na'vi only", 1)
             # If message is in guild and isn't from the bot.
             if len(message.content) >= 5 and user.top_role.id != config.botRoleID:
                 print(now + " - Analyzing message from {} in {}.".format(user, message.channel.name))
