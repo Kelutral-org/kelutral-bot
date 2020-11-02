@@ -10,7 +10,7 @@
 				"info" : "",
 				"table" : {
 					"ejectives" : [{"px" : "labial","tx" : "alveolar","kx" : "velar"}],
-					"voiceless stops" : [{"p" : "labial", "t" : "alveolar", "k" : "velar", "\"" : "glottal"}],
+					"voiceless stops" : [{"p" : "labial", "t" : "alveolar", "k" : "velar", "'" : "glottal"}],
 					"affricate" : [{"ts" : "alveolar"}],
 					"voiceless fricatives" : [{"f" : "labial", "s" : "alveolar", "h" : "glottal"}],
 					"voiced fricatives" : [{"v" : "labial", "z" : "alveolar"}],

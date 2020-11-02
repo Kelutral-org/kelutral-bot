@@ -131,6 +131,99 @@ class Utility(commands.Cog):
             admin.updateDirectory()
             await ctx.send("Updated!")
 
+    ## Horen Command
+    @commands.command(name="horen")
+    async def horen(self, ctx, query):
+        user = ctx.message.author
+        found_list = []
+        output = ""
+        
+        with open(config.horenFile, 'r', encoding='utf-8') as fh:
+            horen = json.load(fh)
+            
+        def getpath(nested_dict, value, list_obj, prepath=[]):
+            for k, v in nested_dict.items():
+                path = prepath + [k,]
+                if type(v) == str:
+                    check = re.search(r""+value, v.lower())
+                    if check != None:
+                        list_obj.append(path)
+                elif hasattr(v, 'items'): # v is a dict
+                    p = getpath(v, value, list_obj, path) # recursive call
+                    if p is not None:
+                        p + list_obj
+            
+            return list_obj
+            
+        def findEntry(path_list):
+            try:
+                section = horen[path_list[0]]
+            except KeyError:
+                return None
+            
+            for i in range(1,len(path_list)):
+                try:
+                    section = section[path_list[i]]
+                except KeyError:
+                    break
+
+            return section
+        
+        if re.search(r".\..\..", query) == None:
+            paths = getpath(horen, query, found_list)
+            for path in paths:
+                for i in range(1, len(path)):
+                    section = findEntry(path)
+                    if section != None:
+                        if path[-1] == "info" or path[-1] == "header" or path[-1] == "section" or path[-1] == "footer":
+                            rule_number = path[-2]
+                        else:
+                            rule_number = path[-1]
+                        output += "{}: {}\n".format(rule_number, section[0:60] + "[...]")
+                        embed = discord.Embed(title="Horen Query: {}".format(query), description=output, color=config.reportColor)
+                        break
+
+        else:
+            rule_levels = query.split(".")
+            for i, level in enumerate(rule_levels):
+                if i > 0:
+                    level = rule_levels[i-1] + "." + rule_levels[i]
+                    rule_levels[i] = level
+            section = findEntry(rule_levels)
+               
+            try:    
+                if "header" in section.keys():
+                    embed = discord.Embed(title="Horen {}: {}".format(query, section["header"]), description = "{}".format(section["info"]), color=config.reportColor)
+                elif "info" in section.keys():
+                    embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section["info"]), color=config.reportColor)
+                
+                if "footer" in section.keys():
+                    embed.set_footer(text=section["footer"])
+                    
+                if "table" in section.keys():
+                    for key, value in section["table"].items():
+                        for sub in value:
+                            if type(sub) == dict:
+                                for row, column in sub.items():
+                                    embed.add_field(name=column, value=row, inline=True)
+                            else:
+                                if len(value) > 1:
+                                    i = 1
+                                    if i == len(value):
+                                        check_inline = False
+                                        i += 1
+                                    else:
+                                        check_inline = True
+                                        i = 1
+                                else:
+                                    check_inline = False
+                                
+                                embed.add_field(name="⠀", value=sub, inline=check_inline)
+            except AttributeError:
+                embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
+        
+        await ctx.send(embed=embed)
+
     ## Kill Command
     @commands.command(name='quit', aliases=['ftang'])
     async def botquit(self, ctx):
@@ -173,7 +266,7 @@ class Utility(commands.Cog):
                 word_list.append(word)
             i += 1
                 
-        with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
+        with open(config.dictionaryFile, 'r', encoding='utf-8') as fh:
             dictionary = json.load(fh)    
         
         def stripAffixes(word):

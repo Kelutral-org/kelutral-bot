@@ -24,7 +24,7 @@ class TNP(commands.Cog):
             student_profile['tnp']['accepted_by'] = user.id
             
             # Retrieves the registration channel
-            channel = self.bot.get_channel(768627265037664257) #new-registrations
+            channel = self.bot.get_channel(config.newRegChannel) #new-registrations
             
             # Retrieves the registration message
             message = await channel.fetch_message(reg_id)
@@ -354,7 +354,7 @@ class TNP(commands.Cog):
                         await response.delete()
                         
                         # Builds the registration embed for #new-registrations
-                        registration_channel = self.bot.get_channel(768627265037664257)
+                        registration_channel = self.bot.get_channel(config.newRegChannel)
                         dict_embed['title'] = "{}: {}".format(author.name, author.id)
                         dict_embed['description'] = ""
                         dict_embed['footer'] = {'text' : "Use !accept <id> to accept this registration"}
@@ -389,7 +389,7 @@ class TNP(commands.Cog):
     async def unregisterTNP(self, ctx):
         user = ctx.message.author
         channel = self.bot.get_channel(config.regChannel) #registration
-        reg_channel = self.bot.get_channel(768627265037664257) #new-registrations
+        reg_channel = self.bot.get_channel(config.newRegChannel) #new-registrations
         
         profile = admin.readDirectory(user)
         

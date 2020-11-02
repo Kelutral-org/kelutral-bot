@@ -207,10 +207,10 @@ class Server(commands.Cog):
         await ctx.send(embed=embed)
 
     # Error Handling for !profile
-    # @profile.error
-    # async def profile_error(self, ctx, error):
-        # if isinstance(error, commands.CommandError):
-            # await ctx.send(embed=config.syntax)
+    @profile.error
+    async def profile_error(self, ctx, error):
+        if isinstance(error, commands.CommandError):
+            await ctx.send(embed=config.syntax)
 
 def setup(bot):
     bot.add_cog(Server(bot))

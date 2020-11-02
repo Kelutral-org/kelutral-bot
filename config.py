@@ -14,7 +14,7 @@ with open('files/config/token.txt','r') as file:
 # Global Variables
 token = token.strip()
 prefix = "!"
-version = "Stable 2.4.2"
+version = "Stable 2.4.3"
 debug = False
 
 activeRoleIDs = [715319929942966312, 715319903376113745, 715319861684994069, 715319829611151440, 715319782198739016, 715319761927405668, 715319686710952018, 715319529550381056, 715319404803653632, 715319360884834376, 715319264805912580, 715319193188171846]
@@ -27,10 +27,11 @@ send_time = '12:00'
 sequelDate = "12-22-2022"
 
 # Channels
-general = 715296162394931340
-modLog = 715052686487191583
-lepChannel = 715988382706303038
-regChannel = 768599416114118656
+general = 715296162394931340 # Replaced all instances in main code
+modLog = 715052686487191583 # Replaced all instances in main code
+lepChannel = 715988382706303038 # Replaced all instances in main code
+regChannel = 768599416114118656 # Replaced all instances in main code
+newRegChannel = 768627265037664257 # Replaced all instances in main code
 
 # Embed Colors
 botColor = 0x113f78
@@ -52,6 +53,7 @@ reykID = 716618822744014848
 adminID = 715044138864607334
 modID = 715048580334878732
 teacherID = 715044889049563147
+
 tnpID = 768595645736288306
 tnpKaryuID = 768627316958953532
 
@@ -67,13 +69,14 @@ dm_only=discord.Embed(description="**Error: Denied** \n This command is not perm
 help_error=discord.Embed(description="**Error: Unknown Command** \n Unknown command specified. Please check your spelling and try again, or use `!help` to see a list of all commands.", color=failColor)
 
 # File Paths
-userFile = 'files/users/{}.tsk'
 qotdFile = 'files/qotd/{}.tsk'
 calendarFile = 'files/qotd/calendar.tsk'
-botFile = 'files/users/bot.tsk'
-directoryFile = 'files/users/new-directory.json'
-tnpFile = 'files/config/tnp.json'
-tnpTeachers = 'files/config/teachers.json'
+
+botFile = 'cogs/utility/files/users/bot.tsk'
+directoryFile = 'cogs/utility/files/users/new-directory.json'
+
+dictionaryFile = 'cogs/utility/files/dictionary.json'
+horenFile = 'cogs/utility/files/horen.json'
 
 ## -- Clean output function for Quiz Command
 def clean(var):
@@ -91,15 +94,6 @@ def reloadDir():
     with open(directoryFile, 'r', encoding='utf-8') as fh:
         directory = json.load(fh)
     return directory
-
-with open('files/quiz/dict-navi.all.csv', 'r', encoding='utf-8') as fh:
-    words = []
-    for mainline in fh:
-        mainline = mainline.split(",")
-        for i, part in enumerate(mainline):
-            part = clean(part)
-            mainline[i] = part
-        words.append(mainline)
 
 # Help command file
 with open('files/config/help.json', 'r', encoding='utf-8') as fh:
