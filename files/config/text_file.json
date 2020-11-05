@@ -30,7 +30,7 @@
 			"read" : "That question of the day is '{}'.",
 			"schedule" : "**Upcoming Questions of the Day:**"
 		},
-		"@" : ["Yes?","You called?","Listen, the pings get really annoying. Try pinging {} instead.","This isn't how I wanted this to happen, but I think we should see other people.","They don't pay me enough for this.","I like you, so I'm gonna say this once: **Don't ping me again.**\n\n||jkjk||","Why are you pinging me instead of learning Na'vi? You should be learning Na'vi right now! Go! Do it!","{} told me that you like him better than me.","I don't have time to explain why I don't have time to explain.","\"Ma EyTuKaN, mA eYtUkAn\", don't you have something better to do with your time?","Okay, look. I'll let you in on a little secret. ||Mako wrote these responses becau||\n\nShutting down..."],
+		"responses" : ["Yes?","You called?","Listen, the pings get really annoying. Try pinging {} instead.","This isn't how I wanted this to happen, but I think we should see other people.","They don't pay me enough for this.","I like you, so I'm gonna say this once: **Don't ping me again.**\n\n||jkjk||","Why are you pinging me instead of learning Na'vi? You should be learning Na'vi right now! Go! Do it!","{} told me that you like him better than me.","I don't have time to explain why I don't have time to explain.","\"Ma EyTuKaN, mA eYtUkAn\", don't you have something better to do with your time?","Okay, look. I'll let you in on a little secret. ||Mako wrote these responses becau||\n\nShutting down..."],
 		"errors" : {
 			"generate_error" : "**Value Error** \n",
 			"generate_errors" : {
@@ -98,7 +98,7 @@
 			"read" : "Tsatìpawm lu '{}'.",
 			"schedule" : "**Haya srrä sìpawm:**"
 		},
-		"@" : ["Peut new ngal?"],
+		"responses" : ["Peut new ngal?"],
 		"errors" : {
 			"generate_error" : "**Value Error** \n",
 			"generate_errors" : {

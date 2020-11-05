@@ -289,7 +289,7 @@ async def onMessage(message, kelutralBot):
                 
             for user in message.mentions:
                 if config.botID == user.id:
-                    responses = config.text_file[admin.readDirectory(user, "language")]["@"]
+                    responses = config.text_file[admin.readDirectory(user, "language")]["responses"]
                     index = random.randint(0,len(responses)-1)
                     await ctx.send(responses[index].format(message.guild.get_member(723257649055006740).mention))
                 

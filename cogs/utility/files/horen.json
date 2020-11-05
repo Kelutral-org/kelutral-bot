@@ -9,23 +9,26 @@
 				"header" : "Consonants",
 				"info" : "",
 				"table" : {
-					"ejectives" : [{"px" : "labial","tx" : "alveolar","kx" : "velar"}],
-					"voiceless stops" : [{"p" : "labial", "t" : "alveolar", "k" : "velar", "'" : "glottal"}],
-					"affricate" : [{"ts" : "alveolar"}],
-					"voiceless fricatives" : [{"f" : "labial", "s" : "alveolar", "h" : "glottal"}],
-					"voiced fricatives" : [{"v" : "labial", "z" : "alveolar"}],
-					"nasals" : [{"m" : "labial", "n" : "alveolar", "ng" : "velar"}],
-					"liquids" : [{"r" : "alveolar", "l" : "alveolar"}],
-					"glides" : [{"w" : "labial", "y" : "palatal"}]
+					"row 1" : ["⠀", "Labial", "Alveolar", "Palatal", "Velar", "Glottal"],
+					"row 2" : ["Ejectives", "px[p’]", "tx[t’]", "—", "kx[k’]", "—"],
+					"row 3" : ["V- Stops", "p[p]", "t[t]", "—", "k[k]", "'[ʔ]"],
+					"row 4" : ["Affricate", "—", "ts[t͡s]", "—", "—", "—"],
+					"row 5" : ["V- Fric.", "f[f]", "s[s]", "—", "—", "h[h]"],
+					"row 6" : ["V+ Fric.", "v[v]", "z[z]", "—", "—", "—"],
+					"row 7" : ["Nasals", "m[m]", "n[n]", "—", "ng[ŋ]", "—"],
+					"row 8" : ["Liquids", "—", "r[ɾ], l[l]", "—", "—", "—"],
+					"row 9" : ["Glides", "w[w]", "—", "y[j]", "—", "—"]
 				},
+				"footer" : "This table is truncated due to formatting. V: Voice / +ed or -less | Fric. : Fricatives",
 				"2.1.1.1" : "The voiceless stops are unaspirated when not at the end of a word, and unreleased when they are. However, within a phrase a final stop coming before a vowel will in natural speech be released as the words flow together, **oel set omum**. Unreleased stops will be most noticeable at major pauses, as in **oel omum set**.",
 				"1.1.1.2" : "The **r** is an alveolar flap. The **l** is clear and front, as in \"leaf\", not dark as in English \"call\".",
 				"1.1.1.3" : "Because plain stops can be used as syllable codas, the more common ejective notation, **p'** is too ambiguous: **tsap'alute is not **\\*tsapxalute**."
 			},
 			"2.1.2" : {
 				"header" : "Vowels",
-				"info" : {
-					"vowels" : ["i","ì","e","ä","a","u","o"]
+				"info" : "",
+				"table" : {
+					"row 1" : ["i[i]","ì[I]","e[ɛ]","ä[æ]","a[a]","u[u],[ʊ]","o[o]"]
 				},
 				"2.1.2.1" : "The phoneme **u** is always [u] in open syllables, and may be either [u] or [u] in closed syllables.",
 				"2.1.2.2" : "The dipthongs are **aw**, **ay**, **ew** and **ey**. Only in diphthongs will **w** or **y** be seen at the end of a syllable (**new**) or before a final consonant (**hawng**)."
@@ -37,15 +40,15 @@
 			"2.1.4" : {
 				"header" : "Syllable Structure",
 				"info" : "Na'vi has a strict but straightforward syllable structure.",
-				"table" : {
+				"list" : {
 					"rule 1" : ["• A syllable may start with a vowel."],
 					"rule 2" : ["• A syllable may end with a vowel."],
 					"rule 3" : ["• Any consonant may begin a syllable."],
-					"rule 4" : ["• A consonant cluster of **f s ts** + **p, t, k, px, tx, kx, m, n, ng, r, l, w, y** may start a syllable."],
-					"rule 5" : ["• **Px tx kx p t k 'm n l r ng** may occur in syllable-final position."],
-					"rule 6" : ["• **Ts f s h v z w y** may *not* occur in syllable-final position."],
+					"rule 4" : ["• A consonant cluster of f s ts + p, t, k, px, tx, kx, m, n, ng, r, l, w, y may start a syllable."],
+					"rule 5" : ["• Px tx kx p t k 'm n l r ng may occur in syllable-final position."],
+					"rule 6" : ["• Ts f s h v z w y may not occur in syllable-final position."],
 					"rule 7" : ["• There are no consonant clusters in syllable-final position."],
-					"rule 8" : ["• A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant; this plays a role in lenition (**2.2**) and the declension of nouns (**3.1.1.1**)."]
+					"rule 8" : ["• A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant; this plays a role in lenition (2.2) and the declension of nouns (3.1.1.1)."]
 				},
 				"2.1.4.1" : "Since a syllable may have no consonant onset or coda, it is not unusual to see several vowels next to each other in a word. In that case, each vowel is a syllable, **muiä** [mu.i.ae], **ioang** [i.o.ang]",
 				"2.1.4.2" : "In general, the sequence VCV will be syllabified V.CV rather than VC.V, so **tsenge** is [tse.nge] not \\*[tseng.e]. Onomatopoeia may override this, as in **kxangangang** [k'ang.ang.ang], where the echo effect is desired.",
@@ -86,10 +89,10 @@
 			"info" : "Certain grammatical processes cause changes in the first consonant of a word. This change is called \"lenition.\" Only eight consonants undergo lenition.",
 			"table" : {
 				"row 1" : ["Consonant", "Lenition", "Example"],
-				"row 2" : ["**px, tx, kx**", "**p, t, k**", "**__tx__ep** but **mì __t__ep**"],
-				"row 3" : ["**p, t, k**", "**f, s, h**", "**__k__elku** but **ro __h__elku**"],
-				"row 4" : ["**ts**", "**s**", "**__ts__mukan** but **ay__s__mukan**"],
-				"row 5" : ["**'**", "disappears", "**'eylan** but **fpi eylan**"]
+				"row 2" : ["px, tx, kx", "p, t, k", "txep but mì tep"],
+				"row 3" : ["p, t, k", "f, s, h", "kelku but ro helku"],
+				"row 4" : ["ts", "s", "tsmukan but aysmukan"],
+				"row 5" : ["'", "disappears", "'eylan but fpi eylan"]
 			},
 			"2.2.1" : {
 				"header" : "Glottal Stop",
@@ -213,9 +216,9 @@
 				"header" : "Number",
 				"info" : "Na'vi nouns and pronouns may be singular, dual, trial or plural (four or more). Number is indicated by prefixes, all of which cause lenition.",
 				"table" : {
-					"row 1" : ["Dual", "me+", "**mefo** (< **me+** + **po**)"],
-					"row 2" : ["Trial", "pxe+", "**pxehilvan** (< **pxe+** + **kilvan**)"],
-					"row 3" : ["Plural", "ay+", "**ayswizaw**"]
+					"row 1" : ["Dual", "me+", "mefo (< me+ + po)"],
+					"row 2" : ["Trial", "pxe+", "pxehilvan (< pxe+ + kilvan)"],
+					"row 3" : ["Plural", "ay+", "ayswizaw"]
 				},
 				"3.1.3.1" : {
 					"info" : "The plural prefix *only* may be dropped if there is lenition. The plural of **prrnen** is either **ayfrrnen** or the short plural **frrnen** (but see **6.5.2.2**). The dual and trial prefix are never dropped this way. 2",
@@ -236,11 +239,11 @@
 				"info" : "The pronouns take the same case endings as nouns.",
 				"table" : {
 					"row 1" : ["Person","Singular","Dual","Trial","Plural"],
-					"row 2" : ["1st exclusive", "__o__e", "m__o__e", "px__o__e", "ay__o__e"],
-					"row 3" : ["1st inclusive", "—", "o__e__ng", "px__o__eng", "ayo__e__ng, aw__nga__"],
-					"row 4" : ["2nd", "nga", "me__nga__", "pxe__nga__", "ay__nga__"],
-					"row 5" : ["3rd Animate", "po", "me__fo__", "pxe__fo__", "ay__fo__, fo"],
-					"row 6" : ["3rd Inanimate", "__tsa__'u, tsaw", "me__sa__'u", "pxe__sa__'u", "ay__sa__'u, sa'u"],
+					"row 2" : ["1st exclusive", "oe", "moe", "pxoe", "ayoe"],
+					"row 3" : ["1st inclusive", "—", "oeng", "pxoeng", "ayoeng, awnga"],
+					"row 4" : ["2nd", "nga", "menga", "pxenga", "aynga"],
+					"row 5" : ["3rd Animate", "po", "mefo", "pxefo", "ayfo, fo"],
+					"row 6" : ["3rd Inanimate", "tsa'u, tsaw", "mesa'u", "pxesa'u", "aysa'u, sa'u"],
 					"row 7" : ["Reflexive", "sno", "—", "—", "—"]
 				},
 				"3.2.2.1" : "In everyday speech, when the first person root **oe** does not occur at the end of the word, its pronunciation changes to **we** as in **oel** pronounced **wel**, **oeru** as **weru**. However, this pronunciation does not happen to the dual and trial forms **moe** and **pxoe**, which would result in illegal consonant clusters at the start of a word, such as \\***mwel**. This pronunciation is indicated with the accenting underline on the **e**.",
@@ -268,8 +271,8 @@
 				"info" : "",
 				"table" : {
 					"row 1" : ["⠀", "Singular", "Dual", "Trial", "Plural"],
-					"row 2" : ["1st exclusive", "__o__he", "__mo__he", "__pxo__he", "ay__o__he"],
-					"row 3" : ["2nd", "nge__nga__", "menge__nga__", "pxenge__nga__", "aynge__nga__"]
+					"row 2" : ["1st exclusive", "ohe", "mohe", "pxohe", "ayohe"],
+					"row 3" : ["2nd", "ngenga", "mengenga", "pxengenga", "ayngenga"]
 				},
 				"3.2.3.1" : {
 					"info" : "For the inclusive first person forms, use separate pronouns, **ohe ngengasì** (with enclitic **sì** *and*). 1",
@@ -318,6 +321,164 @@
 				},
 				"3.3.7.1" : "Short plurals (**3.1.3.1**) are not used with the deictic pronouns; **tsaytele** *those matters*, never \\***tsatele** (singular **txele**)."
 			}
+		},
+		"3.4" : {
+			"header" : "Correlatives",
+			"info" : "",
+			"3.4.0" : {
+				"info" : "Demonstrative pronouns and certain common adverbs of time, manner and place, are simply nouns paired with prenouns. However, the system is not perfectly regular.",
+				"table" : {
+					"row 1" : ["⠀","Person","Thing","Action","Time","Place","Manner"],
+					"row 2" : ["this", "fìpo", "fì'u", "fìkem", "set", "fìtsenge", "fìfya"],
+					"row 3" : ["that", "tsatu", "tsa'u", "tsakem", "tsakrr", "tsatseng", "tsafya"],
+					"row 4" : ["every", "frapo", "fra'u", "—", "frakrr", "fratseng", "frafya"],
+					"row 5" : ["no", "kawtu", "ke'u", "kekem", "kawkrr", "kawtseng", "—"]
+				},
+				"footer" : "This list is truncated due to space considerations. To read, combine row header and column header to estimate meaning. * \"this place\" fìtseng can also be fìtsenge interchangeably."
+			},
+			"3.4.0.1" : "Plural forms for these are irregular. Though **tsa'u** is from **tsa-** and **'u**, the plural is **(ay)sa'u**. Confirmed, but more details would be nice.",
+			"3.4.0.2" : "For the forms of **tsa'u**, see **3.2.2.7**.",
+			"3.4.1" : {
+				"header" : "Questions",
+				"info" : "As with nouns, the question affix **-pe+** may be either a leniting prefix or a suffix.",
+				"table" : {
+					"row 1" : ["who?", "pesu, tupe"],
+					"row 2" : ["what (thing)?", "peu, 'upe"],
+					"row 3" : ["what (action)?", "pehem, kempe"],
+					"row 4" : ["when?", "pehrr, krrpe"],
+					"row 5" : ["where?", "peseng, tsengpe"],
+					"row 6" : ["how?", "pefya, fyape"],
+					"row 7" : ["why?", "pelun, lumpe"],
+					"row 8" : ["what kind (of)?", "pefnel, fnepe"]
+				},
+				"3.4.1.1" : {
+					"info" : "The question word for people, **tupe / pesu** *who*, has an enormous collection of gendered and non-singular forms.",
+					"table" : {
+						"row 1" : ["⠀", "Common", "Male", "Female"],
+						"row 2" : ["Singular", "pesu, tupe", "pestan, tutampe", "peste, tutepe"],
+						"row 3" : ["Dual", "pemsu, mesupe", "pemstan, mestampe", "pemste, mestepe"],
+						"row 4" : ["Trial", "pepsu, pxesupe", "pepstan, pxestampe", "pepste, pxestepe"],
+						"row 5" : ["Plural", "paysu, (ay)supe", "paystan, (ay)stampe", "payste, (ay)stepe"],
+						"row 6" : "The non-singular forms of pehem / kempe follow a similar pattern:",
+						"row 7" : ["Singular", "pehem, kempe"],
+						"row 8" : ["Dual", "pemhem, mehempe"],
+						"row 9" : ["Trial", "pephem, pxehempe"],
+						"row 10" : ["Plural", "payhem, (ay)hempe"]
+					}
+				}
+			},
+			"3.4.2" : {
+				"header" : "Fì'u and Tsaw in Clause Nominalization",
+				"info" : "The demonstrative pronoun **fì'u** and inanimate pronoun **tsaw** are used with the attributive particle **a** to nominalize clauses (**6.18.4**). When the attributive particle follows certain case forms of the pronoun, they contract:",
+				"table" : {
+					"row 1" : ["Case", "Fì'u Contraction", "Tsaw Contraction"],
+					"row 2" : ["Subjective", "fwa (< fì'u a)", "tsawa"],
+					"row 3" : ["Agentive", "fula (< fì'ul a)", "tsala"],
+					"row 4" : ["Patientive", "futa (< fì'ut a)", "tsata"],
+					"row 5" : ["Topical", "furia (< fì'uri a)", "tsaria"]
+				}
+			},
+			"3.4.3" : {
+				"header" : "Fmawn and Tì'eyng in Clause Nominalization",
+				"info" : "While **fì'u** and **tsaw** may nominalize clauses of most types, verbs of hearing, speaking and questioning prefer the nouns **fmawn** *news*, **tì'eyng** *answer* and **faylì'u** *these words*. There are contractions only in the patientive for **fmawn** and **faylì'u**, which are **fmawnta** (< **fmawnit a**) and **fayluta** (< **faylì'ut a**). See **6.21.4** for the syntax. For the rest, see below:",
+				"table" : {
+					"row 1" : ["Case", "Contraction"],
+					"row 2" : ["Subjective", "teynga (< tì'eyng a)"],
+					"row 3" : ["Agentive", "teyngla (< tì'eyngìl a)"],
+					"row 4" : ["Patientive", "teyngta (< tì'eyngit a)"]
+				}
+			}
+		},
+		"3.5" : {
+			"header" : "The Adjective",
+			"info" : "",
+			"3.5.1" : {
+				"header" : "Attribution",
+				"info" : "Attributive adjectives are joined to their noun with the affix **-a-**, which is attached to the adjective on the side closest to the noun, as in **yerik awin** or **wina yerik** for *a fast yerik*.",
+				"3.5.1.1" : {
+					"info" : "A derived adjective in **le-** usually drops the prefixed (but not suffixed) **a-**, so either **ayftxozä lefpom** or more rarely, **ayftxozä alefpom**. However, when the **le-** adjective comes before the noun, it will always have the attributive **-a-**, **lefpoma ayftxozä**.",
+					"table" : {
+						"row 1" : ["ayftxozä lefpom", "usual"],
+						"row 2" : ["ayftxozä alefpom", "permitted"],
+						"row 3" : ["*lefpom ayftxozä", "an error"],
+						"row 4" : ["lefpoma ayftxozä", "correct"]
+					}
+				}
+			}
+		},
+		"3.6" : {
+			"header" : "The Verb",
+			"info" : "",
+			"3.6.1" : {
+				"header" : "Infix Location",
+				"info" : "Frommer describes three positions for verb infixes: pre-first position, first position, and second position. Each position has infixes of a particular type, described in sub-rules.",
+				"3.6.1.1" : "All infixes occur in the last (ultima) and next-to-last (penult) syllables of the verb stem, and are inserted before the vowel, diphthong or pseudovowel of that syllable, as in **kä** > **k<ìm>ä** and **taron** > **t<ol>ar<ei>on**.",
+				"3.6.1.2" : "If a syllable has no onset consonant(s) the infix still precedes the vowel, as in **omum** > **<iv>omum** and **ftia** > **fti<ats>a**.",
+				"3.6.1.3" : { 
+					"info" : "The stress accent stays on the vowel that originally had it before any infixes were added, **__haw__nu** > **h<il__v>aw__nu**. 4",
+					"footer" : "4  Exception: the verb omum shifts the accent to the o for any inflected or derived forms, ivomum, nìawnomum. The verb inan follows the same pattern with its i."
+				},
+				"3.6.1.4" : "Usually, infixes are placed only in one element of a compound verb. For example, **yomtìng** *feed* is a compound of **yom** *eat* and **tìng** *give*. The perfective of this is not \\***y<ol>omtìng**, but **yomt<ol>ìng**. Most compound verbs will have the verb element last, which will take the infixes. A few compounds, however, do add infixes to the first element. These are irregular and must be learned from the lexicon.",
+				"3.6.1.5" : "A small number of verb+verb compounds take infixes in both elements of the compound, such as **kan'ìn** *specialize in*, made up of **kan** *aim, intend* and **'ìn** *be busy*."
+			},
+			"3.6.2" : {
+				"header" : "Pre-first Position",
+				"info" : "These infixes change transitivity. They are inserted before the vowel of the next-to-last syllable of a verb, or the verb syllable if the verb has only one syllable.",
+				"table" : {
+					"row 1" : ["Causative", "<eyk>"],
+					"row 2" : ["Reflexive", "<äp>"]
+				},
+				"3.6.2.1" : "In casual conversation the reflexive perfective of **si**-construction verbs, **säpo__li__**, is often pronounced **spo__li__**.",
+				"3.6.2.2" : "The causative reflexive, \"cause oneself to,\" is formed with **<äp><eyk>**, so **po täpeykerkup** *he causes himself to die*."
+			},
+			"3.6.3" : {
+				"header" : "First Position",
+				"info" : "These mark tense, aspect and mood, and create participles. They are inserted before the vowel of the next-to-last syllable of a verb, or the verb syllable if the verb has only one syllable. They will always follow any pre-first position infixes.",
+				"table" : {
+					"row 1" : ["⠀", "Tense only", "Perfective", "Imperfective"],
+					"row 2" : ["Future", "<ay>, <asy>", "<aly>", "<ary>"],
+					"row 3" : ["Near future", "<ìy>, <ìsy>", "<ìly>", "<ìry>"],
+					"row 4" : ["General", "—", "<ol>", "<er>"],
+					"row 5" : ["Near past", "<ìm>", "<ìlm>", "<ìrm>"],
+					"row 6" : ["Past", "<am>", "<alm>", "<arm>"]
+				},
+				"3.6.3.1" : "The futures with **s** mark intention (**6.7.9**).",
+				"3.6.3.2" : {
+					"info" : "The subjunctive infix, **<iv>**, has a restricted set of combinations with fewer tense gradations.",
+					"table" : {
+						"row 1" : ["⠀", "Tense only", "Perfective", "Imperfective"],
+						"row 2" : ["Future", "<ìyev>, <iyev>", "—", "—"],
+						"row 3" : ["Near future", "<iv>", "<ilv>", "<irv>"],
+						"row 4" : ["General", "<imv>", "—", "—"]
+					}
+				},
+				"3.6.3.3" : {
+					"info" : "There are only two participle infixes. They do not combine with tense, aspect or mood infixes. Since the participles are adjectives that cannot be used as predicates, they will always occur with the attributive adjective affix **-a-** (**3.5.1, 6.9.1**).",
+					"table" : {
+						"row 1" : ["Active", "<us>"],
+						"row 2" : ["Passive", "<awn>"]
+					}
+				}
+			},
+			"3.6.4" : {
+				"header" : "Second Position",
+				"info" : "These infixes, which indicate speaker affect or judgment, occur in the final syllable of the verb, or after the first position infixes in a verb of one syllable.",
+				"table" : {
+					"row 1" : ["Positive attitude", "<ei>, <eiy> (2.3.3)"],
+					"row 2" : ["Negative attitude", "<äng>, <eng> (2.3.5.2)"],
+					"row 3" : ["Formal, ceremonial", "<uy>"],
+					"row 4" : ["Inferential, suppositional", "<ats>"]
+				}
+			},
+			"3.6.5" : {
+				"header" : "Examples",
+				"info" : "The rules given above are a bit abstract, so I give here examples of some possible inflections for a few verb shapes. The verbs are **eyk** *lead* as an example of a single-syllable word with no onset consonant, **fpak** *stop* as a single-syllable with consonant cluster onset, **taron** *hunt* the usual two-syllable word Frommer uses in examples, and **yom.tìng** *feed*, a compound verb in which only the final element is inflected. The meanings of some of these examples stretch good sense to the breaking point. The purpose of these is only to show infix locations across a consistent set of verb shapes.",
+				"table" : {
+					"row 1" : "PING MAKO TO ADD THIS, HE'S NOT DOING IT RIGHT NOW BECAUSE IT'S HELLA LONG"
+				}
+			}
 		}
-	}
+	},
+	"4" : {
+		
 }

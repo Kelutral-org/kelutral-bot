@@ -543,7 +543,40 @@ async def typeWord(ctx, *words):
             elif mod == "right":
                 indexmod = 1
             await ctx.send("{} is an adjective modifying the noun on the {}.".format(core_word, mod))
-            
+
+@kelutralBot.command(name="test")
+async def test(ctx):
+    list_dict = {"table" : {
+                    "row 1" : ["Test 1", "Testing 2", "Testosterone 3"],
+                    "row 2" : ["Test 1", "Test 2", "Test 3"],
+                    "row 3" : ["Test 1", "Test 2", "Test 3"]
+                    }
+                }
+    max_len = 0
+    output = '```'
+    
+    for key, value in list_dict["table"].items():
+        for item in value:
+            if len(item) > max_len:
+                max_len = len(item)
+    
+    for key, value in list_dict["table"].items():
+        for item in value:
+            len_diff = max_len - len(item)
+            half_len_diff = int(round(len_diff / 2, 0))
+            for i in range(0, half_len_diff):
+                item = ' ' + item
+            for i in range(0, (len_diff - half_len_diff)):
+                item = item + ' '
+            output += item
+        for i in range(0, (len_diff - half_len_diff)):
+            output += ' '
+        output += '\n'
+    output += '```'
+    
+    embed = discord.Embed(title="Table Test", description=output)
+    await ctx.send(embed=embed)
+
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
 @help.error

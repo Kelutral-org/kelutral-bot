@@ -169,7 +169,30 @@ class Utility(commands.Cog):
 
             return section
         
-        if re.search(r".\..\..", query) == None:
+        def buildTable(table):
+            max_len = 0
+            output = '```'
+            for key, value in table.items():
+                for item in value:
+                    if len(item) > max_len:
+                        max_len = len(item)
+
+            for key, value in table.items():
+                for item in value:
+                    len_diff = max_len - len(item)
+                    half_len_diff = int(round(len_diff / 2, 0))
+                    for i in range(0, half_len_diff):
+                        item = ' ' + item
+                    for i in range(0, (len_diff - half_len_diff)):
+                        item = item + ' '
+                    output += item
+                for i in range(0, (len_diff - half_len_diff)):
+                    output += ' '
+                output += '\n'
+            output += '```'
+            return output
+        
+        if re.search(r".\..|.\..\..", query) == None:
             paths = getpath(horen, query, found_list)
             for path in paths:
                 for i in range(1, len(path)):
@@ -201,24 +224,14 @@ class Utility(commands.Cog):
                     embed.set_footer(text=section["footer"])
                     
                 if "table" in section.keys():
-                    for key, value in section["table"].items():
-                        for sub in value:
-                            if type(sub) == dict:
-                                for row, column in sub.items():
-                                    embed.add_field(name=column, value=row, inline=True)
-                            else:
-                                if len(value) > 1:
-                                    i = 1
-                                    if i == len(value):
-                                        check_inline = False
-                                        i += 1
-                                    else:
-                                        check_inline = True
-                                        i = 1
-                                else:
-                                    check_inline = False
-                                
-                                embed.add_field(name="⠀", value=sub, inline=check_inline)
+                    output = buildTable(section["table"])
+                    embed.add_field(name="⠀", value=output, inline=True)
+                    
+                if "list" in section.keys():
+                    output = ''
+                    for value in section["list"].values():
+                        output += value[0] + "\n"
+                    embed.add_field(name="⠀", value=output, inline=True)
             except AttributeError:
                 embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
         

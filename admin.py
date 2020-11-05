@@ -209,7 +209,7 @@ async def adminMsgs(ctx, bot, guild):
                         "• Community challenges, meant to encourage participation and practice.\n",
                         "{}".format(guild.get_channel(715050363740487782).mention),
                         "• A place for requesting translations, or help with finding vocabulary or alternate wordings.\n",
-                        "{}".format(guild.get_channel(715988382706303038).mention),
+                        "{}".format(guild.get_channel(config.lepChannel).mention),
                         "• Anonymous discussion of proposed words to be submitted to the LEP.\n"]
                         
         value2 = ""
