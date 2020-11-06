@@ -383,22 +383,13 @@ async def onReaction(payload, kelutralBot):
             check = [message.id, payload.user_id]
             if check not in contents:
                 contents.append([message.id, payload.user_id])
+                timesThanked = admin.readDirectory(message.author, "thanks")
                 
-                # Iterates the user directory to find the reaction adder
-                for entry in config.directory:
-                    if message.author.id == entry[0]:
-                        # Tries to pull the thanks data from the user profile
-                        try: 
-                            timesThanked = entry[6]
-                            entry[6] += 1
-                            break
-                        # If no thanks data exists, appends a blank field
-                        except IndexError: 
-                            timesThanked = 0
-                            entry.append(timesThanked)
+                timesThanked += 1
                 
                 # Updates the reactions log
                 with open(fileName, 'w') as fh:
                     json.dump(contents, fh)
         
+        admin.writeDirectory(message.author, "thanks", timesThanked)
         admin.updateDirectory()

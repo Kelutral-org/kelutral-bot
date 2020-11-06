@@ -72,7 +72,7 @@ class Server(commands.Cog):
             return
         
         # Builds the top 10 list
-        for i in range(1,9):
+        for i in range(0,9):
             leaderboard += "**{}**\n{} messages | Rank #{}\n\n".format(output[0][i], output[1][i], i + 1)
         
         # Builds final embed
