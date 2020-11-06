@@ -52,8 +52,7 @@ class Server(commands.Cog):
         else:
             pos = sortedUserNames.index(search_user.nick) + 1
             
-        t2 = time.time()
-        tDelta = round(t2 - t1, 3)
+        tDelta = round(time.time() - t1, 3)
 
         return {
             "full"    : [sortedUserNames, sortedMessageCounts, pos, tDelta], # Conditional return for !leaderboard
@@ -63,7 +62,6 @@ class Server(commands.Cog):
     ## Display Server Leaderboard
     @commands.command(name='leaderboard')
     async def leaderboard(self, ctx, variant):
-        i = 0
         leaderboard = ""
         
         # Checks for a valid variant and builds the overall server leaderboard list
@@ -74,16 +72,15 @@ class Server(commands.Cog):
             return
         
         # Builds the top 10 list
-        while i <= 9:
-            leaderboard = leaderboard + "**" + output[0][i] + "**\n" + str(output[1][i]) + " messages  |  Rank: #" + str(i + 1) + "\n\n"
-            i += 1
+        for i in range(1,9):
+            leaderboard += "**{}**\n{} messages | Rank #{}\n\n".format(output[0][i], output[1][i], i + 1)
         
         # Builds final embed
         embed=discord.Embed(title="Server Leaderboard:", description=leaderboard, color=config.reportColor)
         if config.debug == True:
-            embed.set_footer(text="You are ranked #" + str(output[2]) + " overall.  |  Executed in " + str(output[3]) + " seconds.")
+            embed.set_footer(text="You are ranked #{} overall. | Executed in {} seconds.".format(output[2], output[3]))
         else:
-            embed.set_footer(text="You are ranked #" + str(output[2]) + " overall.")
+            embed.set_footer(text="You are ranked #{} overall.".format(output[2]))
         
         # Sends results
         await ctx.send(embed=embed)
@@ -98,7 +95,7 @@ class Server(commands.Cog):
         async def buildEmbed(user, language_pref, to_next_level, active_roles):
             # Checks if the user has a nickname
             try:
-                nickname = " AKA \"" + user.nick + "\""
+                nickname = " AKA \"{}\"".format(user.nick)
             except:
                 nickname = ""
                 
@@ -194,16 +191,10 @@ class Server(commands.Cog):
         # Invalid entry
         else:
             embed=discord.Embed(description=config.text_file[language_pref]["errors"]["profile"] + config.text_file[language_pref]["errors"]["profile_errors"]["missing_perms"], color=config.failColor)
-        
-        # Time stop
-        t2 = time.time()
-        
-        # Calculates execution time
-        tDelta = round(t2 - t1, 3)
-        
+               
         # Checks debug state and sends final embed.
-        if config.debug == True:
-            embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
+        if config.debug:
+            embed.set_footer(text="Executed in {} seconds.".format(round(time.time() - t1, 3)))
         await ctx.send(embed=embed)
 
     # Error Handling for !profile

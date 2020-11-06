@@ -480,5 +480,184 @@
 		}
 	},
 	"4" : {
-		
-}
+		"header" : "Numbers",
+		"info" : "The Na'vi language has an *octal*, or base eight, number system, like a very small number of human languages. Rather than calculating numbers in the form (*m* x 10) + *n* (as in (4 x 10) + 2 = 42 sub 10, *forty-two*), the numbers are calculated from (*m* x 8) + *n* (as in (5 x 8) + 2 = 52 sub 8, **mrrvomun**, 42 sub 10).",
+		"4.1" : {
+			"header" : "Cardinal Numerals",
+			"info" : "",
+			"4.1.1" : {
+				"header" : "The \"Ones\"",
+				"info" : "The independent forms of the numerals from one to eight are:",
+				"table" : {
+					"row 1" : ["1 : 'aw      ", "5 : mrr   "],
+					"row 2" : ["2 : mune     ", "6 : pukap "],
+					"row 3" : ["3 : pxey     ", "7 : kinä  "],
+					"row 4" : ["4 : tsìng    ", "8 : vol   "]
+				}
+			},
+			"4.1.2" : {
+				"header" : "Powers of Eight",
+				"info" : "Rather than \"tens\", Na'vi has \"eights:\"",
+				"table" : {
+					"row 1" : ["8(1 x 8)  : vol        ", "40(5 x 8) : mrrvol"],
+					"row 2" : ["16(2 x 8) : mevol      ", "48(6 x 8) : puvol "],
+					"row 3" : ["24(3 x 8) : pxevol     ", "56(7 x 8) : kivol "],
+					"row 4" : ["32(4 x 8) : tsìvol     ", "64(8 x 8) : zam   "]
+				}
+			},
+			"4.1.3" : {
+				"header" : "Dependent Forms",
+				"info" : "When combined with powers of eight words, the basic word take abbreviated, single-syllable forms, with lenition where required:",
+				"table" : {
+					"row 1" : ["1 : (l)-aw    ", "5 : -mrr"],
+					"row 2" : ["2 : -mun      ", "6 : -fu "],
+					"row 3" : ["3 : -pey      ", "7 : -hin"],
+					"row 4" : ["4 : -sìng     ", "       "]
+				},
+				"4.1.3.1" : "All of the dependent forms except \"one\", **(l)-aw**, evict the final **-l** of the \"eights\" forms.",
+				"4.1.3.2" : {
+					"info" : "The attached dependent forms take the word accent. Combined with **vol** *eight*. The pattern below will continue this way with **__me__vol**: **mevo__law__**, **mevo__mun__**, **mevo__pey__**, etc.",
+					"table" : {
+						"row 1" : ["9 (1 x 8 + 1) : volaw     ", "13(1 x 8 + 5) : vomrr "],
+						"row 2" : ["10(1 x 8 + 2) : vomun     ", "14(1 x 8 + 6) : vofu  "],
+						"row 3" : ["11(1 x 8 + 3) : vopey     ", "15(1 x 8 + 7) : vohin "],
+						"row 4" : ["12(1 x 8 + 4) : vosìng    ", "16(2 x 8 + 0) : mevol "]
+					}
+				}
+			}
+		},
+		"4.2" : {
+			"header" : "Ordinal Numbers",
+			"info" : "",
+			"4.2.1" : {
+				"header" : "Suffix -ve",
+				"info" : "The ordinal numbers are formed by means of suffix **-ve**, which does not alter the word accent, though it does cause changes to a few number stems.",
+				"table" : {
+					"row 1" : ["Ordinal", "Independent", "Dependent"],
+					"row 2" : ["first", "'awve", "(l)-awve"],
+					"row 3" : ["second", "muve", "-muve"],
+					"row 4" : ["third", "pxeyve", "-peyve"],
+					"row 5" : ["fourth", "tsìve", "-sìve"],
+					"row 6" : ["fifth", "mrrve", "-mrrve"],
+					"row 7" : ["sixth", "puve", "-fuve"],
+					"row 8" : ["seventh", "kive", "-hive"],
+					"row 9" : ["eighth", "volve", "-volve"]
+				},
+				"4.2.1.1" : "All ordinals can combine freely with **nì-** to form adverbs, **nì'awve** *first*, **nìmuve** *second*, etc."
+			}
+		},
+		"4.3" : {
+			"header" : "Fractions",
+			"info" : "",
+			"4.3.1" : {
+				"header" : "-Pxì",
+				"info" : "Except for *half* and *third*, which have separate lexical forms, fractions are formed by replacing **-ve** of an ordinal with **-pxì**. Note the accent shift:",
+				"table" : {
+					"row 1" : ["half      mawl    ", "sixth    pupxì"],
+					"row 2" : ["third      pan    ", "seventh  kipxì"],
+					"row 3" : ["fourth  tsìpxì    ", "eighth   vopxì"],
+					"row 4" : ["fifth   mrrpxì    ", "              "]
+				},
+				"4.3.1.1" : "Note that unlike the cardinals and ordinals, the fraction words are nouns, not adjectives (see **6.4.5.2** for syntax)."
+			},
+			"4.3.2" : {
+				"header" : "Numerator",
+				"info" : "To make higher fractions, combine an attributive cardinal with a fraction noun, **munea mrrpxì** *two fifths*.",
+				"4.3.2.1" : "The fraction *two thirds* has a special form, **mefan**, the dual of **pan**."
+			}
+		},
+		"4.4" : {
+			"header" : "Other Forms",
+			"info" : "",
+			"4.4.1" : {
+				"header" : "Alo",
+				"info" : "The word **__a__lo** *time, turn* combines with numbers to form instance adverbs. Four of these form compounds, **__'aw__lo** *once*, **__me__lo** *twice*, **__pxe__lo** *thrice, three times* and **__fra__lo** *each time, every time*. All others combine as normal attributive adjectives, **alo amrr poan polawm** *he asked five times*."
+			},
+			"4.4.2" : {
+				"header" : "-lie",
+				"info" : "The word **'aw__li__e** refers to a single event in the past."
+			},
+			"4.4.3" : {
+				"header" : "Alien Digits",
+				"info" : "When quoting English digits, Na'vi will use **'eyt** for *eight* and **nayn** for *nine*. These are not used for counting, but for things like phone numbers.",
+				"4.4.3.1" : {
+					"header" : "Kew",
+					"info" : "**Kew** is *zero*. 1",
+					"footer" : "1  Current documentation doesn't make clear if this idea is native or imported from the Humans."
+				}
+			}
+		}
+	},
+	"5" : {
+		"header" : "Word Building",
+		"info" : "",
+		"5.1" : {
+			"header" : "Derivational Affixes",
+			"info" : "Na'vi has a number of affixes used to create new vocabulary. Several simply change the word class, such as turning a noun into an adjective. However, these affixes should not be considered freely productive, and the meanings of the derived forms are not entirely predictable. Only with the help of a dictionary can you be certain of a derived word's meaning (but see **6.6.8** for adverbs). Unless otherwise stated, the affixes below are not freely productive.\n\nWhile there are strong patterns in how stress accent is altered by some derivational processes, there are no exceptionless rules for this. Again, only with the dictionary can you be certain of the accenting of a derived word.",
+			"5.1.1" : {
+				"header" : "Prefixes",
+				"info" : "These derivational prefixes rarely cause the accent to move from its original location, **ngay** > **tì__ngay__**.",
+				"5.1.1.1" : "**Le-** creates adjectives from nouns, as in **le__hrr__ap** *dangerous* from **__hrr__ap** *danger*.",
+				"5.1.1.2" : "**Nì-** creates adverbs from nouns, pronouns, adjectives and verbs, as in **nìNa'vi** *Na'vily, in Na'vi* from **Na'vi**, **nìayfo** *like them*, **nì__ftu__e** *easily* from **__ftu__e** *easy*, and **nì__tam__** *enough* from **tam** *to suffice*.",
+				"5.1.1.3" : "**Sä-** creates instrumental nouns from verbs and adjectives, as in **sä__nu__me** *instruction, teaching* from **__nu__me**, and **sä__spxin__** *disease* from **spxin** *sick*.",
+				"5.1.1.4" : "**Sä-** also creates nouns to indicate a particular, concrete instance of a general action. A **sätsyil** *a climb* is a particular instance of the action climbing, **tsyìl**. Roots may have derivations in both **tì-** and **sä-**, as in **'ipu** *humorous*. **Tì'ipu** is the abstract concept of being humorous, that is, humor in general. **Sä'ipu** is a particular instance of being humorous — for example, a joke.",
+				"5.1.1.5" : "**Tì-** creates nouns from adjectives, verbs and occasionally other nouns, as in **tì__ngay__** *truth* from **ngay** *true*, **tìfti__a__** *study (n)* from **fti__a__** *to study*, **tì__'awm__** *camping* from **'awm** *camp (n)*.",
+				"5.1.1.6" : "With these prefixes stem syllables may lose a vowel if the onset consonant is also a legal coda, **nìm__wey__pey** *patiently* < **ma__wey__pey** *to be patient*."
+			},
+			"5.1.2" : {
+				"header" : "Negative Prefix",
+				"info" : "Some words, mostly but not exclusively adjectives, are created using the word **ke** *not* as a prefix.",
+				"5.1.2.1" : "When **ke-** comes before the adjective prefix **le-** the adjective prefix is reduced to just **-l-** as in **kel__tsun** *impossible* compared to **le__tsun__slu** *possible, and **kel__fpom__tokx** *unhealthy* from **lefpom__tokx__** *healthy*.",
+				"5.1.2.2" : "When **le-** comes before **ke-** the negative prefix reduces to just **-k-**, as in **lek__ye__'ung** *insane* from **ke__ye__'ung** *insanity*.",
+				"5.1.2.3" : "The **ke-** prefix may be used with root adjectives and participles, in which case the accent usually shits to **ke-**, as in **__ke__teng** *different* from **teng** *same, equal* and **__ke__rusey** *dead* from **ru__sey__** *living*. However, note **key__awr__** *incorrect* from **ey__awr__** *correct*.",
+				"5.1.2.4" : "The **ke-** prefix may also create and combine with nouns, as in **ke__ye__'ung** *insanity*, and **__ke__tuwong** *alien*. There are too few examples to determine accent behavior."
+			},
+			"5.1.3" : {
+				"header" : "Adverbial \"a-\"",
+				"info" : "Two stative verbs, **lìm** *be far* and **sim** *be near* have adverbial forms **a__lìm__** *far away* and **a__sim__** *nearby, at close range*. These are thought of as fossilized abbreviations of forms like **nìfya'o a lìm** (**6.6.8**). They are fixed lexical items, and do not have forms such as \\***lima** and \\***sima**."
+			},
+			"5.1.4" : {
+				"header" : "Prefix with Infix",
+				"info" : "There is a single derivation using the combination of a prefix and an infix.",
+				"5.1.4.1" : "**Tì- <us>** creates a gerund. It is fully productive for verb roots and compounds (**si**-construction verbs, **5.3.3**, cannot be made into a gerund). This is most useful when a simple **tì-** derivation already has an established meaning, as in **rey** *live*, **tì__rey__** *life*, but **tìru__sey__** *living*. In compounds, **tì-** comes at the beginning of the word and **<us>** goes into the verbal element of the compound, **yomtìng** becomes **tìyomtusìng**. See also **6.9.2**."
+			},
+			"5.1.5" : {
+				"header" : "Agent Suffixes",
+				"info" : "These suffixes also do not cause an accent shift.",
+				"5.1.5.1" : "**-tu** creates agent nouns from parts of speech other than verbs, as in **__pam__tseotu** *musician* from **__pam__tseo** *music*, **tsul__fä__tu** *master of a craft or skill, expert* from **tsul__fä__** *mastery*.",
+				"5.1.5.2" : "**-yu** creates agent nouns from verbs, as in **taronyu** *hunter* from **taron** *hunt*. This suffix is freely productive."
+			},
+			"5.1.6" : {
+				"header" : "Diminuitive Suffix",
+				"info" : "The unstressed suffix **-tsyìp** may be used freely to form diminuitives, on both nouns and pronouns. Personal names may lose syllables when taking this suffix, **Kamtsyìp** or **Kamuntsyìp** for *little Kamun*. The diminuitive has three uses.",
+				"5.1.6.1" : "First, the diminuitive form may be a primary lexical derivation. Such words will end up in the dictionary, such as **puktsyìp** *booklet, pamphlet* from **puk** *book*. The diminuitive force is weak enough that one may use the adjective **tsawl** *large* with a diminuitive without contradiction, as in **tsawla utraltsyìp** *a large bush*.",
+				"5.1.6.2" : "Second, the diminuitive may express affection or endearment, **za'u fìtseng, ma 'itetsyìp** *come here, little daughter*. This use should not be taken to imply an age. The daughter in the previous sentence could be an adult.",
+				"5.1.6.3" : "Third, the diminuitive may express disparagement or insult, **fìtaronyutsyìp ke tsun ke'ut stivä'nì** *this (worthless) little hunter can't catch anything*. The disparaging tone may be directed at oneself, **nga nìawnomum to oetsyìp lu txur nìtxan** *as everyone knows, you're a lot stronger than little old me*. Only context will distinguish the disparaging from the affectionate use of the diminuitive."
+			},
+			"5.1.7" : {
+				"header" : "-Nay Suffix",
+				"info" : "This creates a new noun which indicates something lower on some hierarchy, size, rank, accomplishment, etc. The suffix receives the accent, **karyu__nay__** *apprentice teacher* from **karyu** *teacher*. If the noun already ends in **-n** the suffix loses the **-n-**, **'eyla__nay__** *acquaintance* from **'eylan** *friend*, **ikra__nay__** *forest banshee* from **ikran** *banshee*. It isn't productive."
+			},
+			"5.1.8" : {
+				"header" : "Gender Suffixes",
+				"info" : "The gender suffixes are unusual in that they are used not only with nouns but also the third person pronoun (**3.2.2.4**).",
+				"5.1.8.1" : "The suffix **-an** indicates males, as in **po__an__** *he* and **__'i__tan** *son*.",
+				"5.1.8.2" : "The suffix **-e** indicates females, as in **po__e__** *she* and **__'i__te** *daughter*.",
+				"5.1.8.3" : "The effect of these suffixes on the accent is unpredictable, **tu__tan__** *male (person)* from **__tu__te** *person*, but **mun__txa__tan** *husband* from **mun__txa__tu** *spouse, mate*."
+			}
+		},
+		"5.2" : {
+			"header" : "Reduplication",
+			"info" : "Reduplication is a nonproductive derivational process. Nonetheless, a few common words do use it.",
+			"5.2.1" : {
+				"header" : "Iteration",
+				"info" : "With words of time, reduplication indicates repetition or habitual occurrence, **letrrtrr** *ordinary*, that is, occurring daily; and **krro krro** *sometimes*."
+			},
+			"5.2.2" : {
+				"header" : "Shift in Degree",
+				"info" : "With the verbs **'ul** *increase* and **nän** *decrease*, reduplicated adverbs mark change to an extreme degree, **nì'ul'ul** *increasingly, more and more*, **nìnänän** 1 *less and less*.",
+				"footer" : "1  The reduplication is partial, since consonants cannot be doubled."
+			}
+		}
+	}
+}				

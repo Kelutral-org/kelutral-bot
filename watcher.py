@@ -152,7 +152,7 @@ async def onLeave(member, kelutralBot):
             today_dict['leaves'] += 1
             today_dict['rds'] += 1
         except KeyError:
-            server_info[date] = {
+            server_info[datetime.now().strftime('%H:%M')] = {
                 "joins" : 0,
                 "leaves" : 1,
                 "rds" : 1
@@ -162,7 +162,7 @@ async def onLeave(member, kelutralBot):
             today_dict = server_info[checkJoin]
             today_dict['leaves'] += 1
         except KeyError:
-            server_info[date] = {
+            server_info[datetime.now().strftime('%H:%M')] = {
                 "joins" : 0,
                 "leaves" : 1,
                 "rds" : 0
