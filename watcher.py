@@ -391,5 +391,5 @@ async def onReaction(payload, kelutralBot):
                 with open(fileName, 'w') as fh:
                     json.dump(contents, fh)
         
-        admin.writeDirectory(message.author, "thanks", timesThanked)
+            admin.writeDirectory(message.author, "thanks", timesThanked)
         admin.updateDirectory()

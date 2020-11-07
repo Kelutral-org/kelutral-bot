@@ -264,8 +264,10 @@ class Utility(commands.Cog):
     @commands.command(name="search")
     async def search(self, ctx, *words):
         user = ctx.message.author
-        
         word_list = []
+        found_count = 0
+        t1 = time.time()
+        
         i = 0
         for word in words:
             check_word = re.search(r"si|s..i|s...i", word)
@@ -274,18 +276,49 @@ class Utility(commands.Cog):
                     word_list.append(word)
                 else:
                     word_list[i-1] += " {}".format(word)
-                    i -= 1
             else:
                 word_list.append(word)
-            i += 1
+                i += 1
                 
         with open(config.dictionaryFile, 'r', encoding='utf-8') as fh:
-            dictionary = json.load(fh)    
+            dictionary = json.load(fh)  
+
+        def validate(word, core_word, infix, expected_pos):
+        
+            def find_pos(entry):
+                try:
+                    infix_pos = entry["infixDots"]
+                    split_list = infix_pos.split('.')
+                except ValueError:
+                    return False
+                
+                split_list.insert(expected_pos, infix)
+                joined_word = ''.join(split_list)
+                
+                if word == joined_word:
+                    validated = True
+                else:
+                    validated = False
+                
+                return validated
+
+            try:
+                check = dictionary[core_word]
+                if len(check) > 1:
+                    for entry in check:
+                        validated = find_pos(entry)
+                else:
+                    validated = find_pos(check[0])
+                    
+                return validated
+                
+            except KeyError:
+                return False
         
         def stripAffixes(word):
             parsed_word = {}
-            mod = ""
-            output = ""
+            found = False
+            
             cases = {
                 "agentive" : ["l\Z","ìl\Z"],
                 "patientive" : ["t\Z","ti\Z","it\Z"],
@@ -293,69 +326,101 @@ class Utility(commands.Cog):
                 "genitive" : ["ä\Z","yä\Z"],
                 "topical" : ["ri\Z","ìri\Z"]
                 }
+                
+            plurals = [{"dual" : 'me'},
+                       {"trial" : 'pxe'},
+                       {"plural" : 'ay'}]
             
-            infixes = [{"general past" : 'am'},{"near past" : 'ìm'},{"general future" : 'ay'},{"near future" : 'ìy'},{"general future intent" : 'asy'},{"near future intent" : 'ìsy'},{"general past perfective" : 'alm'},{"near past perfective" : 'ìlm'},{"general future perfective" : 'aly'},{"near future perfective" : 'ìly'},{"general past progressive" : 'arm'},{"near past progressive" : 'ìrm'},{"general future progressive" : 'ary'},{"near future progressive" : 'ìry'},{"positive mood" : 'ei'},{"negative mood" : 'äng'},{"perfective" : 'ol'},{"progressive" : 'er'},{"progressive participle" : 'us'},{"passive participle" : 'awn'}]
+            first_pos_infixes = [{"general past" : 'am'},     # Tense
+                       {"near past" : 'ìm'},
+                       {"general future" : 'ay'},
+                       {"near future" : 'ìy'},
+                       {"general future intent" : 'asy'},     # Intent
+                       {"near future intent" : 'ìsy'},
+                       {"general past perfective" : 'alm'},   # Perfective compounds
+                       {"near past perfective" : 'ìlm'},
+                       {"general future perfective" : 'aly'},
+                       {"near future perfective" : 'ìly'},
+                       {"general past progressive" : 'arm'},  # Progressive compounds
+                       {"near past progressive" : 'ìrm'},
+                       {"general future progressive" : 'ary'},
+                       {"near future progressive" : 'ìry'},
+                       {"perfective" : 'ol'},                 # Perfective
+                       {"progressive" : 'er'},                # Progressive
+                       {"progressive participle" : 'us'},     # Participles
+                       {"passive participle" : 'awn'},
+                       {"subjunctive" : 'iv'},                # Subjunctive compounds
+                       {"perfective subjunctive" : 'ilv'},
+                       {"progressive subjunctive" : 'irv'},
+                       {"future subjunctive a" : 'ìyev'},
+                       {"future subjunctive b" : 'iyev'},
+                       {"past subjunctive" : 'imv'},
+                       {"causative" : 'eyk'},                 # Causative
+                       {"reflexive" : 'äp'},                  # Reflexive
+                       {"causative reflexive" : 'äpeyk'}]    # Causative reflexive
             
-            isverb = False
-            isnoun = False
-            isadj = False
+            second_pos_infixes = [{"positive mood" : 'ei'},
+                                  {"positive mood (H**2.3.3**)" : 'eiy'},
+                                  {"negative mood" : 'äng'},
+                                  {"negative mood (H**2.3.5.2**)" : 'eng'},
+                                  {"inferential" : 'ats'},
+                                  {"formal, ceremonial" : 'uy'}]
+
+            # Tries to find a core, unmodified word
             try:
-                check = re.search(r"\s", word)
-                if check != None:
-                    isverb = True
+                check = re.search(r"\s", word) # Checks unmodified si verbs straight away
                 dictionary[word]
                 core_word = word
                 parsed_word[word] = {"stripped" : core_word, "notes" : ""}
+                
             except KeyError:
+            
                 # Noun Checking
-                if not isverb:
+                if " " not in word:
                     for key, value in cases.items():
                         for suffix in value:
                             case = re.search(r""+suffix, word)
                             if case != None:
-                                isnoun = True
+                                found = True
                                 core_word = re.sub(r""+suffix, '', word)
                                 case_name = key
                                 parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(case_name)}
                                 break
+                
                 # Verb Checking
-                if not isnoun:
-                    isverb = False
-                    if " s.i " in word:
-                        for infix in infixes:
-                            if not isverb:
-                                for key, value in infix.items():
-                                    verb = re.search(r"s"+value+"i", word)
-                                    if verb != None:
-                                        isverb = True
-                                        core_word = re.sub(r"s"+value+"i", 'si', word)
-                                        tense = key
-                                        parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
-                                        break
-                    else:
-                        for infix in infixes:
-                            if not isverb:
-                                for key, value in infix.items():
-                                    verb = re.search(r""+value, word)
-                                    if verb != None:
-                                        isverb = True
-                                        core_word = re.sub(r""+value, '', word)
-                                        tense = key
-                                        parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
-                                        break
+                def verbCheck(word, infixes, pos, search, replace):
+                    found = False
+                    for entry in infixes:
+                        for key, infix in entry.items():
+                            verb = re.search(r""+search.format(infix), word)
+                            if verb != None:
+                                found = True
+                                core_word = word.replace(search.format(infix), replace)
+                                if validate(word, core_word, infix, pos):
+                                    tense = key
+                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
+                                    break
+                    
+                    return parsed_word, found
+                    
+                if " s.i " in word and not found:
+                    parsed_word, found = verbCheck(word, first_pos_infixes, 1, "s{}i", "si")
+                    if not found:
+                        parsed_word, found = verbCheck(word, second_pos_infixes, 2, "s{}i", "si")
+
+                elif not found:
+                    parsed_word, found = verbCheck(word, first_pos_infixes, 1, "{}", "")
+                    if not found:
+                        parsed_word, found = verbCheck(word, second_pos_infixes, 2, "{}", "")
+                
                 # Adjective Checking
-                if not isnoun and not isverb:
+                if not found:
                     adj = re.search(r"\Aa|\Ale|a\Z", word)
                     if adj != None:
-                        isadj = True
-                        if word.endswith("a"):
-                            mod = "right"
-                        elif mod != "right":
-                            if word.startswith("a") or word.startswith("le"):
-                                mod = "left"
+                        found = True
                         core_word = re.sub(r"\Aa|a\Z", '', word)
                         parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-
+                        
             return parsed_word
         
         results = ''
@@ -365,11 +430,13 @@ class Utility(commands.Cog):
                 word_entry = dictionary[word.lower()]
                 found = True
                 if len(word_entry) > 1:
+                    found_count += len(word_entry)
                     alphabet = ['a','b','c','d','e']
                     results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
                     for j, sub in enumerate(word_entry):
                         results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
                 else:
+                    found_count += 1
                     results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
             except KeyError:
                 for key, value in dictionary.items():
@@ -378,6 +445,7 @@ class Utility(commands.Cog):
                         y = re.search(r"\b"+word+"[,]", sub['translation'])
                         if x != None or y != None:
                             found = True
+                            found_count += 1
                             results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
             
             if not found:
@@ -386,11 +454,13 @@ class Utility(commands.Cog):
                     word_entry = dictionary[parsed_word[word]["stripped"].lower()]
                     found = True
                     if len(word_entry) > 1:
+                        found_count += len(word_entry)
                         alphabet = ['a','b','c','d','e']
                         results += "`{}.` **{}** has multiple definitions: \n".format(i+1, parsed_word[word]["stripped"])
                         for j, sub in enumerate(word_entry):
                             results += "`     {}.` **{}** *{}* {} {} \nOriginal: **{}**\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'], parsed_word[word]["notes"], parsed_word[word]["stripped"])
                     else:
+                        found_count += 1
                         results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], parsed_word[word]["notes"], parsed_word[word]["stripped"])
                 except KeyError: 
                     results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
@@ -398,6 +468,7 @@ class Utility(commands.Cog):
             results += "\n"
 
         embed = discord.Embed(title="Search Results:", description=results, color=config.reportColor)
+        embed.set_footer(text="Found {} results in {} seconds.".format(found_count, round(time.time() - t1, 3)))
         await ctx.send(embed=embed)
 
     ## Server information
