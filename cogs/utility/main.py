@@ -137,6 +137,7 @@ class Utility(commands.Cog):
         user = ctx.message.author
         found_list = []
         output = ""
+        found = False
                
         with open(config.horenFile, 'r', encoding='utf-8') as fh:
             horen = json.load(fh)
@@ -219,6 +220,7 @@ class Utility(commands.Cog):
                 for i in range(1, len(path)):
                     section = findEntry(path)
                     if section != None:
+                        found = True
                         if path[-1] == "info" or path[-1] == "header" or path[-1] == "section" or path[-1] == "footer":
                             rule_number = path[-2]
                         else:
@@ -226,7 +228,8 @@ class Utility(commands.Cog):
                         output += "{}: {}\n".format(rule_number, section[0:60] + "[...]")
                         embed = discord.Embed(title="Horen Query: {}".format(query), description=output, color=config.reportColor)
                         break
-
+            if not found:
+                embed = discord.Embed(title="Horen Query: {}".format(query), description="Matching text was not found.", color=config.failColor)
         else:
             rule_levels = query.split(".")
             for i, level in enumerate(rule_levels):
