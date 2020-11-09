@@ -14,7 +14,7 @@ with open('files/config/token.txt','r') as file:
 # Global Variables
 token = token.strip()
 prefix = "!"
-version = "Stable 2.5"
+version = "Stable 2.6"
 debug = False
 
 activeRoleIDs = [715319929942966312, 715319903376113745, 715319861684994069, 715319829611151440, 715319782198739016, 715319761927405668, 715319686710952018, 715319529550381056, 715319404803653632, 715319360884834376, 715319264805912580, 715319193188171846]
@@ -77,6 +77,8 @@ directoryFile = 'cogs/utility/files/users/new-directory.json'
 
 dictionaryFile = 'cogs/utility/files/dictionary.json'
 horenFile = 'cogs/utility/files/horen.json'
+horenLicense = 'cogs/utility/files/license.txt'
+horenChangelog = 'cogs/utility/files/changelog.txt'
 
 ## -- Clean output function for Quiz Command
 def clean(var):

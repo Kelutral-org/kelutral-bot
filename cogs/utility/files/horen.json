@@ -658,6 +658,279 @@
 				"info" : "With the verbs **'ul** *increase* and **nän** *decrease*, reduplicated adverbs mark change to an extreme degree, **nì'ul'ul** *increasingly, more and more*, **nìnänän** 1 *less and less*.",
 				"footer" : "1  The reduplication is partial, since consonants cannot be doubled."
 			}
+		},
+		"5.3" : {
+			"header" : "Compounds",
+			"info" : "",
+			"5.3.1" : {
+				"header" : "Headedness",
+				"info" : "The dominant element of a Na'vi compound may come first or last in the compound. 2 There is, however, a strong tendencey for head-final compounds. Verb compounds are the most likely to be head-initial.",
+				"footer" : "2  Many human languages are more strict. English compounds, for example, generally have the dominant element, or \"head\" last, as in blueberry, night-light, blackboard. On the other hand, Vietnamese uses head-initial order for native compounds and head-final order for compounds using the substantial Chinese vocabulary it has borrowed.",
+				"5.3.1.1" : "Compounds are in the same word class as their head, so **txam__pay__** *sea* is noun, because **pay** *water* is noun.",
+				"5.3.1.2" : "Like root words, compounds may change word class with the addition of the derivational affixes listed above, **lefpom__tokx__** *healthy* from **fpom__tokx__** *health*."
+			},
+			"5.3.2" : {
+				"header" : "Apocope",
+				"info" : "Words may lose parts when used in a compound, as in **__ven__zek** *toe* < **__ve__nu** *foot* + **__zek__wä** *finger*, and **sìl__pey__** *hope* < **sìltsan** *good* + **pey** *wait (for)*."
+			},
+			"5.3.3" : {
+				"header" : "\"Si\" Construction",
+				"info" : "The usual way to convert a noun or adjective to a verb is to pair the uninflected noun with the prop verb **si**, which only ever occurs in these constructions. The order is fixed **N si**, with **si** getting all verb affixes.",
+				"5.3.3.1" : "In the verb **irayo si** *to thank* the order is less fixed.",
+				"5.3.3.2" : "The normal **N si** word order is also broken for negation, **oe pamrel ke si** *I don't write* (**6.16.1.1**), **topxu rä'ä si** *don't be afraid* (**6.13.3**)."
+			}
+		},
+		"5.4" : {
+			"header" : "Common and Noteworthy Compound Elements",
+			"info" : "",
+			"5.4.1" : {
+				"header" : "-fkeyk",
+				"info" : "Derived from the noun **tìfkeytok** *state, condition, situation*, this unaccented suffix produces some words with specialized, idiomatic meanings, such as **__ya__fkeyk** *weather*. It is nonetheless widely productive, **kilvanfkeyk lu fyape fìtrr?** *how's the condition of the river today?*"
+			},
+			"5.4.2" : {
+				"header" : "Hì(')-",
+				"info" : "From the adjective **hì'i** *small*, the accented prefix **hì-** or **hì'-** is used in a few words to form diminuitives, but should not be considered productive (see **5.1.6**), as in **__hì__'ang** *insect* (< **hì'** + **ioang** *animal*), **__hì__krr** *moment, a short time* (< **hì** + **krr** *time*)."
+			},
+			"5.4.3" : {
+				"header" : "-ìva",
+				"info" : "When the noun **ìlva** *flake, drop, chip* is used in compounds, the **l** drops, **__txe__pìva** *ash, cinder*, **__her__wìva** *snowflake*."
+			},
+			"5.4.4" : {
+				"header" : "-nga'",
+				"info" : "This suffix, derived from the verb **nga'** *contain*, creates adjectives from nouns and describes something \"containing\" the noun, as in **__txum__nga'** *poisonous*. It is much less common than **le-**. It is possible for a noun to have both **le-** and **-nga'** derivations, **lepay** *watery* vs. **__pay__nga'** *damp, humid*."
+			},
+			"5.4.5" : {
+				"header" : "-pin",
+				"info" : "Derived from the noun **'opin** *color*, this unaccented suffix is attached to color adjectives to form color nouns, **__rim__pin** *the color yellow* from **rim** *yellow*. A final **-n** in the color adjective will become **-m** by assimilation, **__e__ampin** from **__e__an**."
+			},
+			"5.4.6" : {
+				"header" : "Pxi-",
+				"info" : "The adjective **pxi** *sharp* is prefixed to adverbs and adpositions of time to indicate immediacy. The prefix doesn't take the accent, **pxi__sre__** *immediately before*, **pxi__set__** *immediately, right now*."
+			},
+			"5.4.7" : {
+				"header" : "Sna-",
+				"info" : "A shortened form of the noun **sna'o** *group, set, clump, stand*, this prefix can be freely used with living things other than people to indicate a natural grouping, such as **snatalioang** *a herd of sturmbeest*, **snautral** *a grove of trees*. The prefix is used with non-living things to produce words, but this is not productive, **snatxärem** *skeleton*."
+			},
+			"5.4.8" : {
+				"header" : "Tsuk-",
+				"info" : "Derived from **tsun fko**, this unaccented prefix creates ability adjectives from transitive verbs, **tsuk__yom__** *edible* (from **yom** *eat*). The negative simply takes the prefix **ke-**, which also causes no accent change here, **ketsuk__tswa'__** *unforgettable* (from **tswa'** *forget*).",
+				"5.4.8.1" : "In addition, intransitive verbs may be combined with **tsuk-**, with a looser relationship between the noun and resulting adjective, **fìtseng lu tsuktsurokx** *one can rest here, this place is \"restable\"*, **lu na'rìng tsukhahaw** *one can sleep in the forest*."
+			},
+			"5.4.9" : {
+				"header" : "-tswo",
+				"info" : "This suffix may be freely used on any verb, and creates a noun meaning the ability to perform the action of the verb, **wemtswo** *ability to fight*, **roltswo** *ability to sing*. This suffix is related to the word **tsu'o** *ability*.",
+				"5.4.9.1" : "The suffix **-tswo** is attached to the noun or adjective element of **si**-verbs, as in **srungtswo** *ability to help* and **tstutswo** *ability to close*."
+			},
+			"5.4.10" : {
+				"header" : "-vi",
+				"info" : "From the noun **'evi**, itself a shortened form of **'eveng** *child*, the unaccented suffix **-vi** is used rather loosely for the spawn of something bigger or a part of a larger whole, **__txep__vi** *spark* (< **txep** *fire*), **__lì'__fyavi** *expression, bit of language* (< **lì'fya** *language*). It may cause minor changes to the word it is attached to, **sä__num__vi** *lesson* from **sä__nu__me** *instruction, teaching*."
+			},
+			"5.4.11" : {
+				"header" : "\"Kä-\" and \"Za-\"",
+				"info" : "The two verbs of motion **kä** *go* and **za'u** *come* (reduced to just **za-**) are used in some compound verbs to indicate direction of motion, **kä__mak__to** *ride out*. Note the distinction between **kä__'ä__rìp** *push* and **za__'ä__rìp** *pull* from **__'ä__rìp** *move (something)*."
+			}
+		},
+		"5.5" : {
+			"header" : "Time",
+			"info" : "Adverbs of time are derived from nouns in a predictable pattern.",
+			"5.5.1" : {
+				"header" : "The Current Time",
+				"info" : "The prenoun **fì-** (**3.3.1**) creates an adverb for the current unit of time, **fìtrr** *today* (\"this day\"), **fìrewon** *this morning*."
+			},
+			"5.5.2" : {
+				"header" : "The Previous Time",
+				"info" : "The accented suffix **-am** creates an adverb for the previous unit of time, **trr__am__** *yesterday*, **pxiswaw__am__** *just a moment ago*."
+			},
+			"5.5.3" : {
+				"header" : "The Next Time",
+				"info" : "The accented suffix **-ay** creates an adverb for the next unit of time, **trr__ay__** *tomorrow*, **ha'ngir__ay__** *tomorrow afternoon*."
+			}
+		}
+	},
+	"6" : {
+		"header" : "Syntax",
+		"info" : "",
+		"6.1" : {
+			"header" : "Transitivity and Ergativity",
+			"info" : "",
+			"6.1.1" : {
+				"header" : "Transitivity",
+				"info" : "Na'vi marks the subject of transitive and intransitive verbs differently. To speak any Na'vi sentence with a verb requires one to understand transitivity. This means a deeper and earlier understanding of transitivity is required for Na'vi than is usually required to learn a human language. 1",
+				"footer" : "1  Since formal grammar isn't taught as much as it used to be, some English speakers have trouble identifying transitive vs. intransitive verbs. This is further complicated by English grammar, where very often it's not the verb that is transitive or intransitive, but the entire phrase. For example, \"I move\" is intransitive while \"I move the car\" is transitive, and only the presence of a direct object triggers the transitive interpretation of the verb. In Na'vi, too, it is usually best to think about transitivity as a clausal, rather than purely verbal, phenomenon.",
+				"6.1.1.1" : "Many compound verbs are created by pairing an uninflected noun or adjective with the verb stem **si** *to do, to make*, which is only used in these compounds, **irayo si** *to thank*, **kavuk si** *to betray*. These verbs are always intransitive and use the dative for any object (**6.4.4.1**).",
+				"6.1.1.2" : "Reflexive verbs with the **<äp>** infix are always intransitive, and causative verbs with the **<eyk>** infix are always transitive."
+			},
+			"6.1.2" : {
+				"header" : "Tripartite",
+				"info" : "Na'vi marks nouns and pronouns differently if they are the subject of an intransitive verb, the subject of a transitive verb or the direct object of a transitive verb (**6.4**).",
+				"6.1.2.1" : "Though the English concept of the \"subject\" of a verb in Na'vi is divided in two depending on the transitivity of the verb phrases, this division does not apply to participles. There is a verbal object adjective (the passive participle) and a verbal subject adjective (the active participle) which is used for both subjective and agentive subjects (**3.6.2**).",
+				"6.1.2.2" : "Na'vi is also pragmatically split-ergative. In connected discourse one may drop the subject pronoun if it doesn't change. The subject may be either subjective or agentive. See some pragmatics section."
+			}
+		},
+		"6.2" : {
+			"header" : "Noun Phrases and Adjectives",
+			"info" : "",
+			"6.2.1" : {
+				"header" : "Number",
+				"info" : "Are the dual and trial collective vs. plural distributive? Or always obligatory?",
+				"6.2.1.1" : "When used with an attributive numeral, nouns are not marked for number, **mrra zìsìt** *five years*.",
+				"6.2.1.2" : "The adjectives of quantity — **'a'aw** *several*, **hol** *few*, **pxay** *many*, **polpxay, holpxaype** *how many?* — also take singular nouns in attributive phrases, **lu poru 'a'awa 'eylan** *he has several friends*.",
+				"6.2.1.3" : "In colloquial speech, number may be marked with the adjective **pxay** *many*, **lu awngar aytele apxay a teri sa'u pivlltxe** *we have many matters to talk about*.",
+				"6.2.1.4" : "With verbs of identity (**lu** and **slu**), the basic rule of number marking in Na'vi is, \"in referring to the same entity, express number only once per clause.\"\n\n**Menga lu karyu.** *You two are teachers.*\n**Fo lu karyu.** *They are teachers.*\n**Menga lu oeyä 'eylan.** *You two are my friends.*\n\nIn the first two sentences, **karyu** is not marked for number since the pronouns are already marked, and the same for **'eylan** in the third sentence. But see **6.3.2** for the question pronoun **tupe**.",
+				"6.2.1.5" : "General statements about a group or class use nouns in the singular, **nantangìl yom yerikit**, *viperwolves eat hexapedes*."
+			},
+			"6.2.2" : {
+				"header" : "Indefinite",
+				"info" : "The adjective **lahe** *other* has the sense of *else* when used with indefinite nouns having the suffix **-o**, as in **lu law 'uo alahe, ma eylan** *something else is clear, my friends*."
+			},
+			"6.2.3" : {
+				"header" : "Free Choice Indefinites",
+				"info" : "Na'vi uses the adjective **ketsran** *no matter (what), whatever* with generic nouns to create free choice indefinites. The clause with **ketsran** often, though not always, takes the subjunctive.\n\n**Ketsran tute nivew hivum, poru plltxe san rutxe 'ivì'awn.\n*No matter who wants to leave, tell them to please stay.*\n**'U aketsran tsun tivam.**\n*Anything at all will be fine.*\n**Ketsran fya'o sivunu ngar, kem si.**\n*Do it however you'd like.*\n**Pukit aketsran ivinan.**\n*Read any book at all.*"
+			},
+			"6.2.4" : {
+				"header" : "Apposition",
+				"info" : "Nouns in apposition 2 to other nouns are in the subjective case, **aylì'ufa awngeyä 'eylanä a'ewan Markusì** *in the words of our young friend, Marcus*. However, the conjunction **alu** is also used for this (see **6.20.1). 3",
+				"footer" : "2  Nouns are described as in apposition when they occur immediately next to each other, with one describing defining the other. In English, we usually set off the second noun phrase with commas, as in \"I told my best friend, Bob, that he should learn Na'vi too.\"\n3  The bare apposition is Early Na'vi. Using alu may be better for future use."
+			},
+			"6.2.5" : {
+				"header" : "Adjective Attribution",
+				"info" : "Attributive adjectives are joined to the noun they modify with the affix **-a-** (see **3.5.1**), **sìlpey oe, layu oeru ye'rìn sìltsana fmawn** *I hope I will soon have ood news*, **lora aylì'u, lora aysäfpìl** *beautiful words and beautiful thoughts*.",
+				"6.2.5.1" : "Regardless of the order of noun and adjective, the case endings always attach to the noun, never the adjective. Similarly, an enclitic adposition is always attached to the noun (see **6.5.1**).",
+				"6.2.5.2" : "When an adverb is used with an attributive adjective, it must not come between the adjective and its noun, that is, **sìkenong ahìno nìhawng** *very detailed examples* or **nìhawng hìnoa sìkenong**, never something like \\***hìno nìhawnga sìkenong**.",
+				"6.2.5.3" : "If there are two adjectives modifying a noun, Frommer has a tendency to order them Adj -N- Adj, **nìawnomum tolel oel ta ayhapxìtu lì'fyaolo'ä pxaya sìpawmit atxantsan** *as you know, I have received many excellent questions from members of the language community.",
+				"6.2.5.4" : "For more than two adjectives, or to use some order other than Adj -N- Adj given above, the adjectives must be put into an attributive clause with **lu, yayo a lu lor sì hì'i** *a small, pretty bird*.",
+				"6.2.5.5" : "The adjective may be repeated on both sides of the noun to mark intensity. The second adjective receives the phrase stress, **lu po lora tuté alor** *she's an extremely beautiful woman*.",
+				"6.2.5.6" : {
+					"info" : "When repeating a noun with different adjectives (\"the big dog, the little dog, the yappy dog,\" etc.) the prop noun 4 **pum** is used for the repetitions, **lam set fwa Sawtute akawng holum, pum asìltsan 'ì'awn** *it now seems that the evil sky-people are gone, the good ones remain*.",
+					"footer" : "4  Frommer calls it a \"dummy noun,\" but it can be reasonably thought of as a kind of pronoun, too."
+				},
+				"6.2.5.7" : "The noun element in most **si** constructions verb may have an attributive adjective, **wina uvan si** *play a quick game*."
+			},
+			"6.2.6" : {
+				"header" : "Predication",
+				"info" : "Adjective and noun predicates both use the same construction with the verb **lu** *be*, as in **reltseotu atxantsan lu nga** *you are an excellent artist*, **fìsyulang lu rim** *this flower is yellow*.",
+				"6.2.6.1" : "Other verbs that take predicative syntax: **slu** *become* and **'efu** *feel*, as in **ngenga slìyu Na'viyä hapxì** *you will become part of the people*, **oe 'efu ohakx** *I am (feel) hungry*.",
+				"6.2.6.2" : "If there is ambiguity with **slu** *become* about which constituent is the subject and which the predicate, the predicate can be marked with the adposition **ne**, as in **taronyu slu ne tsamsiyu** *the hunter becomes a warrior*.",
+				"6.2.6.3" : "**Sleyku**, the causative of **slu** *become*, also takes an adjective predicate, **fula tsayun oeng pivängkxo ye'rìn ulte ngari oel mokrit stayawm, oeti nitram sleyku nìtxan** *it makes me very happy that we two will soon be able to chat and that I will hear your voice*."
+			},
+			"6.2.7" : {
+				"header" : "Comparison",
+				"info" : "Adjective comparatives and superlatives (*big, bigger, biggest*) are marked with the particle **to**, which like an adposition, may come before the noun compared to or be enclitic on it (**2.1.5.3**).\n\n**Oe to nga lu koak** *I am older than you.*\n**Oe ngato lu koak** *I am older than you.*",
+				"6.2.7.1" : "The superlative is handled with **__fra__to** *than all*, **fìsyulang arim lu hì'i frato** *this yellow flower is the smallest of all*.",
+				"6.2.7.2" : "Comparisons of equality, \"as big as a tree,\" are handled with the idiom **nìftxan** *adjective* **na** *noun or pronoun*, as in **oe lu nìftxan sìltsan na nga** *I am as good as you*. If the point of comparison is a pronoun, or definite noun already part of the discourse, the topical case may be used, **ngari lu oe nìftxan sìltsan**. This construction is also usable with adverbs."
+			},
+			"6.2.8" : {
+				"header" : "Direct Address",
+				"info" : "When speaking to an individual directly the vocative particle **ma** precedes the relationship noun, noun phrase or name, **oel ayngati kameie, ma oeyä eylan** *I see you, my friends*, **ma Tsu'tey, kempe si nga?** *Tsu'tey, what are you doing?*",
+				"6.2.8.1" : "If multiple individuals are addressed **ma** is not repeated, **ma smukan sì smuke** *brothers and sisters*.",
+				"6.2.8.2" : "Collective nouns may take the suffix **-ya**, as in **mawey, Na'viya, mawey** *(be) calm, people, (be) calm!"
+			}
+		},
+		"6.3" : {
+			"header" : "Pronouns",
+			"info" : "",
+			"6.3.1" : {
+				"header" : "Gender",
+				"info" : "The gendered third person pronouns, **poan** and **poe**, are used only when it will help to avoid ambiguity in discourse. Speakers of English and other Western European languages should take care to not use them too often."
+			},
+			"6.3.2" : {
+				"header" : "Number",
+				"info" : "The forms of the question pronoun **tupe** have a behavior that differs from the number agreement rules discussed in **6.2.1.4**. Here, the pronoun may be marked for number even when the noun has been, too. Note the answers to these questions,\n\n**Tsaysamsiyu lu tupe?** *Who are those warriors?*\n**(Fo) lu 'eylan Tsu'teyä.** *They are Tsu'tey's friends.*\n\n**Tsaysamsiyu lu supe?** *Who are those warriors?*\n**(Fo) lu Kamun, Ralu, Ìstaw, sì Ateyo.** *They're Kamun, Ralu, Ìstaw and Ateyo.*\n\nThe plural forms ask for the identity of individual members, while the singular asks about a group characteristic."
+			},
+			"6.3.3" : {
+				"header" : "Similarity",
+				"info" : "Pronouns may take the adverbial prefix **nì-**, producing a form like **nìnga** *like you*. These forms are used to indicate way of acting, **plltxe po nìayoeng** *she speaks like us* or *as we do*. For describing how someone is perceived, the adpositions **na** or **pxel** are preferred."
+			},
+			"6.3.4" : {
+				"header" : "Fko",
+				"info" : "The indefinite pronoun **fko** is like the English pronoun \"one\" or the less formal \"you\" in the general sense, as in *one doesn't say such things* vs. *you don't say things like that*. **Tsat ke tsun fko yivom** *you can't eat that*; **tsun fko sivar hänit fte payoangit stivä'nì** *one can use a net to catch a fish*.",
+				"6.3.4.1" : {
+					"info" : "**Fko** is also used where English would use an unspecified \"they\" when making general statements, as in **plltxe fko san ngaru lu mowan Txilte ulte poru nga** *They say you like Txilte and vice versa*. 5",
+					"footer" : "5  Frommer's translation of this is \"I hear you like Txilte and vice versa.\""
+				},
+				"6.3.4.2" : {
+					"info" : "**Fko** can also be used for the English passive when the agent of the verb 6 is animate, as in the idiom **oeru syaw fko Wìlyìm** *my name is William, I am called William*, **tsalì'uri fko pamrel si fyape?** *how is that word written, how does one write that word?*",
+					"footer" : "6  The agent of a passive verb is the person or thing you put with the preposition \"by\" in English, as in \"I was hit by a car.\""
+				}
+			},
+			"6.3.5" : {
+				"header" : "Sno",
+				"info" : "The reflexive pronoun **sno** refers to the subject of the sentence. In the genitive it may be translated *his own, her own, their own, etc*. It is used to clear up situations found in a sentence like \"he prepared his meal.\" Without clarification, it may not be clear if \"his\" refers to the person preparing the dinner or someone else:\n\n**Pol 'olem peyä wutsot.** *He prepared his (someone else's) meal.*\n**Pol 'olem sneyä wutsot.** *He prepared his own meal.*\n\n**Sno** is for third person antecedents only."
+			},
+			"6.3.6" : {
+				"header" : "Lahe",
+				"info" : "The adjective **lahe** *other, another* can also be used alone as a pronoun, **fìpoti oel tspìyang, fte tìkenong liyevu aylaru** *I will kill this one as a lesson to the others* (see **3.2.4** for the form)."
+			},
+			"6.3.7" : {
+				"header" : "PRO-Drop",
+				"info" : "A subject pronoun (subjective or agentive) may be dropped if it is the same as the subject of a previous statement. Note the lack of a subject pronoun in the second sentence:\n\n**Fayupxaremì oe payängkxo teri horen lì'fyayä leNa'vi fpi sute a tsun srekrr tsat sivar. Ayngeyä sìpawmìri kop fmayi fìtsenge tivìng sì'eyngit.**\n*In these messages I will chat about the rules of the Na'vi language for people who can already use it. I will also try to give answers here concerning your questions.*"
+			},
+			"6.3.8" : {
+				"header" : "Contrastive Demonstratives",
+				"info" : "To focus on contrasting elements, forms of the prenouns **fì-** and **tsa-** are paired with forms of the independent demonstratives **fì'u** and **tsa'u** used with **alu**:\n\n**Fìfkxen alu FÌ'u lu ftxìlor; tsafkxen 7 alu TSA'u ngati tspang.**\n*THIS vegetable is delicious; THAT one will kill you.*\n\n**Fìkaryu alu fìpo lu tsulfätu; tsakaryu alu tsapo lu skxawng.**\n*This teacher is a master; that teacher is a fool.*\n\nThere is also a vocal contrastive stress on the independent forms of **fì'u** and **tsa'u** in this construction.",
+				"footer" : "7  Or pum."
+			}
+		},
+		"6.4" : {
+			"header" : "Use of the Cases",
+			"info" : "",
+			"6.4.1" : {
+				"header" : "Subjective",
+				"info" : "The unmarked subjective case is used as the subject of intransitive verbs, the predicate noun in predicate constructions (**6.2.6**) and with adpositions.",
+				"6.4.1.1" : "With verbs of motion, if the destination comes immediately after the verb, the adposition **ne** may optionally be dropped leaving an unmarked noun, **za'u fìtseng, ma 'itetsyìp** *come here, little daughter*.",
+				"6.4.1.2" : "The subjective is also used in exclamations, when a noun or noun phrase is used by itself as an utterance, **lora aylì'u, lora aysäfpìl** *beautiful words and beautiful thoughts*, **aylì'u apawnlltxe nìltsan** *words well spoken!*",
+				"6.4.1.3" : "A time word with the indefinite **-o** is used in the subjective to indicate a duration of time, **zìsìto amrr ftolia ohe** *I studied for five years*, **herwì zereiup fìtrro nìwotx!** *It's been snowing all day!*"
+			},
+			"6.4.2" : {
+				"header" : "Agentive",
+				"info" : "The agentive case is used for the subject of transitive verbs, **oel ngati kameie** *I See you*."
+			},
+			"6.4.3" : {
+				"header" : "Patientive",
+				"info" : "The patientive is used as the direct object of transitive verbs, **tì'eyngit oel tolel a krr** *when I receive an answer*."
+			},
+			"6.4.4" : {
+				"header" : "Dative",
+				"info" : "The dative is used for the indirect object of ditransitive verbs, **sìltsana fmawn a tsun oe ayngaru tivìng** *good news which I can give to you*.",
+				"6.4.4.1" : "The object of a **si**-verb takes the dative, **oe irayo si ngaru** *I thank you*.",
+				"6.4.4.2" : "The causee for the causative of a transitive verb may be in the dative, **oel ngaru tseykìye'a tsat** *I will make you see it* (see **6.11.2**).",
+				"6.4.4.3" : "The verb **lu** with the dative forms an idiom for possession, where English uses the verb \"have,\" **lu oeru ikran** *I have an ikran.* In this construction, the verb usually comes first in the clause.",
+				"6.4.4.4" : "The dative of interest limits the scope of an adjective to the judgment (or benefit) of a particular individual, **fì'u oeru prrte' lu** *this is pleasant to me*, **tìpängkxo ayoengeyä mowan lu oeru nìngay** *our chat is truly enjoyable (to me)*.",
+				"6.4.4.5" : "With verbs of speaking, including a word like **pawm** *ask*, the person addressed goes in the dative, **oel poru polawm fì'ut** *I asked him this*."
+			},
+			"6.4.5" : {
+				"header" : "Genitive",
+				"info" : "The genitive case marks posession, as in **oeyä 'eylan** *my friend*. But see below for inalienable possession (**6.4.6.3**).",
+				"6.4.5.1" : "The genitive can be used predicatively, as in **fìtseng lu awngeyä** *this place is ours*. However, the prop noun **pum** *possession, thing possessed* is more often used, **kelku ngeyä lu tsawl; pum oeyä lu hì'i** *your house is large; mine is small*.",
+				"6.4.5.2" : "The partitive genitive marks the larger whole of which something is part, **Na'viyä luyu hapxì** *you are part of the People*. This is also used with fractions, **Tsu'teyìl tolìng oer mawlit smarä** *Tsu'tey gave me half of the prey*.",
+				"6.4.5.3" : "The genitive is occasionally separated from the noun phrase it goes with, **Na'viyä luyu hapxì** *you are part of the People*.",
+				"6.4.5.4" : "The genitive is also used as the object of verbal nouns, as in **tìftia kifkeyä** *study of the natural world*."
+			},
+			"6.4.6" : {
+				"header" : "Topical",
+				"info" : "The topical case marks the topic in a topic-comment construction. See *Topic Comment*, **7.2**, for a longer discussion of this use. The topical has a few more fixed uses as well.",
+				"6.4.6.1" : "In prose, a topical noun phrase will come as early in the clause as possible: first in a main clause, but after the conjunction if in a subordinate clause.",
+				"6.4.6.2" : "The topical is often used with the **si**-verb **irayo si** *to thank* to indicate the thing for which you're giving thanks, **tìmweypeyri ayngeyä seiyi irayo nìngay** *I really thank you for your patience.*",
+				"6.4.6.3" : {
+					"info" : "The topical can be used to mark inalienable possession, 8 **oeri nì'i'a tsyokx zoslu** *my hand is finally healed*, **oeri tìngayìl txe'lanit tivakuk** *let the truth strike my heart*, **ngari tswintsyìp sevin nìtxan lu nang!** *what a pretty little queue you have!* Note in the first two examples that the possessed noun need not fall immediately next to the topical.",
+					"footer" : "8  Inalienable possession is possession of those things which are intrinsically yours, and which in theory cannot be given away or taken. In most languages that have this, words for blood relatives are the most likely to have special grammar for inalienable possession. Na'vi includes body parts, which is also quite common in Human languages."
+				},
+				"6.4.6.4" : "The topical can be used for the point of comparison in comparisons of equality (see **6.2.7.2**)."
+			}
+		},
+		"6.5" : {
+			"header" : "Adpositions",
+			"info" : "Na'vi adpositions may govern nouns, pronouns and adverbs of place and time. Please see the dictionary maintained at http://dict-navi.com/ for the range of uses and meanings for individual adpositions.",
+			"6.5.1" : {
+				"header" : "Position",
+				"info" : "Adpositions can fall in two places. First, they may come before the entire noun phrase they modify, and are written as separate words, **ta peyä fahew akewong** *with (from) his alien smell*, **ngari hu Eywa salew tirea** *your spirit goes with Eywa*. Second, they may be enclitic, in which situation they are always attached to the noun, **fìtrrmì letsranten** *on this important day*, **aylì'ufa awngeyä 'eylanä a'ewan** *in the words of our young friend*."
+			},
+			"6.5.2" : {
+				"header" : "Lenition",
+				"info" : "Several of the adpositions cause lenition in the following word. In dictionaries these are generally indicated as *adp.+*, with the plus sign, as usual, indicating lenition.",
+				"6.5.2.1" : "Enclitic adpositions do not cause lenition in the noun they are attached to. So, **mì hilvan** *in a river*, but **kilvanmì**. The combination **hilvanmì** can only mean *in rivers*. Enclitic adpositions also do not cause lenition on a following word, so **fo kilvanmì kllkxem** *they stand in a river*, not **fo kilvanmì \\*hllkxem**. However, whatever word immediately follows a non-enclitic adposition will be lenited. It doesn't have to be the noun, **mì hivea trr** *on the seventh day* (not \\***mì kivea srr**).",
+				"6.5.2.2" : "Since lenition alone is also used as the short plural (**3.1.3.1**), there is a chance for number uncertainty depending on the conversational context. To be clear about number, use the full plural prefix **ay+**; the lenited form without **ay+** should be interpreted as singular."
+			}
 		}
 	}
 }				

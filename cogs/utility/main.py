@@ -137,7 +137,7 @@ class Utility(commands.Cog):
         user = ctx.message.author
         found_list = []
         output = ""
-        
+               
         with open(config.horenFile, 'r', encoding='utf-8') as fh:
             horen = json.load(fh)
             
@@ -192,6 +192,27 @@ class Utility(commands.Cog):
             output += '```'
             return output
         
+        def find_last_entry(var):
+            for a, b in var.items():
+                if type(b) == dict:
+                    last_key = find_last_entry(b)
+                else:
+                    last_key = a
+            return last_key
+            
+        if query == "-i":
+            with open(config.horenLicense, 'r', encoding='utf-8') as fh:
+                contents = fh.read()
+            embed = discord.Embed(title="Horen Tìskortä License Information", description=contents.format(ctx.guild.get_member(config.makoID).mention,find_last_entry(horen)), color=config.reportColor)         
+            await ctx.send(embed=embed)
+            return
+        elif query == "-c":
+            with open(config.horenChangelog, 'r', encoding='utf-8') as fh:
+                contents = fh.read()
+            embed = discord.Embed(title="Horen Tìskortä Change Log", description=contents, color=config.reportColor)
+            await ctx.send(embed=embed)
+            return
+            
         if re.search(r".\..|.\..\..", query) == None:
             paths = getpath(horen, query, found_list)
             for path in paths:
@@ -420,7 +441,7 @@ class Utility(commands.Cog):
                         found = True
                         core_word = re.sub(r"\Aa|a\Z", '', word)
                         parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-                        
+                
             return parsed_word
         
         results = ''
