@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 import bot
 import config
 import admin
@@ -103,7 +104,7 @@ class TNP(commands.Cog):
             return
         
         # Sends the confirmation
-        embed = discord.Embed(title="The Neytiri Project", description="Accepted your registration! Check your DMs for more the next steps.")
+        embed = discord.Embed(title="The Neytiri Project", description="Accepted your registration! Check your DMs for the next steps.")
         
         await ctx.send(embed=embed)
 

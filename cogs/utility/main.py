@@ -287,10 +287,15 @@ class Utility(commands.Cog):
     ## Search command
     @commands.command(name="search")
     async def search(self, ctx, *words):
-        user = ctx.message.author
+        words = list(words)
         word_list = []
         found_count = 0
+        showStress = False
         t1 = time.time()
+        
+        if "-s" in words:
+            showStress = True
+            words.remove("-s")
         
         i = 0
         for word in words:
@@ -307,33 +312,30 @@ class Utility(commands.Cog):
         with open(config.dictionaryFile, 'r', encoding='utf-8') as fh:
             dictionary = json.load(fh)  
 
-        def validate(word, core_word, infix, expected_pos):
-        
-            def find_pos(entry):
+        def validate(word, core_word, infix, pos):
+            def find_pos(word, entry):
                 try:
                     infix_pos = entry["infixDots"]
                     split_list = infix_pos.split('.')
                 except ValueError:
                     return False
-                
-                split_list.insert(expected_pos, infix)
+
+                split_list.insert(pos, infix)
                 joined_word = ''.join(split_list)
                 
                 if word == joined_word:
                     validated = True
+                    return validated
                 else:
                     validated = False
-                
-                return validated
 
             try:
                 check = dictionary[core_word]
                 if len(check) > 1:
                     for entry in check:
-                        validated = find_pos(entry)
+                        validated = find_pos(word, entry, expected_pos)
                 else:
-                    validated = find_pos(check[0])
-                    
+                    validated = find_pos(word, check[0], expected_pos)  
                 return validated
                 
             except KeyError:
@@ -342,13 +344,14 @@ class Utility(commands.Cog):
         def stripAffixes(word):
             parsed_word = {}
             found = False
+            verbs = ["v.", "vtr.", "vin.", "vtrm.", "vim."]
             
             cases = {
-                "agentive" : ["l\Z","ìl\Z"],
-                "patientive" : ["t\Z","ti\Z","it\Z"],
-                "dative" : ["r\Z","ur\Z","ru\Z"],
-                "genitive" : ["ä\Z","yä\Z"],
-                "topical" : ["ri\Z","ìri\Z"]
+                "agentive" : ["l","ìl"],
+                "patientive" : ["t","ti","it"],
+                "dative" : ["r","ur","ru"],
+                "genitive" : ["ä","yä"],
+                "topical" : ["ri","ìri"]
                 }
                 
             plurals = [{"dual" : 'me'},
@@ -358,6 +361,11 @@ class Utility(commands.Cog):
             first_pos_infixes = [{"general past" : 'am'},     # Tense
                        {"near past" : 'ìm'},
                        {"general future" : 'ay'},
+                       {"subjunctive" : 'iv'},                # Subjunctive compounds
+                       {"perfective subjunctive" : 'ilv'},
+                       {"progressive subjunctive" : 'irv'},
+                       {"future subjunctive a" : 'ìyev'},
+                       {"future subjunctive b" : 'iyev'},
                        {"near future" : 'ìy'},
                        {"general future intent" : 'asy'},     # Intent
                        {"near future intent" : 'ìsy'},
@@ -373,69 +381,118 @@ class Utility(commands.Cog):
                        {"progressive" : 'er'},                # Progressive
                        {"progressive participle" : 'us'},     # Participles
                        {"passive participle" : 'awn'},
-                       {"subjunctive" : 'iv'},                # Subjunctive compounds
-                       {"perfective subjunctive" : 'ilv'},
-                       {"progressive subjunctive" : 'irv'},
-                       {"future subjunctive a" : 'ìyev'},
-                       {"future subjunctive b" : 'iyev'},
                        {"past subjunctive" : 'imv'},
                        {"causative" : 'eyk'},                 # Causative
                        {"reflexive" : 'äp'},                  # Reflexive
-                       {"causative reflexive" : 'äpeyk'}]    # Causative reflexive
-            
-            second_pos_infixes = [{"positive mood" : 'ei'},
-                                  {"positive mood (H**2.3.3**)" : 'eiy'},
-                                  {"negative mood" : 'äng'},
-                                  {"negative mood (H**2.3.5.2**)" : 'eng'},
-                                  {"inferential" : 'ats'},
-                                  {"formal, ceremonial" : 'uy'}]
+                       {"causative reflexive" : 'äpeyk'}]     # Causative reflexive
+                       
+            second_pos_infixes = [           
+                       {"positive mood" : 'ei'},
+                       {"positive mood (H**2.3.3**)" : 'eiy'},
+                       {"negative mood" : 'äng'},
+                       {"negative mood (H**2.3.5.2**)" : 'eng'},
+                       {"inferential" : 'ats'},
+                       {"formal, ceremonial" : 'uy'}]
+                                  
+            def checkElement(word_entry, key, abbrev_list):
+                found = False
+                for entry in word_entry:
+                    if entry[key] in abbrev_list:
+                        found = True
+                
+                return found
 
             # Tries to find a core, unmodified word
-            try:
-                check = re.search(r"\s", word) # Checks unmodified si verbs straight away
-                dictionary[word]
-                core_word = word
-                parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-                
-            except KeyError:
-            
+            if word in dictionary:
+                parsed_word[word] = {"stripped" : word, "notes" : ""}
+            else:
                 # Noun Checking
                 if " " not in word:
                     for key, value in cases.items():
                         for suffix in value:
-                            case = re.search(r""+suffix, word)
-                            if case != None:
-                                found = True
-                                core_word = re.sub(r""+suffix, '', word)
+                            if word.endswith(suffix):
+                                core_word = word[0:-len(suffix)]
                                 case_name = key
-                                parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(case_name)}
-                                break
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                        found = True
+                                        parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(case_name)}
+                                        break
                 
-                # Verb Checking
-                def verbCheck(word, infixes, pos, search, replace):
+                # Multiple Infix Checking
+                tense_list = []
+                str_tenses = []
+                def findInfix(word, infix, expected_pos):
+                    tense = list(infix.keys())[0]
+                    infix = list(infix.values())[0]
                     found = False
-                    for entry in infixes:
-                        for key, infix in entry.items():
-                            verb = re.search(r""+search.format(infix), word)
-                            if verb != None:
-                                found = True
-                                core_word = word.replace(search.format(infix), replace)
-                                if validate(word, core_word, infix, pos):
-                                    tense = key
-                                    parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(tense)}
-                                    break
-                    
-                    return parsed_word, found
+                    verb = re.search(r"{}".format(infix), word)
+                    if verb != None:
+                        found = True
+                        return word.replace("{}".format(infix), "", 1), tense, infix, found
+                    else:
+                        return word, "", "", found
+                        
+                def validate_pos(word, core_word, infix, tenses, pos):
+                    try:
+                        validated = False
+                        check = dictionary[core_word]
+                    except KeyError:
+                        return False
+                        
+                    for entry in check:
+                        if checkElement(dictionary[core_word], "partOfSpeech", verbs):
+                            if pos == 1:
+                                print("Checking position 1")
+                                split_list = entry["infixDots"].split(".")
+                                split_list.insert(1, ".")
+                                joined_word = ''.join(split_list)
+                                index = joined_word.find(".")
+                                if index == word.find(infix):
+                                    validated = True
+                            elif pos == 2:
+                                print("Checking position 2")
+                                split_list = entry["infixDots"].split(".")
+                                split_list.insert(2, ".")
+                                joined_word = ''.join(split_list)
+                                index = joined_word.find(".")
+                                if index == word.find(infix):
+                                    validated = True
+                                    
+                    return validated
                     
                 if " s.i " in word and not found:
-                    parsed_word, found = verbCheck(word, first_pos_infixes, 1, "s{}i", "si")
-                    if not found:
-                        parsed_word, found = verbCheck(word, second_pos_infixes, 2, "s{}i", "si")
-
+                    parsed_word, found = verbCheck(word, first_pos_infixes, "s{}i", "si")
+                
                 elif not found:
-                    parsed_word, found = verbCheck(word, first_pos_infixes, 1, "{}", "")
-                    if not found:
-                        parsed_word, found = verbCheck(word, second_pos_infixes, 2, "{}", "")
+                    core_word = word
+                    for infix in first_pos_infixes:
+                        core_word, tense, infix_str, check = findInfix(core_word, infix, 1)
+                        if check:
+                            tense_list.append(tense)
+                            str_tenses.append((infix_str, 1))
+                            
+                    for infix in second_pos_infixes:
+                        if not list(infix.values())[0] == "äng":
+                            core_word, tense, infix_str, check = findInfix(core_word, infix, 2)
+                            if check:
+                                tense_list.append(tense)
+                                str_tenses.append((infix_str, 2))
+                        else:
+                            if "ängkxängo" in word:
+                                tense_list.append("negative mood")
+                                str_tenses.append(("äng", 2))
+                                core_word = core_word.replace("ängkxängo","ängkxo")
+                            
+                    for tense_tup in str_tenses:
+                        if not validate_pos(word, core_word, tense_tup[0], tense_list, 1):
+                            if not validate_pos(word, core_word, tense_tup[0], tense_list, 2):
+                                break
+                    
+                        if tense_list != []:
+                            parsed_word[word] = {"stripped" : core_word, "notes" : ": {}".format(' : '.join(tense_list))}
+                        
+                    
                 
                 # Adjective Checking
                 if not found:
@@ -447,6 +504,14 @@ class Utility(commands.Cog):
                 
             return parsed_word
         
+        def getStress(word_entry):
+            pre_stress = word_entry['syllables']
+            stress_pos = int(word_entry['stressed'])
+            pre_stress = pre_stress.split("-")
+            pre_stress[stress_pos - 1] = "__{}__".format(pre_stress[stress_pos - 1])
+            post_stress = ''.join(pre_stress)
+            return post_stress
+
         results = ''
         for i, word in enumerate(word_list):
             found = False
@@ -458,10 +523,18 @@ class Utility(commands.Cog):
                     alphabet = ['a','b','c','d','e']
                     results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
                     for j, sub in enumerate(word_entry):
-                        results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
+                        if showStress:
+                            post_stress = getStress(sub)
+                            results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], post_stress, sub['partOfSpeech'], sub['translation'])
+                        else:
+                            results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
                 else:
                     found_count += 1
-                    results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
+                    if showStress:
+                        post_stress = getStress(word_entry[0])
+                        results += "`{}.` **{}** *{}* {}\n".format(i+1, post_stress, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
+                    else:
+                        results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
             except KeyError:
                 for key, value in dictionary.items():
                     for k, sub in enumerate(value):
