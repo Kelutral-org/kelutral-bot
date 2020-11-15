@@ -11,10 +11,13 @@ import json
 with open('files/config/token.txt','r') as file:
     token = file.read()
 
+with open('files/config/config.json', 'r') as fh:
+    config = json.load(fh)
+
 # Global Variables
 token = token.strip()
-prefix = "!"
-version = "Stable 2.7.1"
+prefix = config['prefix']
+version = config['version']
 debug = False
 
 activeRoleIDs = [715319929942966312, 715319903376113745, 715319861684994069, 715319829611151440, 715319782198739016, 715319761927405668, 715319686710952018, 715319529550381056, 715319404803653632, 715319360884834376, 715319264805912580, 715319193188171846]
@@ -23,15 +26,15 @@ activeRoleThresholds = [16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16
 
 lepArchive = [["Placeholder","Tuple"]]
 
-send_time = '12:00'
-sequelDate = "12-22-2022"
+send_time = config['send_time']
+sequelDate = config['sequel_date']
 
 # Channels
-general = 715296162394931340 # Replaced all instances in main code
-modLog = 715052686487191583 # Replaced all instances in main code
-lepChannel = 715988382706303038 # Replaced all instances in main code
-regChannel = 768599416114118656 # Replaced all instances in main code
-newRegChannel = 768627265037664257 # Replaced all instances in main code
+general = 715296162394931340
+modLog = 715052686487191583
+lepChannel = 715988382706303038
+regChannel = 768599416114118656
+newRegChannel = 768627265037664257
 
 # Embed Colors
 botColor = 0x113f78

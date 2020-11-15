@@ -689,6 +689,9 @@ class Utility(commands.Cog):
             msg = g.pull()
             await ctx.send("Pulling from the repo...")
             
+            with open('files/config/config.json', 'w') as fh:
+                config.config['version'] = commit
+                json.dump(fh)
             reload(config)
             await ctx.send("Launching bot version {}".format(config.version))
             
