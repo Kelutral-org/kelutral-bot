@@ -691,7 +691,7 @@ class Utility(commands.Cog):
             
             with open('files/config/config.json', 'w') as fh:
                 config.config['version'] = commit
-                json.dump(fh)
+                json.dump(config.config, fh)
             reload(config)
             await ctx.send("Launching bot version {}".format(config.version))
             
