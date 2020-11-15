@@ -297,6 +297,7 @@ class Utility(commands.Cog):
             showStress = True
             words.remove("-s")
         
+        # Automatically combines 'si' verbs to prevent needing quotes in lookup
         i = 0
         for word in words:
             check_word = re.search(r"si|s..i|s...i", word)
@@ -308,7 +309,8 @@ class Utility(commands.Cog):
             else:
                 word_list.append(word)
                 i += 1
-                
+        
+        # Loads the dictionary
         with open(config.dictionaryFile, 'r', encoding='utf-8') as fh:
             dictionary = json.load(fh)  
 
@@ -387,12 +389,12 @@ class Utility(commands.Cog):
                        {"causative reflexive" : 'äpeyk'}]     # Causative reflexive
                        
             second_pos_infixes = [           
-                       {"positive mood" : 'ei'},
+                       {"positive mood" : 'ei'},              # Mood
                        {"positive mood (H**2.3.3**)" : 'eiy'},
                        {"negative mood" : 'äng'},
                        {"negative mood (H**2.3.5.2**)" : 'eng'},
-                       {"inferential" : 'ats'},
-                       {"formal, ceremonial" : 'uy'}]
+                       {"inferential" : 'ats'},               # Inferential
+                       {"formal, ceremonial" : 'uy'}]         # Ceremonial
                                   
             def checkElement(word_entry, key, abbrev_list):
                 found = False
@@ -443,7 +445,6 @@ class Utility(commands.Cog):
                     for entry in check:
                         if checkElement(dictionary[core_word], "partOfSpeech", verbs):
                             if pos == 1:
-                                print("Checking position 1")
                                 split_list = entry["infixDots"].split(".")
                                 split_list.insert(1, ".")
                                 joined_word = ''.join(split_list)
@@ -451,7 +452,6 @@ class Utility(commands.Cog):
                                 if index == word.find(infix):
                                     validated = True
                             elif pos == 2:
-                                print("Checking position 2")
                                 split_list = entry["infixDots"].split(".")
                                 split_list.insert(2, ".")
                                 joined_word = ''.join(split_list)
@@ -512,55 +512,78 @@ class Utility(commands.Cog):
             post_stress = ''.join(pre_stress)
             return post_stress
 
-        results = ''
-        for i, word in enumerate(word_list):
-            found = False
-            try:
-                word_entry = dictionary[word.lower()]
-                found = True
-                if len(word_entry) > 1:
-                    found_count += len(word_entry)
-                    alphabet = ['a','b','c','d','e']
-                    results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
-                    for j, sub in enumerate(word_entry):
-                        if showStress:
-                            post_stress = getStress(sub)
-                            results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], post_stress, sub['partOfSpeech'], sub['translation'])
-                        else:
-                            results += "`     {}.` **{}** *{}* {}\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'])
-                else:
-                    found_count += 1
+        def buildResults(i, word_entry, word, original_word, notes, toggle_output):
+            results = ''
+            if len(word_entry) > 1:
+                results += "`{}.` **{}** has multiple definitions: \n".format(i+1, word)
+                for i, entry in enumerate(word_entry):
                     if showStress:
-                        post_stress = getStress(word_entry[0])
+                        post_stress = getStress(entry)
+                        results += "`     {}.` **{}** *{}* {}\n".format(alphabet[i], post_stress, entry['partOfSpeech'], entry['translation'])
+                    else:
+                        results += "`     {}.` **{}** *{}* {}\n".format(alphabet[i], word, entry['partOfSpeech'], entry['translation'])
+            else:
+                if showStress:
+                    post_stress = getStress(word_entry[0])
+                    if toggle_output:
+                        results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, post_stress, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], notes, original_word)
+                    else:
                         results += "`{}.` **{}** *{}* {}\n".format(i+1, post_stress, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
+                else:
+                    if toggle_output:
+                        results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], notes, original_word)
                     else:
                         results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
-            except KeyError:
-                for key, value in dictionary.items():
-                    for k, sub in enumerate(value):
-                        x = re.search(r"\b"+word+"$", sub['translation'])
-                        y = re.search(r"\b"+word+"[,]", sub['translation'])
-                        if x != None or y != None:
-                            found = True
-                            found_count += 1
-                            results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
             
-            if not found:
+            return results
+        
+        results = ''
+        alphabet = ['a', 'b', 'c', 'd', 'e']
+        for i, word in enumerate(word_list):
+            first_time = True
+            nv_found = False
+            # Na'vi word lookup
+            try:
+                word_entry = dictionary[word.lower()]
+                nv_found = True
+                results += "**Na'vi Words:**\n"
+                results += buildResults(i, word_entry, word, word, "", False)
+                found_count += len(word_entry)
+            
+            # No exact match found
+            except KeyError:
+                nv_found = False
+                
+            # Modified Na'vi word lookup
+            if not nv_found:
                 parsed_word = stripAffixes(word)
                 try:
-                    word_entry = dictionary[parsed_word[word]["stripped"].lower()]
-                    found = True
-                    if len(word_entry) > 1:
-                        found_count += len(word_entry)
-                        alphabet = ['a','b','c','d','e']
-                        results += "`{}.` **{}** has multiple definitions: \n".format(i+1, parsed_word[word]["stripped"])
-                        for j, sub in enumerate(word_entry):
-                            results += "`     {}.` **{}** *{}* {} {} \nOriginal: **{}**\n".format(alphabet[j], word, sub['partOfSpeech'], sub['translation'], parsed_word[word]["notes"], parsed_word[word]["stripped"])
-                    else:
+                    word_entry = dictionary[parsed_word[word]['stripped'].lower()]
+                    nv_found = True
+                    results += buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], True)
+                    found_count += len(word_entry)
+                
+                # No parsed word match found
+                except KeyError:
+                    nv_found = False
+            
+            # Reverse lookup
+            for key, value in dictionary.items():
+                for k, sub in enumerate(value):
+                    found = False
+                    x = re.search(r"\b"+word+"$", sub['translation'])
+                    y = re.search(r"\b"+word+"[,]", sub['translation'])
+                    if x != None or y != None:
+                        if first_time:
+                            results += "\n**Reverse Lookup Results:**\n"
+                            first_time = False
+                        found = True
                         found_count += 1
-                        results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], parsed_word[word]["notes"], parsed_word[word]["stripped"])
-                except KeyError: 
-                    results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
+                        results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
+            
+            # No results found at all
+            if not found and not nv_found:
+                results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
                 
             results += "\n"
 
