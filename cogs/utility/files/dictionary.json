@@ -23289,5 +23289,167 @@
             "source": "http://naviteri.org/2020/08/hiia-vur-a-teri-mefalukantsyip-a-little-story-about-two-cats/",
             "translation": "fight"
         }
+    ],
+    "nìtstew": [{
+            "partOfSpeech": "adv.",
+            "infixDots": "NULL",
+            "syllables": "nì-tstew",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "bravely, courageously"
+        }
+    ],
+    "txantxewm": [{
+            "partOfSpeech": "adj.",
+            "infixDots": "NULL",
+            "syllables": "txan-txewm",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "terrifying"
+        }
+    ],
+    "sätseri": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "sä-tse-ri",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "observation, something noticed"
+        }
+    ],
+    "voìk": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "vo-ìk",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "behavior, how one conducts oneself"
+        }
+    ],
+    "voìk si": [{
+            "partOfSpeech": "vin.",
+            "infixDots": "voìk s..i",
+            "syllables": "vo-ìk si",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "behave"
+        }
+    ],
+    "mu'ni": [{
+            "partOfSpeech": "vtr.",
+            "infixDots": "m..u'ni",
+            "syllables": "mu'-ni",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "accomplish, achieve"
+        }
+    ],
+    "tìmu'ni": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "tì-mu'-ni",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "achievement, accomplishment"
+        }
+    ],
+    "leha'": [{
+            "partOfSpeech": "adj.",
+            "infixDots": "NULL",
+            "syllables": "le-ha'",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "appropriate, suitable, fitting"
+        }
+    ],
+    "kelha'": [{
+            "partOfSpeech": "adj.",
+            "infixDots": "NULL",
+            "syllables": "kel-ha'",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "inappropriate, unsuitable (unofficial)"
+        }
+    ],
+    "swaran": [{
+            "partOfSpeech": "adj.",
+            "infixDots": "NULL",
+            "syllables": "swa-ran",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "humble, modest, self-effacing"
+        }
+    ],
+    "tìswaran": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "tì-swa-ran",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "humility, humbleness"
+        }
+    ],
+    "yewn": [{
+            "partOfSpeech": "vtr.",
+            "infixDots": "y..ewn",
+            "syllables": "yewn",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "express, convey (a thought or feeling)"
+        }
+    ],
+    "tìyewn": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "tì-yewn",
+            "stressed": "2",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "expression"
+        }
+    ],
+    "leytslam": [{
+            "partOfSpeech": "vtr.",
+            "infixDots": "leytsl..am",
+            "syllables": "ley-tslam",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "appreciate"
+        }
+    ],
+    "fpap": [{
+            "partOfSpeech": "vtr.",
+            "infixDots": "fp..ap",
+            "syllables": "fpap",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "pound"
+        }
+    ],
+    "syar": [{
+            "partOfSpeech": "vin.",
+            "infixDots": "sy..ar",
+            "syllables": "syar",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "stick, stick to, adhere"
+        }
+    ],
+    "kxumpaysyar": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "kxum-pay-syar",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "glue"
+        }
+    ],
+    "'onglawn": [{
+            "partOfSpeech": "n.",
+            "infixDots": "NULL",
+            "syllables": "'ong-lawn",
+            "stressed": "1",
+            "source": "http://naviteri.org/2020/11/vospxivopeya-ayliu-amip-novembers-new-words/",
+            "translation": "exhiliration of first bonding"
+        }
     ]
 }

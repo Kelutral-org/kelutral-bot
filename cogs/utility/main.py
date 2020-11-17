@@ -225,7 +225,11 @@ class Utility(commands.Cog):
                             rule_number = path[-2]
                         else:
                             rule_number = path[-1]
-                        output += "{}: {}\n".format(rule_number, section[0:60] + "[...]")
+                        
+                        if len(section) < 60:
+                            output += "**{}**: {}\n".format(rule_number, section[0:60])
+                        else:
+                            output += "**{}**: {}\n".format(rule_number, section[0:60].replace("*","").replace("_","") + "`[...]`")
                         embed = discord.Embed(title="Horen Query: {}".format(query), description=output, color=config.reportColor)
                         break
             if not found:

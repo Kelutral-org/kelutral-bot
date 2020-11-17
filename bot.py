@@ -10,6 +10,7 @@ import time
 import os
 import json
 import re
+import uuid
 from datetime import datetime
 from datetime import timedelta
 
@@ -264,6 +265,144 @@ async def on_command(ctx):
     command = ctx.message.content.split(" ")[0]
     arguments = ctx.message.content.replace(command, "")
     print(now + " -- {}: {} executed the {} command with arguments:{}".format(ctx.message.author.name, ctx.message.author.id, command, arguments))
+
+@kelutralBot.command(name='inquiries', aliases=['inq'])
+async def inquiries(ctx, *inquiry):
+    inquiry = list(inquiry)
+    remove_mode = False
+    write_mode = False
+    update_mode = False
+    update_response = True
+    update_tags = False
+    search_mode = False
+    search_author = False
+    search_hex = False
+    search_tags = False
+    
+    with open('cogs/utility/files/inquirydatabase.json', 'r', encoding='utf-8') as fh:
+        inquiry_database = json.load(fh)
+    
+    if "-r" in inquiry:
+        inquiry.remove("-r")
+        remove_mode = True
+    elif "-w" in inquiry:
+        inquiry.remove("-w")
+        write_mode = True
+    elif "-s" in inquiry:
+        inquiry.remove("-s")
+        search_mode = True
+        if "-a" in inquiry:
+            inquiry.remove("-a")
+            search_author = True
+        elif "-id" in inquiry:
+            inquiry.remove("-id")
+            search_hex = True
+        elif "-t" in inquiry:
+            inquiry.remove("-t")
+            search_tags = True
+    elif "-u" in inquiry:
+        inquiry.remove("-u")
+        update_mode = True
+        if "-a" in inquiry:
+            inquiry.remove("-a")
+            update_response = True
+        elif "-t" in inquiry:
+            inquiry.remove("-t")
+            update_tags = True
+        entry_id = inquiry[0]
+        inquiry.remove(entry_id)
+        
+    else:
+        await ctx.send("No operating flag provided. Please use `-r`, `-w` or `-s`.")
+        return
+    
+    if [remove_mode, write_mode, search_mode, update_mode].count(True) > 1:
+        await ctx.send("Too many operating flags provided. Please only use one of `-r`, `-w` or `-s`.")
+        return
+        
+    joined_inquiry = ' '.join(inquiry)
+    
+    def search_function(ctx, key, value, search_term, search_item, slim):
+        results = ''
+        search = re.search(r""+search_term, str(search_item))
+        if search != None:
+            if slim:
+                results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nEntry ID: {}\n\n".format((key[0:40]+"`[...]`").replace("*","").replace("_", ""), ctx.guild.get_member(value['author']).mention, value['response'], value['id'])
+            else:
+                try:
+                    results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nDate Added: {} EST\nTags: {}\nEntry ID: {}\n\n".format(key, ctx.guild.get_member(value['author']).mention, value['response'], value['date'], value['tags'], value['id'])
+                except KeyError:
+                    results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nDate Added: {} EST\nEntry ID: {}\n\n".format(key, ctx.guild.get_member(value['author']).mention, value['response'], value['date'], value['id'])
+        return results
+    
+    if search_mode:
+        results = ''
+        if search_author:
+            tag = 'author'
+            for key, value in inquiry_database.items():
+                results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
+        elif search_hex:
+            tag = 'id'
+            for key, value in inquiry_database.items():
+                results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
+        elif search_tags:
+            tag = 'tags'
+            for key, value in inquiry_database.items():
+                try:
+                    results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
+                except KeyError:
+                    continue
+        else:
+            tag = ''
+            for key, value in inquiry_database.items():
+                results += search_function(ctx, key, value, joined_inquiry, key, False)
+        
+        if results != '':
+            if len(results) > 2048:
+                results = ''
+                for key, value in inquiry_database.items():
+                    if tag != '':
+                        results += search_function(ctx, key, value, joined_inquiry, value[tag], True)
+                    else:
+                        results += search_function(ctx, key, value, joined_inquiry, key, True)
+                try:    
+                    await ctx.send(embed=discord.Embed(title="Too many entries found, unable to show full descriptions.", description=results, color=config.reportColor))
+                except HTTPException:
+                    await ctx.send(embed=discord.Embed(description="**Error: Too many entries!**\nTry narrowing your search terms.", color=config.failColor))
+            else:
+                await ctx.send(embed=discord.Embed(title="Found Entries:", description=results, color=config.reportColor))
+        else:
+            await ctx.send(embed=config.database)
+        
+    elif write_mode:
+        entry_id = uuid.uuid1()
+        with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+            inquiry_database[joined_inquiry] = {"date" : datetime.now().strftime("%m-%d-%Y, %H:%M.%S"), "author" : ctx.message.author.id, "response" : "", "tags" : "", "id" : entry_id.hex}
+            json.dump(inquiry_database, fh)
+        await ctx.send(embed=discord.Embed(title="Created Entry", description="Inquiry: {}\nAuthor: {}\nDate Added: {} EST\nEntry ID: {}\n\n".format(joined_inquiry, ctx.guild.get_member(inquiry_database[joined_inquiry]['author']).mention, inquiry_database[joined_inquiry]['date'], inquiry_database[joined_inquiry]['id'])))
+            
+    elif remove_mode:
+        for key, value in inquiry_database.items():
+            if joined_inquiry == value['id']:
+                removed_value = inquiry_database.pop(key)
+                with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+                    json.dump(inquiry_database, fh)
+                await ctx.send(embed=config.success)
+                return
+        await ctx.send(embed=config.database)
+    
+    elif update_mode:
+        for key, value in inquiry_database.items():
+            if entry_id == value['id']:
+                if update_tags:
+                    value['tags'] = joined_inquiry
+                elif update_response:
+                    value['response'] = joined_inquiry
+                with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+                    json.dump(inquiry_database, fh)
+                await ctx.send(embed=config.success)
+                return
+        await ctx.send(embed=config.database)
 
 ##                                                                                          Bot Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

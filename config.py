@@ -64,6 +64,7 @@ modRoles = [adminID,modID]
 allowedRoles = [adminID,modID,teacherID]
 
 # Error Embeds
+database=discord.Embed(description="**Error:**\nNo entries found.", color=failColor)
 denied=discord.Embed(description="**Error: Denied** \n You do not have permission to run this command!", colour=failColor)
 success=discord.Embed(description="**Success**", color=successColor)
 syntax=discord.Embed(description="**Error: Invalid Syntax** \n If you need help with a command, type `!help <command name>`.", color=failColor)
