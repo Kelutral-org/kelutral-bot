@@ -22,7 +22,7 @@ class TNP(commands.Cog):
         # Checks for a registration message from the student
         if type(student_profile['tnp']['registration']) == int:
             reg_id = student_profile['tnp']['registration']
-            student_profile['tnp']['accepted_by'] = user.id
+            student_profile['tnp']['accepted_by'] = teacher.id
             
             # Retrieves the registration channel
             channel = self.bot.get_channel(config.newRegChannel) #new-registrations

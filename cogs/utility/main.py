@@ -291,15 +291,27 @@ class Utility(commands.Cog):
     ## Search command
     @commands.command(name="search")
     async def search(self, ctx, *words):
+        user = ctx.message.author
         words = list(words)
         word_list = []
+        results_list = []
         found_count = 0
         showStress = False
+        showSource = False
+        searchAll = False
         t1 = time.time()
         
         if "-s" in words:
             showStress = True
             words.remove("-s")
+        
+        if "-src" in words:
+            showSource = True
+            words.remove("-src")
+            
+        if "-all" in words:
+            searchAll = True
+            words.remove("-all")
         
         # Automatically combines 'si' verbs to prevent needing quotes in lookup
         i = 0
@@ -524,6 +536,8 @@ class Utility(commands.Cog):
                     if showStress:
                         post_stress = getStress(entry)
                         results += "`     {}.` **{}** *{}* {}\n".format(alphabet[i], post_stress, entry['partOfSpeech'], entry['translation'])
+                    elif showSource:
+                        results += "`     {}.` **{}** *{}* {}\n{}\n".format(alphabet[i], word, entry['partOfSpeech'], entry['translation'], entry['source'])
                     else:
                         results += "`     {}.` **{}** *{}* {}\n".format(alphabet[i], word, entry['partOfSpeech'], entry['translation'])
             else:
@@ -533,6 +547,8 @@ class Utility(commands.Cog):
                         results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, post_stress, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], notes, original_word)
                     else:
                         results += "`{}.` **{}** *{}* {}\n".format(i+1, post_stress, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
+                elif showSource:
+                    results += "`{}.` **{}** *{}* {}\nSource: {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], word_entry[0]['source'])
                 else:
                     if toggle_output:
                         results += "`{}.` **{}** *{}* {} {}\nOriginal: **{}**\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'], notes, original_word)
@@ -546,17 +562,31 @@ class Utility(commands.Cog):
         for i, word in enumerate(word_list):
             first_time = True
             nv_found = False
-            # Na'vi word lookup
-            try:
-                word_entry = dictionary[word.lower()]
-                nv_found = True
-                results += "**Na'vi Words:**\n"
-                results += buildResults(i, word_entry, word, word, "", False)
-                found_count += len(word_entry)
+            found = False
             
-            # No exact match found
-            except KeyError:
-                nv_found = False
+            if not searchAll:
+                # Na'vi word lookup
+                try:
+                    if not searchAll:
+                        word_entry = dictionary[word.lower()]
+                        nv_found = True
+                        results += "**Na'vi Words:**\n"
+                        results += buildResults(i, word_entry, word, word, "", False)
+                        found_count += len(word_entry)
+                
+                # No exact match found
+                except KeyError:
+                    nv_found = False
+            else:
+                # Partial match for all Na'vi words
+                for key in dictionary.keys():
+                    if word in key:
+                        nv_found = True
+                        results += buildResults(i, dictionary[key], key, word, "", False)
+                        found_count += len(dictionary[key])
+                        if 1900 < len(results) < 2048:
+                            results_list.append(results)
+                            results = ''
                 
             # Modified Na'vi word lookup
             if not nv_found:
@@ -572,28 +602,43 @@ class Utility(commands.Cog):
                     nv_found = False
             
             # Reverse lookup
-            for key, value in dictionary.items():
-                for k, sub in enumerate(value):
-                    found = False
-                    x = re.search(r"\b"+word+"$", sub['translation'])
-                    y = re.search(r"\b"+word+"[,]", sub['translation'])
-                    if x != None or y != None:
-                        if first_time:
-                            results += "\n**Reverse Lookup Results:**\n"
-                            first_time = False
-                        found = True
-                        found_count += 1
-                        results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
+            if not searchAll:
+                for key, value in dictionary.items():
+                    for k, sub in enumerate(value):
+                        found = False
+                        x = re.search(r"\b"+word+"$", sub['translation'])
+                        y = re.search(r"\b"+word+"[,]", sub['translation'])
+                        if x != None or y != None:
+                            if first_time:
+                                results += "\n**Reverse Lookup Results:**\n"
+                                first_time = False
+                            found = True
+                            found_count += 1
+                            results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
             
             # No results found at all
             if not found and not nv_found:
                 results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
                 
             results += "\n"
-
-        embed = discord.Embed(title="Search Results:", description=results, color=config.reportColor)
-        embed.set_footer(text="Found {} results in {} seconds.".format(found_count, round(time.time() - t1, 3)))
-        await ctx.send(embed=embed)
+            
+            if 1900 < len(results) < 2048:
+                results_list.append(results)
+                results = ''
+        
+        results_list.append(results)
+        
+        if len(results_list) > 1:
+            await ctx.send("More than 20 matching results found. DMing you the results.")
+            for n, result in enumerate(results_list):
+                embed = discord.Embed(title="Search Results ({}/{}):".format(n+1,len(results_list)), description=result, color=config.reportColor)
+                embed.set_footer(text="Found {} results in {} seconds.".format(found_count, round(time.time() - t1, 3)))
+                await user.send(embed=embed)
+        else:
+            for n, result in enumerate(results_list):
+                embed = discord.Embed(title="Search Results ({}/{}):".format(n+1,len(results_list)), description=result, color=config.reportColor)
+                embed.set_footer(text="Found {} results in {} seconds.".format(found_count, round(time.time() - t1, 3)))
+                await ctx.send(embed=embed)
 
     ## Server information
     @commands.command(name='serverinfo')

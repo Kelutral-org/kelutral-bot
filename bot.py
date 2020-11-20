@@ -404,6 +404,49 @@ async def inquiries(ctx, *inquiry):
                 return
         await ctx.send(embed=config.database)
 
+@kelutralBot.command(name='naviteri', aliases=['nt'])
+async def naviteri(ctx, *search):
+    user = ctx.message.author
+    results = ''
+    search = list(search)
+    searchTags = False
+    results_list = []
+    
+    if "-t" in search:
+        search.remove("-t")
+        searchTags = True
+        
+    with open('cogs/utility/files/naviteri.json', 'r', encoding='utf-8') as fh:
+        naviteri = json.load(fh)
+    
+    for query in search:
+        print(query)
+        for key, value in naviteri.items():
+            if searchTags:
+                if query in value['tags']:
+                    results += "**{}**\n{}\n\n".format(key, value['link'])
+            else:
+                res = re.search(r"."+query+".", value['content'].lower())
+                if res != None:
+                    results += "**{}**\n{}\n\n".format(key, value['link'])
+            
+            if 1800 < len(results) < 2048:
+                results_list.append(results)
+                results = ''
+    
+    results_list.append(results)
+    
+    if len(results_list) > 1:
+        await ctx.send("More than 20 results found. DMing you the results.")
+        for n, result in enumerate(results_list):
+            embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
+            await user.send(embed=embed)
+    else:
+        for n, result in enumerate(results_list):
+            embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
+            await ctx.send(embed=embed)
+        
+
 ##                                                                                          Bot Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ##                                                                               Condensed Question of the Day Command

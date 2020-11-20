@@ -979,6 +979,97 @@
 				"info" : "Both **kop** and **nìteng** answer to the English verb *also*. **Kop** has more the sense of **in addition, further* while **nìteng** means *similarly, too, likewise*. Compare **oel poleng kop poru tsa'ut** *I also (in addition) told him that* to **oel poleng nìteng poru tsa'ut** *I told him that, too*.",
 				"6.6.9.1" : "They can even be used together, **furia nga lu nitram, lu oe kop nitram nìteng** *since you're happy, I, too, am also happy*."
 			}
+		},
+		"6.7" : {
+			"header" : "Aspect and Tense",
+			"info" : "",
+			"6.7.1" : {
+				"header" : "The Role of Context",
+				"info" : "Na'vi verbs are frequently unmarked for tense or aspect, leaving a verb without infixes, or at most the subjunctive infix. Absent other information, such as an adverb of time or some break in discourse, an unmarked verb continues the tense and/or aspect of the verb in the previous sentence.",
+				"6.7.1.1" : "Although a subordinate clause may occur before the main clause, it takes its temporal and aspectual context from the main clause, **oel foru fìaylì'ut tolìng a krr, kxawm oe harmahängaw** *when I gave them these words perhaps I was sleeping*, **tì'eyngit oel tolel a krr, ayngaru payeng** *when I receive an answer, I will tell you*."
+			},
+			"6.7.2" : {
+				"header" : "The Unmarked Verb",
+				"info" : "The unmarked verb form has two additional jobs. First, it can indicate the present tense, **ayngaru seiyi irayo** *I thank you*. Second, it marks habitual or general statements, **nga za'u fìtseng pxìm srak?** *do you come here often?*, **lu fo lehrrap** *they are dangerous*."
+			},
+			"6.7.3" : {
+				"header" : "Aspect",
+				"info" : "In general, Na'vi marks aspect more than it marks tense. 9 It is useful to think of the perfective as a snapshot presentation of an event, while the imperfective sets the background, **tengkrr palulukan moene kxll sarmi, poltxe Neytiril aylì'ut a frakrr 'ok seyä layu oer** *as the thanator was charging towards the two of us, Neytiri said something I will always remember*.",
+				"footer" : "9  Verb aspect can be difficult for speakers of English and most European languages, since these mix tense and aspect together in their verbs, making it difficult to distinguish the ideas. The dangerous confusion for beginners is the idea that the verb aspect is about the completion or non-completion of an act. This is not the case. Rather, verb aspect is about how the speaker wishes to present a scene. In complex sentences, aspects might take on senses related to completion or non-completion with respect to other clauses in the full sentence, but these are special uses."
+			},
+			"6.7.4" : {
+				"header" : "Simultaneous Imperfective",
+				"info" : "Because the imperfective presents an ongoing state of affairs, it can be used in complex sentences to indicate simultaneous action, **fìtxon yom tengkrr teruvon** *this night (we) eat while leaning*."
+			},
+			"6.7.5" : {
+				"header" : "Anterior Perfective",
+				"info" : "In complex sentences, the perfective in a subordinate clause can indicate the completion of an action prior to the event in the main clause,\n\n**Tì'eyngit oel tolel a krr, ayngaru payeng.**\n*When I receive an answer, I will let you know.*\n\n**Fori mawkrra fa renten ioi säpoli holum.**\n*After they put on their goggles, they left.*"
+			},
+			"6.7.6" : {
+				"header" : "Punctual Perfective",
+				"info" : "The perfective is used in several single verb expressions to indicate the event occurred in an instant, **tslolam** *got it, I understand*, **rolun** *found it!* Frommer says **tolel**, *got it!*, is for a \"flash of insight\"."
+			},
+			"6.7.7" : {
+				"header" : "Tense",
+				"info" : "Na'vi tense, as in human languages, simply locates an event in time."
+			},
+			"6.7.8" : {
+				"header" : "Proximal Tense",
+				"info" : "The proximal past and future mark events in the \"near\" past or future, where nearness is not an absolute scale, but is determined by the context and the perspective of the speaker."
+			},
+			"6.7.9" : {
+				"header" : "Intentional Future",
+				"info" : "The intentional future forms in **<ìsy>** and **<asy>** indicate the determination by the speaker to bring about a state of affairs, rather than a prediction about the future. **Ayoe ke wasyem** *we will not fight*, **tafral ke lìsyek oel ngeyä keye'ungit** *therefor I will not heed your insanity*."
+			}
+		},
+		"6.8" : {
+			"header" : "Subjunctive",
+			"info" : "The subjunctive is used much in Na'vi. Outside its use in independent sentences, the Na'vi subjunctive is highly grammaticalized, that is, its use is simply required in certain grammatical constructions without necessarily hinting at an *irrealis* sense.",
+			"6.8.1" : {
+				"header" : "Optative",
+				"info" : "It is used to indicate a wish, **oeyä swizaw nìngay tivakuk** *let my arrow strike true*."
+			},
+			"6.8.2" : {
+				"header" : "Nìrangal",
+				"info" : "Unrealizable wishes use the adverb **nìrangal** followed by the imperfective subjunctive to indicate an unattainable wish in the present, with the perfective subjunctive for an unattainable wish in the past. This can be expressed in English with phrases like \"if only\" or \"I wish\", **nìrangal lirvu oeyä frrnenur lora sanhì** *I wish my children had pretty stars*, **nìrangal oel tslilvam nì'ul** *if only I had understood more*."
+			},
+			"6.8.3" : {
+				"header" : "Modal Complement",
+				"info" : "The verbal complement to a modal verb, such as **zene** *must*, **tsun** *can*, etc., will take the subjunctive, as in **ayngari zene hivum** *you must leave*, **oe new nìtxan ayngaru fyawivìntxu** *I want very much to guide you*, **fmawn a tsun oe ayngaru tìving** *news which I can give to you*.",
+				"6.8.3.1" : {
+					"info" : "The verb controlled by the modal will not take any tense or aspect infixes, 10 just the simple subjunctive. So, tense and aspect marking should go on the modal, **oe namew tsive'a** *I wanted to see*, never \\***oe new tsimve'a**. However, the controlled verb will always keep its causative or reflexive marking.",
+					"footer" : "10  The controlled verb will keep its reflexive or causative infix."
+				},
+				"6.8.3.1.1" : "❗ Except in poetry or ceremonial language, the modal verb will always come before the controlled verb.",
+				"6.8.3.2" : "Known modal verbs and verbs with modal syntax:\n\n**fmi**, *try, attempt*\n**ftang**, *stop*\n**kan**, *aim, intend*\n**may’**, *try, sample, taste*\n**new**, *want*\n**nulnew**, *prefer*\n**sngä’i**, *begin*\n**sto**, *refuse*\n**tsun**, *can*\n**var**, *continue, persist (in doing an action)*\n**zene**, *must*\n**zenke**, *must not*",
+				"6.8.3.3" : "Note that the modal verbs are considered intransitive with the subject of the modal phrase in the subjective case, regardless of the transitivity of the controlled verb, **oe new yivom teylut** *I want to eat teylu*. But see \"word order effects,\" **7.1.3.1**, for some exceptional patterns."
+			},
+			"6.8.4" : {
+				"header" : "New",
+				"info" : "In addition to the simple modal use given above (**6.8.3**), **new** *want* may also introduce a subclause with a different subject than that of the **new** clause. The verb is transitive in this construction, and the subclause is attached to **a fì'ut** or **futa** (**6.18.4**) and takes the subjunctive.\n\n**Oel new futa po kivä** *I want him to go* (lit. *I want that he go*).\n**Ngal tslivam a fì'ut new oel** *I want you to understand*.",
+				"6.8.4.1" : "The causative of transitive **new** will also take a **futa** clause, **pol oeru neykew futa oel yivom teyluti** *he made me want to eat teylu*, lit. *he made me want that I eat teylu*.",
+				"6.8.4.2" : "The modal use of **kan** *aim* for *intend* follows the same syntax, **oe kan kivä** *I intend to go* and **oel kan futa po kivä** *I intend for him to go*.",
+				"6.8.4.3" : "The verb **sto** *refuse* also follows the syntax of **new**, **stolo po hivum fohu** *she refused to leave with them*, **poel stolatso futa mefo tivaron tsaha'ngir** *she must have refused (their request) to hunt that afternoon*."
+			},
+			"6.8.5" : {
+				"header" : "Other Uses",
+				"info" : "The subjunctive is also used in purpose clauses with **fte** (**6.17.2**), conditional sentences (**6.19**), with the conjunction **tsnì** ❗ when used with certain verbs ❗ (**6.20.7**)."
+			}
+		},
+		"6.9" : {
+			"header" : "Participles and Gerunds",
+			"info" : "",
+			"6.9.1" : {
+				"header" : "Participles",
+				"info" : "Na'vi participles are restricted in their use - they may only be used attributively, never as predicates. Since they are adjectives, they are linked to the noun they go with using the attributive affix **-a-** (**3.5.1**), **palulukan atusaron lu lehrrap** *a hunting thanator is dangerous*.",
+				"6.9.1.1" : "Some derived words have participles in them, and these may be used predicatively, as in **lu nga txantslusam** *you are wise*, with the active participle **tsl<us>am** in it.",
+				"6.9.1.2" : "The participles of **si** construction verbs are counted as a single word. They are written with a hyphen connecting **si** and the other word and the attributive **a** is attached to the entire phrase, not just **si**:\n\n**srung-susia tute**\n**tute asrung-susi**\n\nBoth phrases mean *a helping person*."
+			},
+			"6.9.2" : {
+				"header" : "Gerunds",
+				"info" : "Any verb may be freely turned into a gerund, a noun describing the action of the verb (**5.1.4.1**). They can be used with adverbs (**6.6.2**), but they may not take subjects or direct objects **tìyusom 'o' lu** *eating is fun*.",
+				"6.9.2.1" : "English often uses gerunds to nominalize a phrase (\"running a marathon is difficult\"). In Na'vi, such clause nominalization is handled with **fì'u** or **tsa'u** (**6.18.4**), **fwa yom teylut 'o' lu** *eating teylu is fun*."
+			}
 		}
 	}
 }				
