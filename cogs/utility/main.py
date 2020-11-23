@@ -166,6 +166,7 @@ class Utility(commands.Cog):
                 try:
                     section = section[path_list[i]]
                 except KeyError:
+                    section = "This section does not exist."
                     break
 
             return section

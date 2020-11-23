@@ -445,7 +445,6 @@ async def naviteri(ctx, *search):
         for n, result in enumerate(results_list):
             embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
             await ctx.send(embed=embed)
-        
 
 ##                                                                                          Bot Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -615,7 +614,7 @@ async def lepCommand(ctx, *args):
         message = ctx.message
         await ctx.send(embed=config.dm_only)
         await message.delete()
-        
+
 @kelutralBot.command(name="type")
 async def typeWord(ctx, *words):
     list_words = []
@@ -732,7 +731,7 @@ async def typeWord(ctx, *words):
 async def help_error(ctx, error):
    if isinstance(error, commands.CommandError):
        await ctx.send(embed=config.syntax)
-       
+
 kelutralBot.load_extension('cogs.utility.main')
 kelutralBot.load_extension('cogs.games.main')
 kelutralBot.load_extension('cogs.tnp.main')

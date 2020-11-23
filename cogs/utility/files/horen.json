@@ -512,7 +512,7 @@
 					"row 1" : ["1 : (l)-aw    ", "5 : -mrr"],
 					"row 2" : ["2 : -mun      ", "6 : -fu "],
 					"row 3" : ["3 : -pey      ", "7 : -hin"],
-					"row 4" : ["4 : -sìng     ", "       "]
+					"row 4" : ["4 : -sìng     ", "        "]
 				},
 				"4.1.3.1" : "All of the dependent forms except \"one\", **(l)-aw**, evict the final **-l** of the \"eights\" forms.",
 				"4.1.3.2" : {
@@ -772,7 +772,7 @@
 			"info" : "",
 			"6.2.1" : {
 				"header" : "Number",
-				"info" : "Are the dual and trial collective vs. plural distributive? Or always obligatory?",
+				"info" : "❗ Are the dual and trial collective vs. plural distributive? Or always obligatory?",
 				"6.2.1.1" : "When used with an attributive numeral, nouns are not marked for number, **mrra zìsìt** *five years*.",
 				"6.2.1.2" : "The adjectives of quantity — **'a'aw** *several*, **hol** *few*, **pxay** *many*, **polpxay, holpxaype** *how many?* — also take singular nouns in attributive phrases, **lu poru 'a'awa 'eylan** *he has several friends*.",
 				"6.2.1.3" : "In colloquial speech, number may be marked with the adjective **pxay** *many*, **lu awngar aytele apxay a teri sa'u pivlltxe** *we have many matters to talk about*.",
@@ -1069,6 +1069,147 @@
 				"header" : "Gerunds",
 				"info" : "Any verb may be freely turned into a gerund, a noun describing the action of the verb (**5.1.4.1**). They can be used with adverbs (**6.6.2**), but they may not take subjects or direct objects **tìyusom 'o' lu** *eating is fun*.",
 				"6.9.2.1" : "English often uses gerunds to nominalize a phrase (\"running a marathon is difficult\"). In Na'vi, such clause nominalization is handled with **fì'u** or **tsa'u** (**6.18.4**), **fwa yom teylut 'o' lu** *eating teylu is fun*."
+			}
+		},
+		"6.10" : {
+			"header" : "Reflexive",
+			"info" : "",
+			"6.10.1" : {
+				"header" : "True Reflexives",
+				"info" : "The reflexive infix **<äp>** indicates the subject of the verb is performing an act on themself. The subject is in the subjective, not agentive, case, as in **oe tsäpe'a** *I see myself*."
+			},
+			"6.10.2" : {
+				"header" : "Intransitive Reflexives",
+				"info" : "With intransitive verbs that take dative objects reflexive pronoun **sno** is used,\n\n**Po yawne lu snor.** *He loves himself*."
+			},
+			"6.10.3" : {
+				"header" : "Detransitive",
+				"info" : "The reflexive infix may also be used to create intransitive verbs, 13 such as **win säpi** *to hurry*.",
+				"footer" : "13  Students of Romance languages will find this familiar, je me lave vs. je lave ma voiture."
+			},
+			"6.10.4" : {
+				"header" : "Reciprocal",
+				"info" : "When a reflexive verb occurs with the adverb **fìtsap** *each other*, the meaning is reciprocal, **mefo fìtsap mäpoleyam tengkrr tsngawvìk** *the two of them hugged each other and wept*.",
+				"6.10.4.1" : "With intransitive verbs that take dative objects there are two possibilities,\n\n**Moe smon moeru fìtsap.** *We know each other*.\n**Moe smon fìtsap.** *We know each other*.\n\nWith third person reflexives of any number, the dative of **sno** is used,\n\n**Fo smon (snoru) fìtsap nìwotx.** *They all know each other*."
+			}
+		},
+		"6.11" : {
+			"header" : "Causative",
+			"info" : "The causative infix **<eyk>** increases the transitivity of a verb, adding another argument. All causative verbs are thus transitive, requiring the agentive case for subject.",
+			"6.11.1" : {
+				"header" : "Causative of Intransitive Verb",
+				"info" : "When an intransitive verb is made causative, the causee, which had been in the subjective case, is in the patientive.\n\n**Oe kolä neto** *I went away*.\n**Pol oeti keykolä neto** *She made me go away*."
+			},
+			"6.11.2" : {
+				"header" : "Causative of Transitive Verb",
+				"info" : "When a transitive verb is made into a causative, the causee, which had been in the agentive case, goes into the dative. This leaves the original accusative in place.\n\n**Neytiril yerikit tolaron** *Neytiri hunted hexapede*.\n**Eytukanìl Neytirir yerikit teykolaron** *Eytukan made Neytiri hunt a hexapede*.",
+				"6.11.2.1" : "The causee may also be indicated with the adposition **fa**, *by means of*. This defocuses the causee somewhat, focusing instead on either the causer or object.\n\n**Neytiril yerikit tolaron** *Neytiri hunted hexapede*.\n**Eytukanìl fa Neytiri yerikit teykolaron**\n*Eytukan had a yerik hunted by Neytiri*."
+			}
+		},
+		"6.12" : {
+			"header" : "Ambitransitivity",
+			"info" : "A normally transitive verb can be paired with a subjective, rather than agentive, noun as the subject. This is used when the direct object is considered irrelevant and only the verbal action matters. For example, **oe taron** *I hunt* is a general statement about one's activities, where what one is hunting in particular doesn't matter. Or,\n\n**Ngal pelun faystxenut frakrr tsyär?** *Why do you always reject these offers?*\n\nvs.\n\n**Nga pelun frakrr tsyär?** *Why do you always reject everything?* or *such things?*\n\nThis pattern of alternation can also be called an \"antipassive\" construction, we may be freely used in Na'vi.",
+			"6.12.1" : {
+				"header" : "Omitted Object",
+				"info" : "This should be distinguished from omission of a direct object that exists in the context. For example,\n\n**Ngal ke tse'a txepit srak?** *Do you not see the fire?*\n**Oel tse'a.** *I see (it)*.\n\nHere the direct object is simply not mentioned, rather than suppressed entirely, so the verb and subject still follow the normal transitive syntax."
+			},
+			"6.12.2" : {
+				"header" : "Causative",
+				"info" : "There is no way to distinguish the antipassive in the causative. For example, the resulting action of the sentence **oel poru teykaron** *I make him hunt* could either be **po taron** *he hunts (something we don't care about)* or **pol taron** *he hunts (something in particular)*."
+			}
+		},
+		"6.13" : {
+			"header" : "Commands",
+			"info" : "",
+			"6.13.1" : {
+				"header" : "Unmarked",
+				"info" : "Commands in Na'vi require no special infix. Positive commands are simply a verb stem, **Kä! Kä!** *Go! Go!*, **mefoti yìm** *bind them!* The pronoun may also be stated explicitly, **'awpot set ftxey ayngal** *(you) choose one now*."
+			},
+			"6.13.2" : {
+				"header" : "With the Subjunctive",
+				"info" : "A command may also use the subjunctive infix **<iv>**. Frommer says, \"at an earlier point in the history of the language there was probably a plite/familiar distinction (the **<iv>** form being the politer one), but that's no longer the case. They're used interchangably. So to say 'Go!' you can either say **kivä** or just **kä**."
+			},
+			"6.13.3" : {
+				"header" : "Prohibitions",
+				"info" : "Negative commands are not negated with the usual negative adverb **ke**, but rather use the word **rä'ä**, as in **rä'ä hahaw** *don't sleep*.",
+				"6.13.3.1" : "**Rä'ä** may follow the verb for special emphasis, **oeti 'ampi rä'ä, ma skxawng!** *don't touch me, you moron!*",
+				"6.13.3.2" : "With **si**-construction verbs, **rä'ä** intrudes between the noun and **si**, **topxu rä'ä si** *don't be afraid*, **tsakem rä'ä sivi** *don't do that (action)* (see also **6.16.1.1**)."
+			}
+		},
+		"6.14" : {
+			"header" : "Questions",
+			"info" : "",
+			"6.14.1" : {
+				"header" : "Yes-No Questions",
+				"info" : "Simple yes-no questions are marked with the particle **srak(e)** which occurs at the start or end of the clause. When the particle appears at the end of the clause, it is usually just **srak**, the longer **srake** occurring at the beginning of the clause. **Ngaru lu fpom srak?** *are you well?*"
+			},
+			"6.14.2" : {
+				"header" : "Ftxey... Fuke",
+				"info" : "In addition to **srak(e)** a yes-no question can be made with an idiom using **ftxey** *choose* and **fu__ke__** *or not*. You can say either **srake nga za'u?** *are you coming* or **ftxey nga za'u fuke** *are you coming or not?*"
+			},
+			"6.14.3" : {
+				"header" : "Wh-Questions",
+				"info" : "Use of a question word that contains **-pe+** is sufficient to create a question, **kempe si nga?** *what are you doing?* In many languages a question word must come first in the sentence. Na'vi has no such requirement, **fìswiräti ngal pelun molunge fìtsenge?** *why did you bring this creature here?*"
+			},
+			"6.14.4" : {
+				"header" : "Tag Question",
+				"info" : "The Na'vi tag question (Eng. \"right?\", Fr. \"n'est-ce pas?\") is marked with either **kefyak srak** or simply **kefyak** (ultimately derived from **ke fìfya srak?**)."
+			},
+			"6.14.5" : {
+				"header" : "Conjectural Questions",
+				"info" : "Questions which the speaker doesn't expect even the listeners to know the answer to are marked with the evidential infix **<ats>**, **pol pesenget tatsok?** *where in the world could she be?* **srake pxefo li polähatsem?** *I wonder if the three of them have already arrived*."
+			}
+		},
+		"6.15" : {
+			"header" : "Affect and Evidence",
+			"info" : "",
+			"6.15.1" : {
+				"header" : "Affect",
+				"info" : "Two second position infixes are used to mark the speaker's attitude about what they are saying, **<ei>** for positive orientation and **<äng>** for negative orientation, **oel ngati kameie** *I see you*, **oeri ta peyä fahew akewong ontu teya längu** *his alien smell fills my nose*.",
+				"6.15.1.1" : "If a statement inherently encodes very positive or negative emotion the infix is likely to be omitted, as in **nga yawne lu oer** *I love you*."
+			},
+			"6.15.2" : {
+				"header" : "Evidence",
+				"info" : "The second position infix **<ats>** is used to mark a suppositional statement from evidence, 14 **'uol ikranit txopu sleykolatsu, taluna po tsìk yawo** *something must have frightened the banshee, because it suddenly took to the air*.",
+				"footer" : "14  This roughly corresponds to English \"must\" in such statements as \"it must have rained\" or \"he must be having trouble with his homework.\""
+			}
+		},
+		"6.16" : {
+			"header" : "Negation",
+			"info" : "",
+			"6.16.1" : {
+				"header" : "Simple Negation",
+				"info" : "The adverb **ke** is used to negate a sentence, **fìtxon na ton alahe nìwotx pelun ke lu teng?** *why is this night not like all other nights?*",
+				"6.16.1.1" : "With **si**-construction verbs, the **ke** comes before **si**, as in **po pamrel ke si** *he doesn't write*. The phrase accent shifts from the noun or adjective part of the **si**-verb to **ke, pamrel ke si** (see also **6.13.3**).",
+				"6.16.1.2" : "Imperatives are negated with the adverb **rä'ä**. See **6.13.3**."
+			},
+			"6.16.2" : {
+				"header" : "Pleonastic Negation",
+				"info" : "When a negative adverb or pronoun (**3.4**) is used **ke** is still required with the verb, **ke'u ke lu ngay** *nothing is true*, **slä ke stä'nì kawkrr** *but (he) never catches (her)*.",
+				"6.16.2.1" : "When the prenoun **fra-** is negated the verb is also negated, **ke frapo ke tslolam** *not everyone understood*."
+			},
+			"6.16.3" : {
+				"header" : "Kaw'it",
+				"info" : "A word or phrase may be singled out for negation with **ke... kaw'it** *not... at all*, as in **fo ke lu 'ewan kaw'it** *they are not young at all*."
+			}
+		},
+		"6.17" : {
+			"header" : "Complex Sentences",
+			"info" : "",
+			"6.17.1" : {
+				"header" : "Tense and Aspect in Dependent Subjunctives",
+				"info" : "❗ Do dependent verbs have TAM-solidarity with their controlling verb?"
+			},
+			"6.17.2" : {
+				"header" : "Purpose",
+				"info" : "Purpose clauses take the conjunction **fte** (negative **fteke**) with the subjunctive, **sawtute zera'u fte fol Kelutralti skiva'a** *the sky people are coming to destroy Hometree*; **makto kawl, ma samsiyu, fte tsivun pivähem nìwin** *ride hard, warriors, so you can get there fast!* **tsun fko sivar hänit fte payoangit stivä'nì** *one can use a net to catch a fish*.",
+				"6.17.2.1" : "In Na'vi purpose clauses are used in several situations where English would simply use an infinitive, **pxiset ke lu oeru krr fte tì'eyngit tivìng** *right now I don't have time to give an answer*."
+			},
+			"6.17.3" : {
+				"header" : "Asyndeton",
+				"info" : "Short, parallel phrases 15 may be joined without a conjunction connecting them. **Yola krr, txana krr, ke tsranten** *it doesn't matter how long it takes*, literally *short time, long time, doesn't matter*; **'uo a fpi rey'eng Eywa'evengmì 'Rrtamì tsranten nìtxan awngaru nìwotx** *something that matters a lot to all of us for the sake of The Balance of Life on both Pandora and Earth*; **lora aylì'u, lora aysäfpìl** *beautiful words and beautiful ideas*.",
+				"footer" : "15  That is, phrases following the same pattern of grammar.",
+				"6.17.3.1" : "Two verbs in sequence without a conjunction are sequential, **za'u kaltxì si ko!** *come (and then) say hello!*"
 			}
 		}
 	}
