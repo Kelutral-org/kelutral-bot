@@ -284,6 +284,11 @@ async def onMessage(message, kelutralBot):
                 await admin.roleUpdate(user)
                 admin.updateDirectory()
             
+            if message.author.id != config.botID and config.watch_keywords:
+                for keyword in config.watched_phrases:
+                    if keyword in message.content.lower():
+                        await kelutralBot.get_channel(config.modLog).send("The following message requires review by an {}: {}".format(get(ctx.guild.roles, id=config.modID).mention, message.jump_url))
+            
             if "eytukan" in message.content.lower():
                 await message.add_reaction("👀")
                 

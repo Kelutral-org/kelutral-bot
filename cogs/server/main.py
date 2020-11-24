@@ -93,6 +93,7 @@ class Server(commands.Cog):
         
         # Function for building the final profile output
         async def buildEmbed(user, language_pref, to_next_level, active_roles):
+            final_text = ''
             # Checks if the user has a nickname
             try:
                 nickname = " AKA \"{}\"".format(user.nick)
@@ -113,9 +114,12 @@ class Server(commands.Cog):
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["current_rank"], value=get(user.guild.roles, id=active_roles["id"]).mention + ", \"" + active_roles["translation"] + "\"")
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["message_count"], value=to_next_level, inline=True)
             if type(admin.readDirectory(user, "na'vi only")) == int:
-                embed.add_field(name="Na'vi Only Messages", value=admin.readDirectory(user, "na'vi only"), inline=False)
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], value=await self.buildLeaderboard(ctx, user.id, variant, "position"), inline=False)
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["times_thanked"], value=admin.readDirectory(user, "thanks"), inline=False)
+                final_text += "{} **messages**: {}\n".format(self.bot.get_channel(715050499203661875).mention, admin.readDirectory(user, "na'vi only"))
+            final_text += "**{}** {}\n".format(config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], await self.buildLeaderboard(ctx, user.id, variant, "position"))
+            final_text += "**{}** {}\n".format(config.text_file[language_pref]["profile"]["embed"]["times_thanked"], admin.readDirectory(user, "thanks"))
+            embed.add_field(name="Additional Stats:", value=final_text, inline=False)
+            # embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], value=await self.buildLeaderboard(ctx, user.id, variant, "position"), inline=False)
+            # embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["times_thanked"], value=admin.readDirectory(user, "thanks"), inline=False)
             embed.set_footer(text=config.text_file[language_pref]["profile"]["embed"]["footer"])
             embed.set_thumbnail(url=user.avatar_url) 
             

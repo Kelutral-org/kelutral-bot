@@ -28,6 +28,8 @@ lepArchive = [["Placeholder","Tuple"]]
 
 send_time = config['send_time']
 sequelDate = config['sequel_date']
+watch_keywords = False
+watched_phrases = config['keywords']
 
 # Channels
 general = 715296162394931340
