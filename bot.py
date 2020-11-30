@@ -16,7 +16,6 @@ from datetime import timedelta
 
 import config
 import admin
-import watcher
 
 ## -- Initialize Client
 kelutral = discord.Client()
@@ -221,44 +220,6 @@ async def on_ready():
     
     kelutralBot.loop.create_task(time_check())
 
-@kelutralBot.event
-async def on_member_join(member):
-    await watcher.onJoin(member, kelutralBot)
-     
-@kelutralBot.event
-async def on_member_remove(member):
-    await watcher.onLeave(member, kelutralBot)
-
-@kelutralBot.event
-async def on_message_delete(message):
-    await watcher.onDelete(message, kelutralBot)
-    
-@kelutralBot.event
-async def on_member_update(before, after):
-    await watcher.onUpdate(before, after, kelutralBot)
-    
-@kelutralBot.event
-async def on_member_ban(guild, user):
-    await watcher.onBan(guild, user, kelutralBot)
-    
-@kelutralBot.event
-async def on_member_unban(guild, user):
-    await watcher.onUnban(guild, user, kelutralBot)
-    
-@kelutralBot.event
-async def on_message(message): 
-    await watcher.onMessage(message, kelutralBot)
-    
-    await kelutralBot.process_commands(message)
-
-@kelutralBot.event
-async def on_voice_state_update(member, before, after):
-    await watcher.onVCUpdate(member, before, after, kelutralBot)
-    
-@kelutralBot.event
-async def on_raw_reaction_add(payload):
-    await watcher.onReaction(payload, kelutralBot)
-    
 @kelutralBot.event
 async def on_command(ctx):
     now = datetime.now().strftime('%H:%M')
@@ -736,6 +697,8 @@ kelutralBot.load_extension('cogs.utility.main')
 kelutralBot.load_extension('cogs.games.main')
 kelutralBot.load_extension('cogs.tnp.main')
 kelutralBot.load_extension('cogs.server.main')
+kelutralBot.load_extension('cogs.utility.kelutral_listener')
+kelutralBot.load_extension('cogs.utility.pandora_rising_listener')
 
 # Replace token with your bot's token
 kelutralBot.run(config.token)

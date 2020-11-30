@@ -169,7 +169,7 @@ async def adminMsgs(ctx, bot, guild):
         for line in pre:
             value = value + line
         
-        embeda = discord.Embed(title="Role Descriptions\n――――――――――――――――――――――――――――――", description=value, color=config.reportColor)    
+        embeda = discord.Embed(title="Role Descriptions\n――――――――――", description=value, color=config.reportColor)    
         
         path1 = 'files/info1.txt'
         path2 = 'files/info2.txt'
@@ -196,7 +196,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in serverInfo:
             value1 = value1 + entry + "\n"
             
-        embedb = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(715048353876017252).name), description=value1, color=config.reportColor)
+        embedb = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715048353876017252).name), description=value1, color=config.reportColor)
         
         naviLanguage = ["{} - Lessons".format(guild.get_channel(715050231967776778).mention),
                         "• Links to useful resources for learners.\n",
@@ -216,7 +216,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in naviLanguage:
             value2 = value2 + entry + "\n"
             
-        embedc = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(715049915524448316).name), description=value2, color=config.reportColor)
+        embedc = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715049915524448316).name), description=value2, color=config.reportColor)
         
         hobbies = ["{} - Conversation".format(guild.get_channel(715296162394931340).mention),
                    "• General chat! Any topic of discussion is allowed here in any language, so long as it does not violate our rules or belong in another channel.\n",
@@ -239,7 +239,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in hobbies:
             value3 = value3 + entry + "\n"
         
-        embedd = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(715043968886505485).name), description=value3, color=config.reportColor)
+        embedd = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715043968886505485).name), description=value3, color=config.reportColor)
         
         roleplay = ["{}".format(guild.get_channel(739559785665396828).mention),
                     "• Community hub for Roleplay servers.\n"]
@@ -248,7 +248,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in roleplay:
             value5 = value5 + entry + "\n"
             
-        embedg = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(739559504097837169).name), description=value5, color=config.reportColor)
+        embedg = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(739559504097837169).name), description=value5, color=config.reportColor)
         
         other_languages = ["{}".format(guild.get_channel(718237500216442902).mention),
                            "• German / Deutsch\n",
@@ -263,7 +263,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in other_languages:
             value6 = value6 + entry + "\n"
             
-        embedh = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(718237458994561044).name), description=value6, color=config.reportColor)
+        embedh = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(718237458994561044).name), description=value6, color=config.reportColor)
         
         voice = ["{} - Voice".format(guild.get_channel(715290369314521099).mention),
                  "• For text communication with voice channels, for when you are unable to speak.",
@@ -283,7 +283,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in voice:
             value4 = value4 + entry + "\n"
             
-        embede = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(715048420691148830).name), description=value4, color=config.reportColor)
+        embede = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715048420691148830).name), description=value4, color=config.reportColor)
         
         games = ["{} - Word Game".format(guild.get_channel(757026975696027688).mention),
                  "• A game in which you try to think of a word that begins with the last letter of the previously submitted word. Use `?help wordgame` for more info.\n",
@@ -294,7 +294,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in games:
             value7 = value7 + entry + "\n"
             
-        embedi = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(757026924307415086).name), description=value7, color=config.reportColor)
+        embedi = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(757026924307415086).name), description=value7, color=config.reportColor)
         
         after_hours = ["{}".format(guild.get_channel(759900745733505024).mention),
                        "• A channel for mature discussion. (**18+ Only**) It carries its own set of rules, which are pinned in the channel.\n",
@@ -305,11 +305,11 @@ async def adminMsgs(ctx, bot, guild):
         for entry in after_hours:
             value8 = value8 + entry + "\n"
             
-        embedj = discord.Embed(title="{}\n――――――――――――――――――――――――――――――".format(guild.get_channel(759900601403834419).name), description=value8, color=config.reportColor)
+        embedj = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(759900601403834419).name), description=value8, color=config.reportColor)
         
-        changeLog = "11/23/2020 - Added three missing channels\n11/1/2020 - Ran to update emojis on the channel names.\n10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(guild.get_channel(757026975696027688).mention)
+        changeLog = "11/26/2020 - Ran to update emojis on the category headers and fix the spacers.\n11/23/2020 - Added three missing channels\n11/1/2020 - Ran to update emojis on the channel names.\n10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(guild.get_channel(757026975696027688).mention)
         
-        embedf = discord.Embed(title="What's Changed (Why are there notifications?)\n――――――――――――――――――――――――――――――", description=changeLog, color=config.reportColor)
+        embedf = discord.Embed(title="What's Changed (Why are there notifications?)\n――――――――――", description=changeLog, color=config.reportColor)
         
         servInfo = ["The **Kelutral.org** Discord has several unique features thanks to our custom coded bot, {}.".format(ctx.guild.get_member(config.botID).mention),
                     "\n\nWhile you are here, you will rank up through a series of ranks by participating in the community. You can check your progress to the next rank by using `!profile @yourself` in {}.".format(guild.get_channel(718309398048538687).mention),
@@ -321,7 +321,7 @@ async def adminMsgs(ctx, bot, guild):
         for entry in servInfo:
             value9 = value9 + entry + "\n"
             
-        embedk = discord.Embed(title="Server Information\n――――――――――――――――――――――――――――――", description=value9, color=config.reportColor)
+        embedk = discord.Embed(title="Server Information\n――――――――――", description=value9, color=config.reportColor)
 
         channel = guild.get_channel(infoChannel)
 

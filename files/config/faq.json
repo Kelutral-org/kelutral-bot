@@ -1,21 +1,20 @@
 {
-	"beginner" :
-	{
+	"beginner" : {
 		"'efu" : "A common beginner mistake is to use **lu** instead of **'efu**. **'efu** is the Na'vi word for 'feel'. So, one would not say **oe lu ngeyn** for 'I am tired', but instead **oe 'efu ngeyn**.",
 		"tok"  : "A common beginner mistake is to use **lu** instead of **tok**. **Tok** is the Na'vi word for 'be at, occupy a space'. So, one would not say **oe lu fìtseng** for 'I am here', but instead **oel tok fìtsengit**.",
 		"lu"   : "A common beginner mistake is to use **lu** alongside verbs to indicate the progressive 'verbing' aspect. Instead, Na'vi has its own infix which indicates this aspect of a verb, **<er>**, which fits into the first position. Example: **h__er__angham**, 'laughing'",
 		"with" : "A common beginner mistake is to interchange **hu** and **fa** for 'with' without distinction. **Hu** is the more traditional 'with', while **fa** is 'by means of, using' as in 'with a tool'. \n\nExample: \n**oe tswayon fa ikran**, 'I fly __with/via__ an ikran'"
 	},
-	"case" :
-	{
-		"agent"   : "**Agentive (Subject) Noun Case** \n\n **Endings**: \n**-l**, vowel ending \n**-ìl**, consonant ending \n\nIn Na'vi, the agentive case is used to indicate the subject of a sentence, or the person/place/thing doing the action of the sentence. \n\nExample: \n**oe__l__ tìng tskoti**, '__I__ give the bow.'",
-		"patient" : "**Patientive (Object) Noun Case** \n\n **Endings**: \n**-ti**, vowel/consonant ending \n**-i(t)**, consonant ending \n\nIn Na'vi, the patientive case is used to indicate the object of a sentence, or the person/place/thing being modified by the action of the sentence. \n\nExample: \n**oel tìng tsko__ti__**, 'I give the __bow__.'",
-		"dative"  : "**Dative (Recipient/Indirect Object) Noun Case** \n\n **Endings**: \n**-r(u)**, vowel ending \n**-ur**, consonant ending \n\nIn Na'vi, the dative case is used to indicate the recipient of the object of a sentence with transitive verbs, and the recipient of the action of the verb for intransitive verbs. \n\nExample: \n**oel tìng tskoti nga__ru__**, 'I give the bow __to you__.'",
-		"topic"   : "**Topical Noun Case** \n\n **Endings**: \n**-ri**, vowel ending \n**-ìri**, consonant ending \n\nIn Na'vi, the topical case is used to indicate the topic of the sentence, especially with certain intransitive verbs seem as though they could take objects like **nume**. \n\nExample: \n**lì'fya__ri__ leNa'vi oe nume**, 'I learn the __Na'vi language__.'"
+	"case" : {
+		"agent"   : "**Agentive (Subject) Noun Case** \n\n **Endings**: \n**-l**, vowel ending \n**-ìl**, consonant/pseudovowel/diphthong ending \n\nIn Na'vi, the agentive case is used to indicate the subject of a sentence, or the person/place/thing doing the action of the sentence. \n\nExample: \n**oe__l__ tìng tskoti**, '__I__ give the bow.'",
+		"patient" : "**Patientive (Object) Noun Case** \n\n **Endings**: \n**-ti**, vowel/consonant ending \n**-i(t)**, consonant/pseudovowel/diphthong ending \n\nIn Na'vi, the patientive case is used to indicate the object of a sentence, or the person/place/thing being modified by the action of the sentence. \n\nExample: \n**oel tìng tsko__ti__**, 'I give the __bow__.'",
+		"dative"  : "**Dative (Recipient/Indirect Object) Noun Case** \n\n **Endings**: \n**-r(u)**, vowel ending \n**-ur**, consonant/pseudovowel ending\n**-r(u)/-ur**, diphthong ending\n\nIn Na'vi, the dative case is used to indicate the recipient of the object of a sentence with transitive verbs, and the recipient of the action of the verb for intransitive verbs. \n\nExample: \n**oel tìng tskoti nga__ru__**, 'I give the bow __to you__.'",
+		"genitive": "**Genitive (Ownership, Possession) Noun Case**\n\n**Endings**:\n**-yä, -o-ä, -u-ä**, vowel endings,\n**-ä**, consonant/pseudovowel/diphthong ending\n\nIn Na'vi, the genitive case marks ownership that one noun exerts over another.\n\nExample:\n**oel tìng oe__yä__ tskoti ngaru**, 'I give __my bow__ to you.'",
+		"topic"   : "**Topical Noun Case** \n\n **Endings**: \n**-ri**, vowel/diphthong ending \n**-ìri**, consonant ending \n\nIn Na'vi, the topical case is used to indicate the topic of the sentence, especially with certain intransitive verbs which seem as though they could take objects like **nume**. \n\nExample: \n**lì'fya__ri__ leNa'vi oe nume**, 'I learn the __Na'vi language__.'"
+
 	},
 	"hrh"   : "**HRH** is the Na'vi equivalent of \"LOL\", and is derived from this video:\nhttps://youtu.be/-AgnLH7Dw3w?t=274 \n\n ```Interviewer: \"What would LOL be?\" \nPaul: \"It would have to do with the word 'herangham'... maybe HRH\"```",
-	"howto" : 
-	{
+	"howto" : {
 		"pronounce" : "Pamìrìk's guide to pronunciation can be found here:\nhttps://www.youtube.com/watch?v=e5JKGL-o16M",
 		"start" : "Kelutral.org's guide to getting started can be found here:\nhttp://kelutral.org/get-started"
 	},

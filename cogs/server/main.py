@@ -4,6 +4,7 @@ from discord.utils import get
 
 import config
 import admin
+import pr_admin
 
 import re
 import bot
@@ -101,25 +102,27 @@ class Server(commands.Cog):
                 nickname = ""
                 
             # Checks if the user has 'unspecified'
-            if type(admin.readDirectory(user, "pronouns")) == int:
-                pronoun_role = get(user.guild.roles, id=admin.readDirectory(user, "pronouns")).name
-            else:
-                pronoun_role = admin.readDirectory(user, "pronouns")
+            if ctx.guild.id == 715043968886505484:
+                if type(admin.readDirectory(user, "pronouns")) == int:
+                    pronoun_role = get(user.guild.roles, id=admin.readDirectory(user, "pronouns")).name
+                else:
+                    pronoun_role = admin.readDirectory(user, "pronouns")
                 
             # Builds the embed
             embed=discord.Embed(color=get(user.guild.roles, id=active_roles["id"]).color, title=user.name + nickname)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["join_date"], value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["language"], value=language_pref, inline=True)
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["pronouns"], value=pronoun_role, inline=True)
-            embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["current_rank"], value=get(user.guild.roles, id=active_roles["id"]).mention + ", \"" + active_roles["translation"] + "\"")
+            if ctx.guild.id == 715043968886505484:
+                embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["pronouns"], value=pronoun_role, inline=True)
+                embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["current_rank"], value=get(user.guild.roles, id=active_roles["id"]).mention + ", \"" + active_roles["translation"] + "\"")
+            else:
+                embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["current_rank"], value=get(user.guild.roles, id=active_roles["id"]).mention)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["message_count"], value=to_next_level, inline=True)
             if type(admin.readDirectory(user, "na'vi only")) == int:
                 final_text += "{} **messages**: {}\n".format(self.bot.get_channel(715050499203661875).mention, admin.readDirectory(user, "na'vi only"))
             final_text += "**{}** {}\n".format(config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], await self.buildLeaderboard(ctx, user.id, variant, "position"))
             final_text += "**{}** {}\n".format(config.text_file[language_pref]["profile"]["embed"]["times_thanked"], admin.readDirectory(user, "thanks"))
             embed.add_field(name="Additional Stats:", value=final_text, inline=False)
-            # embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["server_leaderboard"], value=await self.buildLeaderboard(ctx, user.id, variant, "position"), inline=False)
-            # embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["times_thanked"], value=admin.readDirectory(user, "thanks"), inline=False)
             embed.set_footer(text=config.text_file[language_pref]["profile"]["embed"]["footer"])
             embed.set_thumbnail(url=user.avatar_url) 
             
@@ -131,16 +134,27 @@ class Server(commands.Cog):
         # Pulls necessary information from the user profile
         message_count = admin.readDirectory(user, "message count")
         language_pref = admin.readDirectory(user, "language")
-        active_roles = admin.readDirectory(user, "rank")
+        if ctx.guild.id == 748700165266866227:
+            active_roles = pr_admin.readDirectory(user, "pr_rank")
+        else:
+            active_roles = admin.readDirectory(user, "rank")
         
         # Retrieves the current and next rank from Discord
         current_rank = get(ctx.guild.roles, id=active_roles["id"])
-        next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
-        next_rank = get(ctx.guild.roles, id=config.activeRoleIDs[next_rank_index])
-        for entry in config.activeRoleDict:
-            if entry[0] == next_rank.id:
-                next_rank_translation = entry[1]
-                break
+        if ctx.guild.id == 748700165266866227:
+            try:
+                next_rank_index = config.prIDs.index(current_rank.id) - 1
+            except AttributeError:
+                next_rank_index = config.prIDs.index(782980232746893343)
+            next_rank = get(ctx.guild.roles, id=config.prIDs[next_rank_index])
+            next_rank_translation = next_rank.name
+        else:
+            next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
+            next_rank = get(ctx.guild.roles, id=config.activeRoleIDs[next_rank_index])
+            for entry in config.activeRoleDict:
+                if entry[0] == next_rank.id:
+                    next_rank_translation = entry[1]
+                    break
         
         # Checks the total messages sent against the threshold.
         for i, count in enumerate(config.activeRoleThresholds):
@@ -202,10 +216,10 @@ class Server(commands.Cog):
         await ctx.send(embed=embed)
 
     # Error Handling for !profile
-    @profile.error
-    async def profile_error(self, ctx, error):
-        if isinstance(error, commands.CommandError):
-            await ctx.send(embed=config.syntax)
+    # @profile.error
+    # async def profile_error(self, ctx, error):
+        # if isinstance(error, commands.CommandError):
+            # await ctx.send(embed=config.syntax)
 
 def setup(bot):
     bot.add_cog(Server(bot))

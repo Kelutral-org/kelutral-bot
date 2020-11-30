@@ -21,6 +21,8 @@ version = config['version']
 debug = False
 
 activeRoleIDs = [715319929942966312, 715319903376113745, 715319861684994069, 715319829611151440, 715319782198739016, 715319761927405668, 715319686710952018, 715319529550381056, 715319404803653632, 715319360884834376, 715319264805912580, 715319193188171846]
+prIDs = [782979666885607484, 782979702260367440, 782980197187059724, 782980232746893343, 782982345523331103]
+prThresholds = [16384, 8192, 64, 16, 8]
 activeRoleDict = [[715319929942966312, "Veteran"], [715319903376113745, "Warrior"], [715319861684994069, "Trainee Warrior"], [715319829611151440, "Party Leader"], [715319782198739016, "Ikran Rider"], [715319761927405668, "Hunter"], [715319686710952018, "Trainee Hunter"], [715319529550381056, "Member"], [715319404803653632, "Trainee Member"], [715319360884834376, "Newcomer"], [715319264805912580, "Alien"]]
 activeRoleThresholds = [16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16,8]
 
@@ -31,12 +33,15 @@ sequelDate = config['sequel_date']
 watch_keywords = False
 watched_phrases = config['keywords']
 
-# Channels
+# Kelutral Channels
 general = 715296162394931340
 modLog = 715052686487191583
 lepChannel = 715988382706303038
 regChannel = 768599416114118656
 newRegChannel = 768627265037664257
+
+# Pandora Rising Channels
+pr_modLog = 748718468303683677
 
 # Embed Colors
 botColor = 0x113f78
@@ -48,7 +53,7 @@ welcomeColor = 0x6D326D
 successColor = 0x00c600
 failColor = 0xff0000
 
-# IDs
+# Kelutral IDs
 frapoID = 715319193188171846
 botRoleID = 715094486992027699
 guildID = 715043968886505484
@@ -64,6 +69,9 @@ tnpKaryuID = 768627316958953532
 
 modRoles = [adminID,modID]
 allowedRoles = [adminID,modID,teacherID]
+
+# Pandora Rising IDs
+prFrapo = 782982345523331103
 
 # Error Embeds
 database=discord.Embed(description="**Error:**\nNo entries found.", color=failColor)
