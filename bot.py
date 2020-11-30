@@ -240,7 +240,7 @@ async def inquiries(ctx, *inquiry):
     search_hex = False
     search_tags = False
     
-    with open('cogs/utility/files/inquirydatabase.json', 'r', encoding='utf-8') as fh:
+    with open('cogs/shared/files/inquirydatabase.json', 'r', encoding='utf-8') as fh:
         inquiry_database = json.load(fh)
     
     if "-r" in inquiry:
@@ -337,7 +337,7 @@ async def inquiries(ctx, *inquiry):
         
     elif write_mode:
         entry_id = uuid.uuid1()
-        with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+        with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
             inquiry_database[joined_inquiry] = {"date" : datetime.now().strftime("%m-%d-%Y, %H:%M.%S"), "author" : ctx.message.author.id, "response" : "", "tags" : "", "id" : entry_id.hex}
             json.dump(inquiry_database, fh)
         await ctx.send(embed=discord.Embed(title="Created Entry", description="Inquiry: {}\nAuthor: {}\nDate Added: {} EST\nEntry ID: {}\n\n".format(joined_inquiry, ctx.guild.get_member(inquiry_database[joined_inquiry]['author']).mention, inquiry_database[joined_inquiry]['date'], inquiry_database[joined_inquiry]['id'])))
@@ -346,7 +346,7 @@ async def inquiries(ctx, *inquiry):
         for key, value in inquiry_database.items():
             if joined_inquiry == value['id']:
                 removed_value = inquiry_database.pop(key)
-                with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+                with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
                     json.dump(inquiry_database, fh)
                 await ctx.send(embed=config.success)
                 return
@@ -359,7 +359,7 @@ async def inquiries(ctx, *inquiry):
                     value['tags'] = joined_inquiry
                 elif update_response:
                     value['response'] = joined_inquiry
-                with open('cogs/utility/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
+                with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
                     json.dump(inquiry_database, fh)
                 await ctx.send(embed=config.success)
                 return
@@ -377,7 +377,7 @@ async def naviteri(ctx, *search):
         search.remove("-t")
         searchTags = True
         
-    with open('cogs/utility/files/naviteri.json', 'r', encoding='utf-8') as fh:
+    with open('cogs/shared/files/naviteri.json', 'r', encoding='utf-8') as fh:
         naviteri = json.load(fh)
     
     for query in search:
@@ -546,146 +546,6 @@ async def help(ctx, *query):
         
     await ctx.send(embed=embed)
 
-## LEP Command
-@kelutralBot.command(name="lep")
-async def lepCommand(ctx, *args):
-    user = ctx.message.author.id
-    msg_channel = kelutralBot.get_channel(config.lepChannel)
-    modLog_channel = kelutralBot.get_channel(config.modLog)
-    
-    if isinstance(ctx.channel, discord.DMChannel):
-        message = " ".join(args)
-        for i, value in enumerate(config.lepArchive):
-            if config.lepArchive[i][0] == user:
-                randColor = config.lepArchive[i][1]
-        
-        try:
-            randColor
-        except NameError:
-            randColor = random.randint(0,0xffffff)
-            config.lepArchive.append([user,randColor])
-        
-        embed = discord.Embed(description=ctx.message.author.name + " sent the following message to the LEP Channel: \n\n" + message)
-        await modLog_channel.send(embed=embed)
-        
-        embed = discord.Embed(title="Anonymous LEP Submission",description=message,color=randColor)
-        await msg_channel.send(embed=embed)
-        await ctx.send(embed=config.success)
-    else:
-        message = ctx.message
-        await ctx.send(embed=config.dm_only)
-        await message.delete()
-
-@kelutralBot.command(name="type")
-async def typeWord(ctx, *words):
-    list_words = []
-    for i, word in enumerate(words):
-        if word == 'si':
-            list_words[i-1] += " {}".format(word)
-        else:
-            list_words.append(word)
-    
-    output_list = []
-    mod = ""
-    output = ""
-    cases = {
-        "agentive" : ["l\Z","ìl\Z"],
-        "patientive" : ["t\Z","ti\Z","it\Z"],
-        "dative" : ["r\Z","ur\Z","ru\Z"],
-        "genitive" : ["ä\Z","yä\Z"],
-        "topical" : ["ri\Z","ìri\Z"]
-        }
-    
-    infixes = [{"general past" : 'am'},{"near past" : 'ìm'},{"general future" : 'ay'},{"near future" : 'ìy'},{"general future intent" : 'asy'},{"near future intent" : 'ìsy'},{"general past perfective" : 'alm'},{"near past perfective" : 'ìlm'},{"general future perfective" : 'aly'},{"near future perfective" : 'ìly'},{"general past progressive" : 'arm'},{"near past progressive" : 'ìrm'},{"general future progressive" : 'ary'},{"near future progressive" : 'ìry'},{"positive mood" : 'ei'},{"negative mood" : 'äng'},{"perfective" : 'ol'},{"progressive" : 'er'}]
-    
-    with open('files/dictionary.json', 'r', encoding='utf-8') as fh:
-        dictionary = json.load(fh)
-    
-    for word in list_words:
-        isverb = False
-        isnoun = False
-        isadj = False
-        try:
-            dictionary[word]
-            pos = dictionary[word][0]['partOfSpeech']
-            core_word = word
-            if pos == "adj.":
-                isadj = True
-                if word.endswith("a"):
-                    mod = "right"
-                elif mod != "right":
-                    if word.startswith("a") or word.startswith("le"):
-                        mod = "left"
-            await ctx.send("{} is an unmodified {}".format(word, pos))
-            
-        except KeyError:
-            # Noun Checking
-            for key, value in cases.items():
-                for suffix in value:
-                    case = re.search(r""+suffix, word)
-                    if case != None:
-                        isnoun = True
-                        core_word = re.sub(r""+suffix, '', word)
-                        case_name = key
-                        pos = dictionary[core_word][0]['partOfSpeech']
-                        break
-            # Verb Checking
-            if not isnoun:
-                if " s.i " in word:
-                    for infix in infixes:
-                        if not isverb:
-                            for key, value in infix.items():
-                                verb = re.search(r"s"+value+"i", word)
-                                if verb != None:
-                                    isverb = True
-                                    core_word = re.sub(r"s"+value+"i", 'si', word)
-                                    tense = key
-                                    pos = dictionary[core_word][0]['partOfSpeech']
-                                    break
-                else:
-                    for infix in infixes:
-                        if not isverb:
-                            for key, value in infix.items():
-                                verb = re.search(r""+value, word)
-                                if verb != None:
-                                    isverb = True
-                                    core_word = re.sub(r""+value, '', word)
-                                    tense = key
-                                    pos = dictionary[core_word][0]['partOfSpeech']
-                                    break
-            # Adjective Checking
-            if not isnoun and not isverb:
-                adj = re.search(r"\Aa|\Ale|a\Z", word)
-                if adj != None:
-                    isadj = True
-                    if word.endswith("a"):
-                        mod = "right"
-                    elif mod != "right":
-                        if word.startswith("a") or word.startswith("le"):
-                            mod = "left"
-                    core_word = re.sub(r"\Aa|a\Z", '', word)
-                    pos = dictionary[core_word][0]['partOfSpeech']
-                
-        if isnoun:
-            await ctx.send("{} is in the {} case.".format(core_word, case_name))
-        elif isverb:
-            if pos == 'vin.':
-                await ctx.send("{} is an intransitive verb in the {}.".format(core_word, tense))
-            elif pos == 'vtr.':
-                await ctx.send("{} is a transitive verb in the {}.".format(core_word, tense))
-            elif pos == 'vim.':
-                await ctx.send("{} is an intransitive modal verb in the {}.".format(core_word, tense))
-            elif pos == 'vtrm.':
-                await ctx.send("{} is a transitive modal verb in the {}.".format(core_word, tense))
-            elif pos == 'v.':
-                await ctx.send("{} is a verb in the {}.".format(core_word, tense))
-        elif isadj:
-            if mod == "left":
-                indexmod = -1
-            elif mod == "right":
-                indexmod = 1
-            await ctx.send("{} is an adjective modifying the noun on the {}.".format(core_word, mod))
-
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
 @help.error
@@ -693,12 +553,9 @@ async def help_error(ctx, error):
    if isinstance(error, commands.CommandError):
        await ctx.send(embed=config.syntax)
 
-kelutralBot.load_extension('cogs.utility.main')
-kelutralBot.load_extension('cogs.games.main')
-kelutralBot.load_extension('cogs.tnp.main')
-kelutralBot.load_extension('cogs.server.main')
-kelutralBot.load_extension('cogs.utility.kelutral_listener')
-kelutralBot.load_extension('cogs.utility.pandora_rising_listener')
+kelutralBot.load_extension('cogs.kelutral.main')
+kelutralBot.load_extension('cogs.shared.main')
+kelutralBot.load_extension('cogs.shared.kelutral_listener')
+kelutralBot.load_extension('cogs.shared.pandora_rising_listener')
 
-# Replace token with your bot's token
 kelutralBot.run(config.token)

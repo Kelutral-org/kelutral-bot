@@ -15,7 +15,7 @@ import glob
 import json
 
 import config
-import admin
+import pr_admin
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -24,8 +24,8 @@ class Utility(commands.Cog):
     ## -- On Join
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        if member.guild.id == 715043968886505484:
-            channel = self.bot.get_channel(config.modLog)
+        if member.guild.id == 748700165266866227:
+            channel = self.bot.get_channel(config.pr_modLog)
             roles = member.guild.roles
             now = datetime.strftime(datetime.now(),'%H:%M')
             
@@ -64,7 +64,7 @@ class Utility(commands.Cog):
 
             print(now + " -- Gave {} the role {}.".format(member.name, frapoRole.name))
             
-            with open('cogs/utility/files/kelutral/server_info.json', 'r', encoding='utf-8') as fh:
+            with open('cogs/shared/files/pandora_rising/server_info.json', 'r', encoding='utf-8') as fh:
                 server_info = json.load(fh)
             
             date = datetime.now().strftime("%m-%d-%Y")
@@ -78,7 +78,7 @@ class Utility(commands.Cog):
                     "rds" : 0
                     }
             
-            with open('cogs/utility/files/kelutral/server_info.json', 'w', encoding='utf-8') as fh:
+            with open('cogs/shared/files/pandora_rising/server_info.json', 'w', encoding='utf-8') as fh:
                 json.dump(server_info, fh)
             
             try:
@@ -86,12 +86,12 @@ class Utility(commands.Cog):
                 if member.dm_channel is None:
                     await member.create_dm()
                 embed=discord.Embed()
-                embed=discord.Embed(title="Welcome to the Kelutral.org Discord Server!", colour=config.welcomeColor)
-                embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #kaltxì so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with {}, {}, {} or {} (He/Him, She/Her, They/Them or Any Pronouns). Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!".format(emojis[0],emojis[1],emojis[2],emojis[3]), inline=False)
+                embed=discord.Embed(title="Welcome to Kelutral.org's Pandora Rising Discord Server!", colour=config.welcomeColor)
+                embed.add_field(name="**We're glad that you're here!**", value="When you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles.\n\nIf you would like to personally assign your own pronouns, you can react to this message with {}, {}, {} or {} (He/Him, She/Her, They/Them or Any Pronouns).".format(emojis[0],emojis[1],emojis[2],emojis[3]), inline=False)
 
                 message = await member.send(embed=embed)
                 
-                pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
+                kt_pronounRoleDict = {"716012802933784726": "He/Him", "716012837851627530": "She/Her", "716012861515890741": "They/Them","769540306843729951": "Any Pronouns"}
                 for emoji in emojis:
                     await message.add_reaction(emoji)
             except:
@@ -101,12 +101,12 @@ class Utility(commands.Cog):
                 
             # This creates a profile for new joins.
             pronouns = "Unspecified"
-            profile = admin.readDirectory(member)
+            profile = pr_admin.readDirectory(member)
             
             if profile != None:
-                print(now + " -- This user already has an existing profile. Skipping generation of a new profile.")
+                print(now + " -- This user already has an existing Kelutral profile. Skipping generation of a new profile.")
                 if type(profile['pronouns']) == int:
-                    role_to_add = get(member.guild.roles, id=profile['pronouns'])
+                    role_to_add = get(member.guild.roles, name=kt_pronounRoleDict[str(profile['pronouns'])])
                     await member.add_roles(role_to_add)
                     print(now + " -- {} previously had the pronouns {}. Assigning now.".format(member.name, role_to_add.name))
             else:
@@ -123,13 +123,13 @@ class Utility(commands.Cog):
                                                     "thanks" : 0
                                                 }
                 print(now + " -- Created a new profile for {}.".format(member.name))
-            admin.updateDirectory()
+            pr_admin.updateDirectory()
         
     ## -- On Leave
     @commands.Cog.listener()
     async def on_member_leave(self, member):
-        if member.guild.id == 715043968886505484:
-            channel = self.bot.get_channel(config.modLog)
+        if member.guild.id == 748700165266866227:
+            channel = self.bot.get_channel(config.pr_modLog)
             
             embed=discord.Embed(color=config.failColor)
             embed.set_thumbnail(url=member.avatar_url)
@@ -146,7 +146,7 @@ class Utility(commands.Cog):
             print(now + " -- " + member.name + " left the server.")   
 
             
-            with open('files/kelutral/server_info.json', 'r', encoding='utf-8') as fh:
+            with open('cogs/shared/files/pandora_rising/server_info.json', 'r', encoding='utf-8') as fh:
                 server_info = json.load(fh)
             
             if checkJoin == today:
@@ -171,17 +171,17 @@ class Utility(commands.Cog):
                         "rds" : 0
                         }
             
-            with open('files/kelutral/server_info.json', 'w', encoding='utf-8') as fh:
+            with open('cogs/shared/files/pandora_rising/server_info.json', 'w', encoding='utf-8') as fh:
                 json.dump(server_info, fh)
 
     ## -- On Message Delete
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        if message.guild.id == 715043968886505484:
+        if message.guild.id == 748700165266866227:
             member = message.author
-            channel = self.bot.get_channel(config.modLog)
+            channel = self.bot.get_channel(config.pr_modLog)
             
-            if message.author.top_role.id != config.botRoleID and message.channel.id != 768599416114118656:  
+            if message.author.top_role.id != config.botRoleID and message.channel.id != 748718468303683677:  
                 embed=discord.Embed(color=config.failColor)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.set_author(name=str(member),icon_url=member.avatar_url)
@@ -192,8 +192,8 @@ class Utility(commands.Cog):
     ## -- On Member Update
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-        if before.guild.id == 715043968886505484:
-            channel = self.bot.get_channel(config.modLog)
+        if before.guild.id == 748700165266866227:
+            channel = self.bot.get_channel(config.pr_modLog)
             nameList = []
             i = 0
             
@@ -240,8 +240,8 @@ class Utility(commands.Cog):
     ## -- On Member Ban
     @commands.Cog.listener()
     async def on_member_ban(self, guild, user):
-        if guild.id == 715043968886505484:
-            channel = self.bot.get_channel(config.modLog)
+        if guild.id == 748700165266866227:
+            channel = self.bot.get_channel(config.pr_modLog)
 
             embed=discord.Embed(color=config.failColor)
             embed.set_thumbnail(url=user.avatar_url)
@@ -254,8 +254,8 @@ class Utility(commands.Cog):
     ## -- On Member Unban
     @commands.Cog.listener()
     async def on_member_unban(self, guild, user):
-        if guild.id == 715043968886505484:
-            channel = self.bot.get_channel(config.modLog)
+        if guild.id == 748700165266866227:
+            channel = self.bot.get_channel(config.pr_modLog)
 
             embed=discord.Embed(color=config.reportColor)
             embed.set_thumbnail(url=user.avatar_url)
@@ -272,82 +272,49 @@ class Utility(commands.Cog):
         ctx = await self.bot.get_context(message)
         now = datetime.strftime(datetime.now(),'%H:%M')
         
-        # If message is in Kelutral
-        if message.guild and message.guild.id == 715043968886505484:
+        # If message is in Pandora Rising
+        if message.guild and message.guild.id == 748700165266866227:
             # If message is not a command.
             if not message.content.startswith("!") and not message.content.startswith("?") and not message.content.startswith("%"):
-                # If message is in the #nìNa'vi-nì'aw channel
-                if message.channel.id == 715050499203661875:
-                    profile = admin.readDirectory(user, "na'vi only")
-                    if type(profile) == int:
-                        admin.writeDirectory(user, "na'vi only", admin.readDirectory(user, "na'vi only") + 1)
-                    else:
-                        admin.writeDirectory(user, "na'vi only", 1)
-                
                 # If message is in guild and isn't from the bot.
-                if len(message.content) >= 5 and user.top_role.id != config.botRoleID:
-                    print(now + " - Analyzing message from {} in {}.".format(user, message.channel.name))
+                if len(message.content) >= 5 and user.id != 715296437335752714:
+                    print(now + " - Analyzing message from {} in {} on {}.".format(user, message.channel.name, message.guild.name))
                     try:
-                        admin.writeDirectory(user, "message count", admin.readDirectory(user, "message count") + 1)
+                        pr_admin.writeDirectory(user, "message count", pr_admin.readDirectory(user, "message count") + 1)
                     except KeyError:
                         print(now + " -- WARNING: {} does not have a profile!".format(user.name))
                             
-                    await admin.roleUpdate(user)
-                    admin.updateDirectory()
+                    await pr_admin.roleUpdate(user)
+                    pr_admin.updateDirectory()
                 
                 if message.author.id != config.botID and config.watch_keywords:
                     for keyword in config.watched_phrases:
                         if keyword in message.content.lower():
-                            await self.bot.get_channel(config.modLog).send("The following message requires review by an {}: {}".format(get(ctx.guild.roles, id=config.modID).mention, message.jump_url))
+                            await self.bot.get_channel(config.pr_modLog).send("The following message requires review by an {}: {}".format(get(ctx.guild.roles, id=config.modID).mention, message.jump_url))
                 
                 if "eytukan" in message.content.lower():
                     await message.add_reaction("👀")
                     
                 for user in message.mentions:
                     if config.botID == user.id:
-                        responses = config.text_file[admin.readDirectory(user, "language")]["responses"]
+                        responses = config.text_file[pr_admin.readDirectory(user, "language")]["responses"]
                         index = random.randint(0,len(responses)-1)
-                        await ctx.send(responses[index].format(message.guild.get_member(723257649055006740).mention))
+                        await ctx.send(responses[index])
                     
             elif message.content.startswith("!") and message.author.id == 723257649055006740:
                 question = message.content.replace("!8ball ", "")
                 
-                options = config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"]
+                options = config.text_file[pr_admin.readDirectory(user, "language")]["8ball"]["options"]
                 index = random.randint(0, len(options) - 1)
-                embed = discord.Embed(description=config.text_file[admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[admin.readDirectory(user, "language")]["8ball"]["options"][index]))
+                embed = discord.Embed(description=config.text_file[pr_admin.readDirectory(user, "language")]["8ball"]["response"].format(user.mention, question, config.text_file[pr_admin.readDirectory(user, "language")]["8ball"]["options"][index]))
                 
                 await ctx.send(embed=embed)
-                
-    ## -- On Voice State Update
-    @commands.Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
-        base_channel = self.bot.get_channel(768953622003974204)
-        before_channel = before.channel
-        after_channel = after.channel
-        
-        if before_channel:
-            tnp_vc = self.bot.get_channel(768591895227007016).voice_channels
-            for channel in tnp_vc:
-                in_channel = len(channel.members)
-                if in_channel == 0 and channel != base_channel:
-                    await channel.delete()
-                
-        elif after_channel:
-            in_channel = len(after_channel.members)
-            try:
-                channel_count = int(after_channel.name[-1])
-            except ValueError:
-                return
-            
-            if len(base_channel.members) != 0:
-                if after_channel.user_limit == in_channel and channel_count < 10:
-                    await member.guild.create_voice_channel("Private Voice {}".format(channel_count + 1), category = get(member.guild.categories, id=768591895227007016), user_limit = 2)
 
     ## -- On Reaction Add
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         added_emoji = payload.emoji
-        guild = self.bot.get_guild(715043968886505484)
+        guild = self.bot.get_guild(748700165266866227)
         channel = await self.bot.fetch_channel(payload.channel_id)
         
         if payload.member == None:
@@ -364,8 +331,8 @@ class Utility(commands.Cog):
                 pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
                 
                 if added_emoji.name in emojis:
-                    profile = admin.readDirectory(member)
-                    pronouns = admin.readDirectory(member, "pronouns")
+                    profile = pr_admin.readDirectory(member)
+                    pronouns = pr_admin.readDirectory(member, "pronouns")
                     now = datetime.strftime(datetime.now(),'%H:%M')
                     
                     index = emojis.index(added_emoji.name)
@@ -385,7 +352,7 @@ class Utility(commands.Cog):
                         await member.send("Successfully added you to {}.".format(role_to_add.name))
                         print(now + " -- {} was given the {} pronouns.".format(member.name, role_to_add.name))
                     
-                    admin.writeDirectory(member, 'pronouns', role_to_add.id)
+                    pr_admin.writeDirectory(member, 'pronouns', role_to_add.id)
                     return
         
         # If reaction was added by the message author (sneaky sneaky!)
@@ -401,7 +368,7 @@ class Utility(commands.Cog):
                 check = [message.id, payload.user_id]
                 if check not in contents:
                     contents.append([message.id, payload.user_id])
-                    timesThanked = admin.readDirectory(message.author, "thanks")
+                    timesThanked = pr_admin.readDirectory(message.author, "thanks")
                     
                     timesThanked += 1
                     
@@ -409,9 +376,9 @@ class Utility(commands.Cog):
                     with open(fileName, 'w') as fh:
                         json.dump(contents, fh)
             
-                admin.writeDirectory(message.author, "thanks", timesThanked)
-            admin.updateDirectory()
+                pr_admin.writeDirectory(message.author, "thanks", timesThanked)
+            pr_admin.updateDirectory()
             
 def setup(bot):
     bot.add_cog(Utility(bot))
-    print('Added Kelutral listener: ' + str(Utility))
+    print('Added Pandora Rising listener: ' + str(Utility))

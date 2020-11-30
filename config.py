@@ -33,6 +33,12 @@ sequelDate = config['sequel_date']
 watch_keywords = False
 watched_phrases = config['keywords']
 
+# Kelutral Guild ID
+KTID = 715043968886505484
+
+# Pandora Rising Guild ID
+PRID = 748700165266866227
+
 # Kelutral Channels
 general = 715296162394931340
 modLog = 715052686487191583
@@ -67,11 +73,13 @@ teacherID = 715044889049563147
 tnpID = 768595645736288306
 tnpKaryuID = 768627316958953532
 
-modRoles = [adminID,modID]
-allowedRoles = [adminID,modID,teacherID]
-
 # Pandora Rising IDs
 prFrapo = 782982345523331103
+prAdmin = 782954877566320640
+
+# Shared IDs
+modRoles = [adminID,modID,prAdmin]
+allowedRoles = [adminID,modID,teacherID,prAdmin]
 
 # Error Embeds
 database=discord.Embed(description="**Error:**\nNo entries found.", color=failColor)
@@ -86,13 +94,13 @@ help_error=discord.Embed(description="**Error: Unknown Command** \n Unknown comm
 qotdFile = 'files/qotd/{}.tsk'
 calendarFile = 'files/qotd/calendar.tsk'
 
-botFile = 'cogs/utility/files/users/bot.tsk'
-directoryFile = 'cogs/utility/files/users/new-directory.json'
+botFile = 'cogs/shared/files/users/bot.tsk'
+directoryFile = 'cogs/shared/files/users/new-directory.json'
 
-dictionaryFile = 'cogs/utility/files/dictionary.json'
-horenFile = 'cogs/utility/files/horen.json'
-horenLicense = 'cogs/utility/files/license.txt'
-horenChangelog = 'cogs/utility/files/changelog.txt'
+dictionaryFile = 'cogs/shared/files/dictionary.json'
+horenFile = 'cogs/shared/files/horen.json'
+horenLicense = 'cogs/shared/files/license.txt'
+horenChangelog = 'cogs/shared/files/changelog.txt'
 
 ## -- Clean output function for Quiz Command
 def clean(var):
