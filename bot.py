@@ -500,6 +500,13 @@ async def help(ctx, *query):
     lepChannel = kelutralBot.get_channel(config.lepChannel)
     guild = lepChannel.guild
     t1 = time.time()
+    query = list(query)
+    isTag = False
+    
+    if "-t" in query:
+        query.remove("-t")
+        isTag = True
+        
     
     reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
                     ('**find**','Finds words whose English definitions contain the query.\n'),
@@ -511,17 +518,25 @@ async def help(ctx, *query):
     elif len(query) == 0:
         query = ""
     else:
-        query = query[0].strip("*")
+        query = query[0]
     
     if len(query) > 0:
-        try:
-            command = config.helpFile[query]
-            embed = discord.Embed(title=command['name'], description="Aliases: {}\nUsage: {}\nExample: {}\nDescription: {}".format(''.join(command['aliases']), command['usage'], command['example'], command['description']))
-        except KeyError:
-            embed = config.helpError
-            await ctx.send(embed=embed)
-            return
-        
+        if not isTag:
+            try:
+                command = config.helpFile[query]
+                embed = discord.Embed(title=command['name'], description="Aliases: {}\nUsage: {}\nExample: {}\nDescription: {}".format(''.join(command['aliases']), command['usage'], command['example'], command['description']))
+                embed.set_footer(text="Tags: {}".format(', '.join(command['tags'])))
+            except KeyError:
+                embed = config.helpError
+                await ctx.send(embed=embed)
+                return
+        else:
+            output = ""
+            for entry in config.helpFile.values():
+                if query in entry['tags']:
+                    output = output + entry['name'] + ": " + entry['short']
+            embed = discord.Embed(title="!help {}".format(query), description="Here are {}'s available commands with tag `{}`.\n\nUse `!help <command>` for more information about that command.\n\n".format(guild.get_member(config.botID).mention, query) + output)
+
     else:
         output = ""
         
@@ -529,11 +544,12 @@ async def help(ctx, *query):
         for entry in config.helpFile.values():
             output = output + entry['name'] + ": " + entry['short']
         
-        # Reykunyu's command list
-        output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(guild.get_member(config.reykID).mention)
+        if ctx.guild.id == config.KTID:
+            # Reykunyu's command list
+            output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(guild.get_member(config.reykID).mention)
         
-        for command in reykcommands:
-            output = output + command[0] + ": " + command[1]
+            for command in reykcommands:
+                output = output + command[0] + ": " + command[1]
         
         embed = discord.Embed(title="!help",description="Here are {}'s available commands. Use `!help <command>` for more information about that command.\n\n".format(guild.get_member(config.botID).mention) + output)
         embed.set_thumbnail(url=guild.icon_url)
@@ -548,12 +564,13 @@ async def help(ctx, *query):
 
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
-@help.error
-async def help_error(ctx, error):
-   if isinstance(error, commands.CommandError):
-       await ctx.send(embed=config.syntax)
+# @help.error
+# async def help_error(ctx, error):
+   # if isinstance(error, commands.CommandError):
+       # await ctx.send(embed=config.syntax)
 
 kelutralBot.load_extension('cogs.kelutral.main')
+kelutralBot.load_extension('cogs.pandora_rising.main')
 kelutralBot.load_extension('cogs.shared.main')
 kelutralBot.load_extension('cogs.shared.kelutral_listener')
 kelutralBot.load_extension('cogs.shared.pandora_rising_listener')

@@ -127,7 +127,7 @@ class Utility(commands.Cog):
         
     ## -- On Leave
     @commands.Cog.listener()
-    async def on_member_leave(self, member):
+    async def on_member_remove(self, member):
         if member.guild.id == 748700165266866227:
             channel = self.bot.get_channel(config.pr_modLog)
             
@@ -313,71 +313,72 @@ class Utility(commands.Cog):
     ## -- On Reaction Add
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        added_emoji = payload.emoji
-        guild = self.bot.get_guild(748700165266866227)
-        channel = await self.bot.fetch_channel(payload.channel_id)
-        
-        if payload.member == None:
-            member = guild.get_member(payload.user_id)
-        else:
-            member = payload.member
+        if payload.guild_id == config.PRID:
+            added_emoji = payload.emoji
+            guild = self.bot.get_guild(748700165266866227)
+            channel = await self.bot.fetch_channel(payload.channel_id)
             
-        emoji = ['<:irayo:715054886714343455>','<:prirayo:782966329317654569>'] 
-        fileName = 'files/config/reactions.txt'
-
-        if isinstance(channel, discord.DMChannel):
-            if member.id != config.botID:
-                emojis = ['♂️','♀️','🏳️‍🌈','♾️']
-                pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
+            if payload.member == None:
+                member = guild.get_member(payload.user_id)
+            else:
+                member = payload.member
                 
-                if added_emoji.name in emojis:
-                    profile = pr_admin.readDirectory(member)
-                    pronouns = pr_admin.readDirectory(member, "pronouns")
-                    now = datetime.strftime(datetime.now(),'%H:%M')
+            emoji = ['<:irayo:715054886714343455>','<:prirayo:782966329317654569>'] 
+            fileName = 'files/config/reactions.txt'
+
+            if isinstance(channel, discord.DMChannel):
+                if member.id != config.botID:
+                    emojis = ['♂️','♀️','🏳️‍🌈','♾️']
+                    pronounRole = ['He/Him','She/Her','They/Them','Any Pronouns']
                     
-                    index = emojis.index(added_emoji.name)
-                    role_to_add = get(guild.roles, name=pronounRole[index])
-                    
-                    if pronouns == role_to_add.id:
-                        await member.send("You already have that role!")
-                        print(now + " -- {} attempted to add the {} pronouns, but they already had them.".format(member.name, role_to_add.name))
-                    elif pronouns != "Unspecified":
-                        old_role = get(guild.roles, id=profile['pronouns'])
-                        await member.remove_roles(old_role)
-                        await member.add_roles(role_to_add)
-                        await member.send("Removed {} and added {}.".format(old_role.name, role_to_add.name))
-                        print(now + " -- {} swapped from {} pronouns to {} ones.".format(member.name, old_role.name, role_to_add.name))
-                    else:
-                        await member.add_roles(role_to_add)
-                        await member.send("Successfully added you to {}.".format(role_to_add.name))
-                        print(now + " -- {} was given the {} pronouns.".format(member.name, role_to_add.name))
-                    
-                    pr_admin.writeDirectory(member, 'pronouns', role_to_add.id)
-                    return
-        
-        # If reaction was added by the message author (sneaky sneaky!)
-        message = await channel.fetch_message(payload.message_id)
-        if message.author.id == payload.user_id:
-            return
-        else:
-            with open(fileName, 'r') as fh:
-                contents = json.load(fh)
+                    if added_emoji.name in emojis:
+                        profile = pr_admin.readDirectory(member)
+                        pronouns = pr_admin.readDirectory(member, "pronouns")
+                        now = datetime.strftime(datetime.now(),'%H:%M')
+                        
+                        index = emojis.index(added_emoji.name)
+                        role_to_add = get(guild.roles, name=pronounRole[index])
+                        
+                        if pronouns == role_to_add.id:
+                            await member.send("You already have that role!")
+                            print(now + " -- {} attempted to add the {} pronouns, but they already had them.".format(member.name, role_to_add.name))
+                        elif pronouns != "Unspecified":
+                            old_role = get(guild.roles, id=profile['pronouns'])
+                            await member.remove_roles(old_role)
+                            await member.add_roles(role_to_add)
+                            await member.send("Removed {} and added {}.".format(old_role.name, role_to_add.name))
+                            print(now + " -- {} swapped from {} pronouns to {} ones.".format(member.name, old_role.name, role_to_add.name))
+                        else:
+                            await member.add_roles(role_to_add)
+                            await member.send("Successfully added you to {}.".format(role_to_add.name))
+                            print(now + " -- {} was given the {} pronouns.".format(member.name, role_to_add.name))
+                        
+                        pr_admin.writeDirectory(member, 'pronouns', role_to_add.id)
+                        return
             
-            # Checks to see if the reaction adder has already added a reaction to that message (prevents duplication)
-            if str(added_emoji) in emoji: 
-                check = [message.id, payload.user_id]
-                if check not in contents:
-                    contents.append([message.id, payload.user_id])
-                    timesThanked = pr_admin.readDirectory(message.author, "thanks")
-                    
-                    timesThanked += 1
-                    
-                    # Updates the reactions log
-                    with open(fileName, 'w') as fh:
-                        json.dump(contents, fh)
-            
-                pr_admin.writeDirectory(message.author, "thanks", timesThanked)
-            pr_admin.updateDirectory()
+            # If reaction was added by the message author (sneaky sneaky!)
+            message = await channel.fetch_message(payload.message_id)
+            if message.author.id == payload.user_id:
+                return
+            else:
+                with open(fileName, 'r') as fh:
+                    contents = json.load(fh)
+                
+                # Checks to see if the reaction adder has already added a reaction to that message (prevents duplication)
+                if str(added_emoji) in emoji: 
+                    check = [message.id, payload.user_id]
+                    if check not in contents:
+                        contents.append([message.id, payload.user_id])
+                        timesThanked = pr_admin.readDirectory(message.author, "thanks")
+                        
+                        timesThanked += 1
+                        
+                        # Updates the reactions log
+                        with open(fileName, 'w') as fh:
+                            json.dump(contents, fh)
+                
+                    pr_admin.writeDirectory(message.author, "thanks", timesThanked)
+                pr_admin.updateDirectory()
             
 def setup(bot):
     bot.add_cog(Utility(bot))

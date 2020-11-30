@@ -118,7 +118,7 @@ async def roleUpdate(user):
             print(now + ' -- Cannot DM this user.')
         
         # Updates the directory count.
-        profile['pr_rank'] = config.prIDs[next_rank_index]
+        profile['pr_rank']['id'] = config.prIDs[next_rank_index]
         
         with open(config.directoryFile, 'w', encoding='utf-8') as fh:
             json.dump(config.directory, fh)
