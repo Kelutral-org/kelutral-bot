@@ -251,7 +251,7 @@ class Utility(commands.Cog):
     ## Search command
     @commands.command(name="search")
     async def search(self, ctx, *words):
-        if ctx.guild.id == config.KTID:
+        if isinstance(ctx.channel, discord.channel.DMChannel) or ctx.guild.id == config.KTID:
             user = ctx.message.author
             words = list(words)
             word_list = []

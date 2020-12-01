@@ -143,6 +143,7 @@ class Utility(commands.Cog):
         language_pref = admin.readDirectory(user, "language")
         if ctx.guild.id == 748700165266866227:
             active_roles = pr_admin.readDirectory(user, "pr_rank")
+            print(active_roles)
         else:
             active_roles = admin.readDirectory(user, "rank")
         
@@ -234,7 +235,7 @@ class Utility(commands.Cog):
         with open(fileName, 'r') as fh:
             names = json.load(fh)
             
-        embed=discord.Embed(title="About Eytukan",description="Eytukan is a custom bot coded in Python 3 for use on Kelutral.org's Discord Server. It is primarily coded and maintained by " + str(mako.mention) + ".", color=config.botColor)
+        embed=discord.Embed(title="About Eytukan",description="Eytukan is a custom bot coded in Python 3 for use on Kelutral.org's network of Discord Servers. It is primarily coded and maintained by " + str(mako.mention) + ".", color=config.botColor)
         embed.set_author(name=self.name,icon_url=self.avatar_url)
         embed.add_field(name="Version: ", value=config.version, inline=True)
         embed.add_field(name="Website: ", value="http://kelutral.org/", inline=True)
@@ -459,10 +460,10 @@ class Utility(commands.Cog):
     # Error Handling
     
     ## Error Handling for !profile
-    @profile.error
-    async def profile_error(self, ctx, error):
-        if isinstance(error, commands.CommandError):
-            await ctx.send(embed=config.syntax)
+    # @profile.error
+    # async def profile_error(self, ctx, error):
+        # if isinstance(error, commands.CommandError):
+            # await ctx.send(embed=config.syntax)
 
 def setup(bot):
     bot.add_cog(Utility(bot))

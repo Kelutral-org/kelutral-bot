@@ -120,7 +120,10 @@ class Utility(commands.Cog):
                                                         "id" : config.frapoID,
                                                         "translation" : "Everyone"
                                                     },
-                                                    "thanks" : 0
+                                                    "thanks" : 0,
+                                                    "pr_rank" : {
+                                                        "id" : config.prFrapo
+                                                    }
                                                 }
                 print(now + " -- Created a new profile for {}.".format(member.name))
             pr_admin.updateDirectory()
@@ -323,7 +326,7 @@ class Utility(commands.Cog):
             else:
                 member = payload.member
                 
-            emoji = ['<:irayo:715054886714343455>','<:prirayo:782966329317654569>'] 
+            emoji = ['<:irayo:715054886714343455>','<:prirayo:782966273466171412>'] 
             fileName = 'files/config/reactions.txt'
 
             if isinstance(channel, discord.DMChannel):

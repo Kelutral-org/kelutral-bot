@@ -85,7 +85,7 @@
 		"aliases" : ["None"],
 		"short" : "Displays the specified server invite.\n",
 		"usage" : "`!invite <kelutral/pr>`",
-		"example" : "`!invite kelutral",
+		"example" : "`!invite kelutral`",
 		"description" : "Displays the specified server invite. Use `kelutral`, or `pandora rising`/`pr` to specify which server invite you want to show.\n",
 		"tags" : ["utility","shared"]
 	},

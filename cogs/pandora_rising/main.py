@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 
+import json
+import admin
+
 import config
 
 class Utility(commands.Cog):
@@ -46,6 +49,43 @@ class Utility(commands.Cog):
         
         for emoji in emojis:
             await message.add_reaction(emoji)
+            
+    @commands.command(name="fixall")
+    async def fixAll(self, ctx):
+        directory = config.directory
+        
+        for member in ctx.guild.members:
+            try:
+                user_profile = directory[str(member.id)]
+                print("Found user profile, trying the next level.")
+                try:
+                    directory[str(member.id)]["pr_rank"]["id"]
+                    print("User's profile is valid, skipping to the next.")
+                except KeyError:
+                    print("Updating {}".format(member.name))
+                    directory[str(member.id)]["pr_rank"] = {"id": config.prFrapo}
+            except KeyError:
+                config.directory[str(member.id)] = {
+                                    "id" : member.id,
+                                    "message count" : 0,
+                                    "name" : member.name,
+                                    "language" : "English",
+                                    "pronouns" : "Unspecified",
+                                    "rank" : {
+                                        "id" : config.frapoID,
+                                        "translation" : "Everyone"
+                                    },
+                                    "thanks" : 0,
+                                    "pr_rank" : {
+                                        "id" : config.prFrapo
+                                    }
+                                }
+                print(" -- Created a new profile for {}.".format(member.name))
+                continue
+
+        admin.updateDirectory()
+        
+        await ctx.send("Done!")
             
 
 def setup(bot):
