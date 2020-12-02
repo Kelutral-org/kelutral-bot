@@ -146,7 +146,7 @@ class Utility(commands.Cog):
             print(now + " -- " + member.name + " left the server.")   
 
             
-            with open('files/kelutral/server_info.json', 'r', encoding='utf-8') as fh:
+            with open('cogs/shared/files/kelutral/server_info.json', 'r', encoding='utf-8') as fh:
                 server_info = json.load(fh)
             
             if checkJoin == today:
@@ -171,7 +171,7 @@ class Utility(commands.Cog):
                         "rds" : 0
                         }
             
-            with open('files/kelutral/server_info.json', 'w', encoding='utf-8') as fh:
+            with open('cogs/shared/files/kelutral/server_info.json', 'w', encoding='utf-8') as fh:
                 json.dump(server_info, fh)
 
     ## -- On Message Delete

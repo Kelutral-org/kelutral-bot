@@ -1037,10 +1037,9 @@
 				"header" : "Modal Complement",
 				"info" : "The verbal complement to a modal verb, such as **zene** *must*, **tsun** *can*, etc., will take the subjunctive, as in **ayngari zene hivum** *you must leave*, **oe new nìtxan ayngaru fyawivìntxu** *I want very much to guide you*, **fmawn a tsun oe ayngaru tìving** *news which I can give to you*.",
 				"6.8.3.1" : {
-					"info" : "The verb controlled by the modal will not take any tense or aspect infixes, 10 just the simple subjunctive. So, tense and aspect marking should go on the modal, **oe namew tsive'a** *I wanted to see*, never \\***oe new tsimve'a**. However, the controlled verb will always keep its causative or reflexive marking.",
-					"footer" : "10  The controlled verb will keep its reflexive or causative infix."
+					"info" : "The verb controlled by the modal will not take any tense or aspect infixes, just the simple subjunctive. So, tense and aspect marking should go on the modal, **oe namew tsive'a** *I wanted to see*, never \\***oe new tsimve'a**. However, the controlled verb will always keep its causative or reflexive marking.",
+					"footer" : "❗ Except in poetry or ceremonial language, the modal verb will always come before the controlled verb."
 				},
-				"6.8.3.1.1" : "❗ Except in poetry or ceremonial language, the modal verb will always come before the controlled verb.",
 				"6.8.3.2" : "Known modal verbs and verbs with modal syntax:\n\n**fmi**, *try, attempt*\n**ftang**, *stop*\n**kan**, *aim, intend*\n**may’**, *try, sample, taste*\n**new**, *want*\n**nulnew**, *prefer*\n**sngä’i**, *begin*\n**sto**, *refuse*\n**tsun**, *can*\n**var**, *continue, persist (in doing an action)*\n**zene**, *must*\n**zenke**, *must not*",
 				"6.8.3.3" : "Note that the modal verbs are considered intransitive with the subject of the modal phrase in the subjective case, regardless of the transitivity of the controlled verb, **oe new yivom teylut** *I want to eat teylu*. But see \"word order effects,\" **7.1.3.1**, for some exceptional patterns."
 			},
@@ -1281,6 +1280,203 @@
 			"6.19.5" : {
 				"header" : "Imperatives in Conditions",
 				"info" : "When imperatives are used as the consequent of a condition, imperative mood and syntax rules override the normal conditional patterns. For example, a future conditional with imperative consequent, **txo tsive'a ayngal keyeyt, rutxe oeru piveng** *if you see errors, please tell me*."
+			}
+		},
+		"6.20" : {
+			"header" : "Conjunctions",
+			"info" : "This section lists conjunctions that have not been discussed elsewhere, but which still deserve mention in some way. I omit conjunctions that require no special comment.",
+			"6.20.1" : {
+				"header" : "Alu",
+				"info" : "The primary use of **alu** is for nouns in apposition, **tskalepit oel tolìng oeyä __tsmukanur alu Ìstaw__** *I gave the crossbow to __my brother Istaw__*. Note that the noun after **alu** is in the subjective case.",
+				"6.20.1.1" : "**Alu** may also be conversationally to mark a restatement, like \"that is to say,\" or \"in other words.\" **Txoa livu, yawne lu oer Sorewn... __alu__... ke tsun oeng muntxa slivu** *Sorry, but I love Sorewn...__in other words__, you and I cannot marry*.",
+				"6.20.1.2" : "In discussions of grammar and language, **alu** can clarify the word or construction you're speaking about, **tsalsungay tsalì'u __alu zeykuso__ lu eyawr** *nonetheless, that word, __namely **zeykuso**__, is correct*, **lì'uri alu tskxe pamrel fyape?** *how do you spell the word 'tskxe'?*"
+			},
+			"6.20.2" : {
+				"header" : "Ftxey",
+				"info" : "In addition to forming yes-no questions (**6.14.2**), **ftxey** can be used to enumerate *whether... or...* options, **sìlpey oe, ... frapo — __ftxey sngä'iyu ftxey tsulfätu__ — tsìyevun fìtsenge rivun 'uot lesar** *I hope... everyone — __whether beginner or expert__ — will be able to find something useful here*."
+			},
+			"6.20.3" : {
+				"header" : "Fu",
+				"info" : "The conjunction **fu**, *or*, may be used to combine either noun phrases or verb phrases. **Ke zasyup lì'Ona ne kxutu a mìfa fu a wrrpa** *The lì'Ona will not perish to the enemy within or the enemy without*; **rä'ä fmivi livok fu emkivä ayexanit a fkol ngolop fpi sìkxuke ayfrrtuä sì ayioangä** *do not attempt to approach or cross any barriers designed for Guest and animal safety*."
+			},
+			"6.20.4" : {
+				"header" : "Ki",
+				"info" : "The conjunction **ki**, *but rather, but instead*, is paired with the negative adverb **ke**. Take care to distinguish this from **slä** *but*. **Nga plltxe ke nìfyeyntu ki nì'eveng** *you speak not like an adult but a child*."
+			},
+			"6.20.5" : {
+				"header" : "Sì",
+				"info" : "The conjunction **sì** *and* is used for making lists and combining elements of the same idea. It is not used to join clauses, which is the job of **ulte** (**6.20.8**). **Lu pìlokur pxesìkan sì pxefne'upxare** *the blog has three needs and three sorts of messages*, **ma smukan sì smuke** *brothers and sisters*.",
+				"6.20.5.1" : "Though **sì** is most often found joining noun phrases, pronouns and adjectives, it can join verbs that are closely related, **sänume sivi poru fte __pivlltxe sì tivìran__ nìayoeng** *teach him to __speak and walk__ like us*.",
+				"6.20.5.2" : "Clauses that have been nominalized, such as with **fwa**, **futa**, etc. (**6.18.4**), may be joined to a list of nouns with **sì**, too, as in **sunu poru syulang sì mauti sì fwa tswayon yaka** *he likes flowers, fruits, and to fly through the air*.",
+				"6.20.5.3" : "**Sì** can also be enclitic (**2.1.5.3**). In that situation it follows the word or phrase it is joining to the list, **ta 'eylan __karyusì__ ayngeyä, Pawl** *from your friend __and teacher__, Paul*, **tsakrr paye'un sweya fya'ot a zamivunge oel ayngar aylì'ut __horentisì__ lì'fyayä leNa'vi** *and I will then decide the best way to bring you the words __and rules__ of Na'vi*."
+			},
+			"6.20.6" : {
+				"header" : "Tengkrr",
+				"info" : "The sense of **tengkrr**, *while, at the same time as* requires it to be used with the imperfective, **fìtxon yom __tengkrr teruvon__ *on this night (we) eat __while learning__*."
+			},
+			"6.20.7" : {
+				"header" : "Tsnì",
+				"info" : "The conjunction **tsnì** *that* introduces some kinds of report clause which cause the verb to take the subjunctive, **ätxäle si tsnì livu oheru Uniltaron** *I respectfully request the Dream Hunt*, **sìlpey oe tsnì fìtìoeyktìng law livu ngaru set** *I hope that this explanation is clear to you now*.",
+				"footer" : "❗ Tsnì seems most often used when intransitive constructions are in the main clause."
+			},
+			"6.20.8" : {
+				"header" : "Ulte",
+				"info" : "This conjunction connects clauses, **oel ngati kameie, ma tsmukan, __ulte__ ngaru seiyi irayo** *I See you, brother, __and__ thank you*. Do not confuse with **sì** (**6.20.5**)."
+			}
+		},
+		"6.21" : {
+			"header" : "Direct Quotation",
+			"info" : "",
+			"6.21.1" : {
+				"header" : "San...sìk",
+				"info" : "Na'vi does not have indirect quotes (*He said __that they were gone__*), but instead uses direct quotation, with the quoted words put in between the particles **san** and **sìk**, as in **slä nì'i'a tsun oe pivlltxe __san Zola'u nìprrte' ne pìlok Na'viteri sìk__!** *but now I can finally say \"__welcome to the blog Na'viteri__\"*.",
+				"6.21.1.1" : "If the beginning or end of a quotation coincides with the beginning or end of an utterance, one or the other of the **san...sìk** pair can be dropped.\n\n1. **Poltxe Eytukan __san__ oe kayä __sìk__, slä oel pot ke spaw.**\n*Eytukan said he would go, but I don't believe him.*\n2. **Poltxe Eytukan __san__ oe kayä.**\n*Eytukan said he would go.*\n\nIn (2), since nothing is said after the quote, there is no need to close the quotation with **sìk**."
+			},
+			"6.21.2" : {
+				"header" : "Questions",
+				"info" : "Reported questions are also quoted directly, **polawm po san srake Säli holum sìk** *he asked whether Sally left*, literally *he asked, \"did Sally leave?\"*",
+				"6.21.2.1" : "With **pawm**, but not with other verbs of speaking, **san...sìk** may be dropped, **Polawm po, Neytiri kä pesengne?** *he asked where Neytiri was going*."
+			},
+			"6.21.3" : {
+				"header" : "Transitivity",
+				"info" : "When a verb of speaking uses **san...sìk** it follows intransitive syntax, **po poltxe san srane** *she said \"yes\"*",
+				"6.21.3.1" : "When the speaking verb has a direct object, it follows transitive syntax, **ke poltxe pol tsaylì'ut** *she didn't say that*, **oel poru pasyawn tsat** *I will ask him that*."
+			},
+			"6.21.4" : {
+				"header" : "Quote Nominalization",
+				"info" : "In addition to the **san...sìk** pair, reported speech may be anchored to the nouns **fmawn** *news*, **tì'eyng** *answer* and **faylì'u** *these words* with the attributive **a** (see **3.4.3** for contractions).\n\nThe quotations attached to these are still in the direct form,\n\n**Poltxe pol fayluta oe new kivä.** *She said she wanted to go.*\n**Ngal poleng oer fmawnta po tolerkup.** *You told me that he died.*\n**Volin pol tì'eyngit a Neytiri kä pesengne.** *He asked where Neytiri was going.*",
+				"table" : {
+					"row 1" : ["Verb", "Quotation"],
+					"row 2" : ["plltxe, say", "san...sìk, faylì'u"],
+					"row 3" : ["stawm, hear | peng, tell", "fmawn"],
+					"row 4" : ["pawm, ask", "san...sìk, tì'eyng"],
+					"row 5" : ["vin, ask (for)", "tì'eyng"]
+				},
+				"6.21.4.1" : "Other verbs introducing indirect questions may use **tì'eyng** nominalizations,\n\n**Ke omum oel teyngta fo kä pesengne.**\n*I don't know where they're going.*\n**Teynga lumpe fo holum ke lu law.**\n*It's not clear why they left.*"
+			}
+		},
+		"6.22" : {
+			"header" : "Particles",
+			"info" : "",
+			"6.22.1" : {
+				"header" : "Ko",
+				"info" : "The sentence-final particle **ko** is used to solicit agreement of various sorts, including such senses as \"let's,\" \"don't you think?,\" \"why don't you? why don't I?\" Often heard in the film, **makto ko** *let's ride*."
+			},
+			"6.22.2" : {
+				"header" : "Nang",
+				"info" : "This particle marks surprise, exclamation or encouragement. It is always sentence final and appears with adverbs of degree or approbation such as **nìngay, nìtxan, fìtxan,** etc. **Txantsana sìpawm apxay fìtxan lu ngaru nang!** *you have so many excellent questions!* **Ngari tswintsyìp sevin nìtxan lu nang!** *what a pretty little queue you have!*"
+			},
+			"6.22.3" : {
+				"header" : "Pak",
+				"info" : "This particle follows the word it goes with and marks disparagement, **tsamsiyu pak!** *a warrior? yeah, right!*"
+			},
+			"6.22.4" : {
+				"header" : "Tut",
+				"info" : "This is a particle of continuation, so far only seen in pick-up questions in dialogs,\n\nA: **Ngaru lu fpom srak?** *How are you?*\nB: **Oeru lu fpom. __Ngaru tut?__** *I'm well. You?*"
+			},
+			"6.22.5" : {
+				"header" : "Tse",
+				"info" : "This particle is a marker of conversational hesitation, **well...** ❗ In English, \"well\" relates to felicity conditions in divergent ways."
+			}
+		},
+		"6.23" : {
+			"header" : "Other Notable Words",
+			"info" : "",
+			"6.23.1" : {
+				"header" : "Sweylu",
+				"info" : "The syntax of this verb meaning \"should\" (from **swey lu** *it's best*) changes depending on whether the obligation refers to something that has not yet happened or if it refers to an event that has already taken place.",
+				"6.23.1.1" : "To refer to the future, **txo** with the subjunctive is used, **sweylu txo __nga__ kivä** or **__nga__ sweylu txo kivä** for *__you__ should go*. Note that the negative is in the **txo** clause, **sweylu txo nga ke kivä** or **nga sweylu txo ke kivä** *you shouldn't go*.",
+				"6.23.1.2" : "For something that has already happened, use **fwa** or **tsawa** with a past perfective indicative,\n\nTsenu: **Spaw oe, fwa po kolä längu kxeyey.**\n*I believe it was a mistake for him to go/have gone.*\n\nKamun: **Kehe, kehe! Sweylu fwa pol kolä!**\n*No, no! He should have gone!*\n\nNote that this refers to a past event that did happen and was the right thing to do, not an unfulfilled past action (which is another use of \"should\" in English)."
+			}
+		}
+	},
+	"7" : {
+		"header" : "Pragmatics and Discourse",
+		"info" : "In previous chapters, I have discussed sounds, words and sentences in Na'vi. Much of that discussion took the form of rules. This chapter is devoted to language one step higher than even the sentence — conversation, narrative and the contexts in which language takes place, what linguists group together under the name pragmatics. Simple rules are harder to come by here, so the discussion necessarily takes a slightly different structure.",
+		"7.1" : {
+			"header" : "Constituent Order",
+			"info" : "",
+			"7.1.1" : {
+				"header" : "Free Word Order",
+				"info" : "Na'vi has been described as having free word order. This is a little misleading since that phrase means something quite specific to linguists. Rather, Na'vi has free constituent order. 1 Within constituents, word order may be quite constrained. You cannot stick part of one constituent into the middle of another. For example, in **ayoel tarmaron tsawla yerikit** *we were hunting a large hexapede*, I cannot break apart the direct object constituent **tsawla yerikit** and produce things like \\***tarmaron tsawla ayoel yerikit** or \\***ayoel tsawla tarmaron yerikit**.",
+				"footer" : "1  A constituent is a slightly bigger building block than the word, but smaller than a sentence. A constituent is a group of words that function as a single grammatical unit. For example, in the sentence, \"the big bad wolf ate Little Red Riding Hood's grandmother,\" the phrase \"the big bad wolf\" is one constituent acting as the subject, the verb \"ate\" stands on its own and \"Little Red Riding Hood's grandmother\" is the direct object constituent. Sometimes a constituent can be a single word (\"he ate her\" — each word a constituent) and sometimes they can be quite a lot more complex.",
+				"7.1.1.1" : "In complex constituents, it is possible for a genitive to be separated from its noun by a relative clause, **ngeyä teri faytele a aysänumeri** *your instructions about these matters*."
+			},
+			"7.1.2" : {
+				"header" : "SOV, SVO, VSO",
+				"info" : "Many human languages can conveniently be categorized based on their default word order for subject, verb and direct object, usually shortened to just S, V and O. English is mostly an SVO language, Japanese is SOV. Free word order languages are not easily categorized into this system, though some do have tendencies worth noting. Looking at Frommer'sNa'vi, and only counting sentences with all three constituents, we can say that the three main word orders are SVO, SOV and VSO, with a very slight preference for VSO. Other orders, such as OVS and OSV, are much rarer. 2",
+				"footer" : "2  This is based off two of the larger pieces of connected Na'vi text Frommer has produced, his first blog post and his message on the MaSempul.org web site."
+			},
+			"7.1.3" : {
+				"header" : "Word Order Effects",
+				"info" : "Changes in word order can sometimes motivate changes in grammar.",
+				"7.1.3.1" : {
+					"info" : "If a sentence is ordered such that a modal and its controlled, transitive verb are contiguous, and the subject and direct object are contiguous, the modal and verb combination may be reanalyzed as a single transitive verb. For example, **oe teylut new yivom** *I want to eat teylu* has the expected, correct case use, with the subject of the modal in the subjective case, the direct object in the patientive case (**6.8.3**). However, in a few word orders, the subject may be put in the agentive case. In decreasing order of acceptability:",
+					"table" : {
+						"row 1" : ["Oel teylut new yivom", "widely acceptable 3"],
+						"row 2" : ["Teylut oel new yivom", "about 50% acceptable"],
+						"row 3" : ["New yivom teylut oel", "about 30% acceptable"],
+						"row 4" : ["*New yivom oel teylut", "completely unacceptable"]
+					},
+					"footer" : "3  According to Frommer's blog, \"...in all but the most formal situations."
+				}
+			},
+			"7.1.4" : {
+				"header" : "Focus",
+				"info" : "Since free word order languages do not use word order for syntax, they are free to use it to indicate other things, such as style, emphasis and focus. The only thing Frommer has told us for certain about Na'vi word order is, \"the end of the sentence is where the 'punch' comes.\" We can take this to mean that if you wish to emphasize a constituent, put it at the end of the clause. Notice in particular how Frommer translated this sentence:\n\n**Fkxilet a tsawfa poe ioi säpalmi ngolop __Va'rul__.**\n*__Va'ru__ is the one who created the necklace she was wearing.*\n\nThe focused, salient part of the answer to a question is similarly moved to the end of the clause:\n\n**Spaw oel futa Mo'atìl tsole'a Neytirit.**\n*I believe Mo'at saw Neytiri.*\n\n**Kehe. Tsole'a Neytirit Eytukanìl.**\n*No. The one who saw Neytiri was Eytukan.*\n\nIn English such focus can also be handled by emphasizing a particular word with stress, *__Eytukan__ saw Neytiri*."
+			},
+			"7.1.5" : {
+				"header" : "The English Passive",
+				"info" : "Although generations of English teachers have convinced many people that the passive voice is weak and flimsy, it is in fact simply one tool English uses to organize information clearly for listeners. The passive lets us bring the patient of some action to prominence by moving it to the head of the sentence. If we say, \"the nun was run over by a car\" we're communicating to our listeners that the nun is the most salient part of the sentence, and that the exact vehicle is less a concern. 4 Na'vi does not have a passive voice, but Frommer has suggested the word order OSV as one way to communicate the same effect (but see also **fko**, **6.3.4.2**).",
+				"footer" : "4  In English, we can even omit the agent of a passive altogether, \"the nun was run over.\""
+			}
+		},
+		"7.2" : {
+			"header" : "Topic-Comment",
+			"info" : "The topic-comment construction is conceptually straightforward, the \"topic\" announces what the rest of the sentence relates to, and the comment makes some statement relating to that topic. While plenty of Human languages organize discourse heavily around topic-comment structure, English is not one of them. This can make it difficult to present decent translations of topic-comment structures that are both true to the meaning of the original but which also make clear the structure under discussion. In this section I'll often use prepositional phrases with \"as for\" and \"concerning\" for all examples, but this is a clunky work-around, used only for clarity.",
+			"7.2.1" : {
+				"header" : "Topical Case",
+				"info" : "In Na'vi only nouns, noun phrases and pronouns can be topics. These are marked with the topical case (**-ri, -ìri**). More complex topics can be created with nominalized clauses (**6.18.4**)."
+			},
+			"7.2.2" : {
+				"header" : "Topical Role",
+				"info" : "The topic can be especially confusing for those unfamiliar with it because almost any syntactic role in a sentence may be pulled out of the sentence to be the topic. One idiomatic use is marking inalienable possession (**6.4.6.3**). But you can use the topical where English would use a direct object:\n\n**Fayupxare layu aysngä'iyufpi, fte __lì'fyari awngeyä__ fo tsìyevun nìftue nìltsansì nivume.**\n*These messages will be for beginners so that they can learn __our language__ easily and well.*\n\nBut the relationship between the topic may not match a strict syntactic role, too:\n\n**Ma oeyä eylan, __faysänumviri__ rutxe fì'ut tslivam...**\n*My friends, __concerning these lessons__ please understand this:*\n\n**Ayngeyä sìpawmìri kop fmayi fìtseng tivìng sì'eyngit.**\n*__As for your questions__, (I) will also try to give answers (for them) here.*",
+				"7.2.2.1" : "A topic may introduce a complex sentence, coming before even a leading conjunction,\n\n**__Fori__ mawkrra fa renten ioi säpoli holum.**\n*After they put on their goggles, they left.*",
+				"7.2.2.2" : "Similarly, a topic may apply for multiple constituents,\n\n**__Poeri__ uniltìrantokxit tarmok a krr, lam stum nìayfo, slä lu 'a'awa tìketeng — natkenong, __tsyokxìri__ ke lu zekwä atsìng ki amrr.**\n*__As for her__, when __she__ inhabited an avatar, __she__ was almost like them, but there were a few differences — for example, __as for her hand__ there were not four fingers but five.*"
+			},
+			"7.2.3" : {
+				"header" : "Using the Topical",
+				"info" : "Each human language has its own rules and tendencies about when the topical should be used. At this stage it is a little difficult to set rules for this, but a few tendencies can be drawn from what we have seen so far. First, so far Frommer has not used topic=comment constructions nearly as often as it is used in Chinese or Japanese (both topic-prominent languages, though each in their own way). Second, Frommer does not use the topical to introduce new matters for discussion, rather topics refer to current matters, or matters which are readily inferable from the conversation.\nEnglish uses the definite article, *the*, to mark information that has already been introduced into discourse, as well as information that can be assumed or deduced from the conversation. For example, if I say, \"I wanted to see *Avatar*, but the line was too long,\" I can use the definite article with *line* not because we've been talking about lines, but because standing in line is something we're used to when seeing a popular film. In comments on a recent blog post 5 Frommer says,\n```But if the message is indefinite, the topical case doesn't work as well, since topics are usually definite. So 'upxareri ngaru pamrel soli trram can certainly mean I wrote you THE message yesterday. Can it also mean I wrote you A message yesterday? Since there are no articles per se in Na'vi and nouns can be either definite or indefinite, I guess it could. But something about it rubs me the wrong way.```\nIt seems best to avoid indefinite topicals for now."
+			}
+		},
+		"7.3" : {
+			"header" : "Register",
+			"info" : "",
+			"7.3.1" : {
+				"header" : "Formal Register",
+				"info" : "Na'vi has two main ways to mark ceremonial or formal speech: with special pronouns (**3.2.3**) and with the verb infix **<uy>** (**3.6.4**).",
+				"7.3.1.1" : "The formal pronouns may be used in close succession, **Sìfmetok emzola'u __ohel__. Ätxäle si tsnì livu __oheru__ Uniltaron** *I have passed the tests. I respectfully request the Dream Hunt.*",
+				"7.3.1.2" : "Like the tense and aspect markers, it is not necessary to repeat the infix **<uy>** once a formality context has been established.",
+				"7.3.1.3" : "Solemnity or sincerity of a statement may be shown by using both pronoun and verb formality marking, **faysulfätuä tìkangkem __oheru__ meuia __luyu__ nìngay** *the work of these experts is truly an honor for me*."
+			},
+			"7.3.2" : {
+				"header" : "Poetic Register",
+				"info" : "",
+				"7.3.2.1" : "In prose the topical will come first in its clause or immediately after a conjunction (**6.4.6.1**). In verse, it may move deeper into the clause structure, **__pxan__ livu txo nì'aw oe __ngari__ / tsakrr nga Na'viru yomtìyìng** *only if I am __worthy of you__ will you feed the people*.",
+				"7.3.2.2" : "In normal prose, when an adposition comes before the noun or noun phrase, any genitive must also come after the adposition, as in **fa oeyä tsyokx** or **fa txyokx oeyä** *with my hand*. In poetry, the genitive may also come before the adposition, **oeyä fa tsyokx**.",
+				"7.3.2.3" : "In day-to-day speech a modal verb must come before its controlled verb (**6.8.3.1**). In poetic or ceremonial language, the modal may follow."
+			},
+			"7.3.3" : {
+				"header" : "Colloquial Register",
+				"info" : "The colloquial register presents itself mostly in simplified grammar or abbreviated expression.",
+				"7.3.3.1" : "Verbs of cognition may introduce a subclause without any conjunction.\n\n*I believe it was a mistake for him to have gone.*\n**__Spängaw oel futa__ fwa po kolä lu kxeyey.**\nColloquial: **__Spaw oe__, fwa po kolä längu kxeyey.**",
+				"7.3.3.2" : "In casual conversation the reflexive perfective of **si**-construction verbs, **säpo__li__**, is often pronounced **spo__li__**."
+			},
+			"7.3.4" : {
+				"header" : "Clipped Register",
+				"info" : "In military settings certain features of grammar are modified or omitted.",
+				"7.3.4.1" : "In noun phrase utterances, participles may go with their noun without using the attributive affix **-a-** (**6.9.1**), **tìkan tawnatep** *target lost* (from the video game).",
+				"7.3.4.2" : "Some pronoun genitives lose the final **-ä**, see **3.2.2.6**. This may be used casually, in non-military situations, among friends or close acquaintances."
 			}
 		}
 	}

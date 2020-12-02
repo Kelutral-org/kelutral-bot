@@ -87,7 +87,7 @@ class Utility(commands.Cog):
         if ctx.guild.id == config.KTID:
             user = ctx.message.author
             found_list = []
-            output = ""
+            n = 0
             found = False
                    
             with open(config.horenFile, 'r', encoding='utf-8') as fh:
@@ -153,69 +153,255 @@ class Utility(commands.Cog):
                         last_key = a
                 return last_key
                 
-            if query == "-i":
-                with open(config.horenLicense, 'r', encoding='utf-8') as fh:
-                    contents = fh.read()
-                embed = discord.Embed(title="Horen Tìskortä License Information", description=contents.format(ctx.guild.get_member(config.makoID).mention,find_last_entry(horen)), color=config.reportColor)         
-                await ctx.send(embed=embed)
-                return
-            elif query == "-c":
-                with open(config.horenChangelog, 'r', encoding='utf-8') as fh:
-                    contents = fh.read()
-                embed = discord.Embed(title="Horen Tìskortä Change Log", description=contents, color=config.reportColor)
-                await ctx.send(embed=embed)
-                return
+            def find_next_entry(horen_dict, current):
+                split_list = current.split(".")
+                next_entry = None
                 
-            if re.search(r".\..|.\..\..", query) == None:
-                paths = getpath(horen, query, found_list)
-                for path in paths:
-                    for i in range(1, len(path)):
-                        section = findEntry(path)
-                        if section != None:
-                            found = True
-                            if path[-1] == "info" or path[-1] == "header" or path[-1] == "section" or path[-1] == "footer":
-                                rule_number = path[-2]
-                            else:
-                                rule_number = path[-1]
-                            
-                            if len(section) < 60:
-                                output += "**{}**: {}\n".format(rule_number, section[0:60])
-                            else:
-                                output += "**{}**: {}\n".format(rule_number, section[0:60].replace("*","").replace("_","") + "`[...]`")
-                            embed = discord.Embed(title="Horen Query: {}".format(query), description=output, color=config.reportColor)
-                            break
-                if not found:
-                    embed = discord.Embed(title="Horen Query: {}".format(query), description="Matching text was not found.", color=config.failColor)
-            else:
-                rule_levels = query.split(".")
-                for i, level in enumerate(rule_levels):
-                    if i > 0:
-                        level = rule_levels[i-1] + "." + rule_levels[i]
-                        rule_levels[i] = level
-                section = findEntry(rule_levels)
-                   
-                try:    
-                    if "header" in section.keys():
-                        embed = discord.Embed(title="Horen {}: {}".format(query, section["header"]), description = "{}".format(section["info"]), color=config.reportColor)
-                    elif "info" in section.keys():
-                        embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section["info"]), color=config.reportColor)
+                def run_search(split_list):
+                    rule_levels = list(".".join(split_list).split("."))
+                    for i, level in enumerate(rule_levels):
+                        if i > 0:
+                            level = rule_levels[i-1] + "." + rule_levels[i]
+                            rule_levels[i] = level
+                    next_entry = findEntry(rule_levels)
+                    if next_entry == "This section does not exist.":
+                        next_entry = None
+                        split_list.pop(len(split_list)-1)
+                        rule_levels.pop(len(rule_levels)-1)
+                        
+                    return next_entry
+                
+                if len(split_list) < 4:
+                    split_list.append('1')
+                    next_entry = run_search(split_list)
+                        
+                while next_entry == None:
+                    split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) + 1)
+                    next_entry = run_search(split_list)
+
+                    if len(split_list) == 0:
+                        return None
+                
+                return split_list
+                
+            def find_previous_entry(horen_dict, current):
+                split_list = current.split(".")
+                rule_levels = current.split(".")
+                next_entry = None
+                
+                def run_search(split_list):
+                    def sub_check(split_list):
+                        if len(split_list) < 4:
+                            for i in range(20,1,-1):
+                                split_list.append(str(i))
+                                next_entry, split_list = run_search(split_list)
+                                if next_entry != None:
+                                    break
+                                split_list.pop(len(split_list)-1)
+                        
+                            return next_entry, split_list
+                        else:
+                            return None, split_list
+                
+                    rule_levels = list(".".join(split_list).split("."))
+                    for i, level in enumerate(rule_levels):
+                        if i > 0:
+                            level = rule_levels[i-1] + "." + rule_levels[i]
+                            rule_levels[i] = level
+                    next_entry = findEntry(rule_levels)
+                    if next_entry == "This section does not exist.":
+                        next_entry = None
+                        if int(split_list[len(split_list)-1]) == 0:
+                            split_list.pop(len(split_list)-1)
+                            rule_levels.pop(len(rule_levels)-1)
+                        else:
+                            split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
                     
-                    if "footer" in section.keys():
-                        embed.set_footer(text=section["footer"])
-                        
-                    if "table" in section.keys():
-                        output = buildTable(section["table"])
-                        embed.add_field(name="⠀", value=output, inline=True)
-                        
-                    if "list" in section.keys():
-                        output = ''
-                        for value in section["list"].values():
-                            output += value[0] + "\n"
-                        embed.add_field(name="⠀", value=output, inline=True)
-                except AttributeError:
-                    embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
+                    if next_entry == None:
+                        for i in range(0,4-len(split_list)):
+                            next_entry, split_list = sub_check(split_list)
+
+                    return next_entry, split_list
+                
+                if len(split_list) == 1:
+                    split_list = [str(int(split_list[0])-1),'20','20','20']
+                else:
+                    split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
+                    
+                while next_entry == None:
+                    next_entry, split_list = run_search(split_list)
+                    print(split_list, next_entry)
+                    if len(split_list) == 0:
+                        return None
+
+                return split_list
             
-            await ctx.send(embed=embed)
+            async def search_horen(horen, query, loop_state, original_msg, n, found_list):
+                output = ""
+                if query == "-i":
+                    with open(config.horenLicense, 'r', encoding='utf-8') as fh:
+                        contents = fh.read()
+                    embed = discord.Embed(title="Horen Tìskortä License Information", description=contents.format(ctx.guild.get_member(config.makoID).mention,find_last_entry(horen)), color=config.reportColor)
+                    await ctx.send(embed=embed)
+                    return
+
+                elif query == "-c":
+                    with open(config.horenChangelog, 'r', encoding='utf-8') as fh:
+                        contents = fh.read()
+                    embed = discord.Embed(title="Horen Tìskortä Change Log", description=contents, color=config.reportColor)
+                    await ctx.send(embed=embed)
+                    return
+                    
+                elif re.search(r".\..|.\..\..", query) == None and len(query) > 1:
+                    path_list = []
+                    paths = getpath(horen, query, path_list)
+                    for path in paths:
+                        for i in range(1, len(path)):
+                            section = findEntry(path)
+                            if section != None:
+                                found = True
+                                if path[-1] == "info" or path[-1] == "header" or path[-1] == "section" or path[-1] == "footer":
+                                    rule_number = path[-2]
+                                    found_list.append(rule_number)
+                                else:
+                                    rule_number = path[-1]
+                                    found_list.append(rule_number)
+                                break
+
+                    if not found:
+                        embed = discord.Embed(title="Horen Query: {}".format(query), description="Matching text was not found.", color=config.failColor)
+                
+                if found_list == []:
+                    rule_levels = query.split(".")
+                    if len(rule_levels) > 1:
+                        for i, level in enumerate(rule_levels):
+                            if i > 0:
+                                level = rule_levels[i-1] + "." + rule_levels[i]
+                                rule_levels[i] = level
+                    section = findEntry(rule_levels)
+                       
+                    try:
+                        if "header" in section.keys():
+                            embed = discord.Embed(title="Horen {}: {}".format(query, section["header"]), description = "{}".format(section["info"]), color=config.reportColor)
+                        elif "info" in section.keys():
+                            embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section["info"]), color=config.reportColor)
+                        
+                        if "footer" in section.keys():
+                            embed.set_footer(text=section["footer"])
+                            
+                        if "table" in section.keys():
+                            output = buildTable(section["table"])
+                            embed.add_field(name="⠀", value=output, inline=True)
+                            
+                        if "list" in section.keys():
+                            output = ''
+                            for value in section["list"].values():
+                                output += value[0] + "\n"
+                            embed.add_field(name="⠀", value=output, inline=True)
+                            
+                    except AttributeError:
+                        embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
+                    
+                    emojis = ['⏮','⏹️','⏭']
+                    if not loop_state:
+                        message = await ctx.send(embed=embed)
+                    else:
+                        message = original_msg
+                        await message.edit(embed=embed)
+                    
+                    for emoji in emojis:
+                            await message.add_reaction(emoji)
+                    
+                    def check(reaction, user):
+                        emojis = ['⏮','⏹️','⏭']
+                        return str(reaction.emoji) in emojis and user.id == ctx.message.author.id
+                    try:
+                        reaction, user = await self.bot.wait_for('reaction_add', timeout=20, check=check)
+                    except asyncio.TimeoutError:
+                        await message.clear_reactions()
+                    else:
+                        if str(reaction.emoji) == '⏮':
+                            await message.remove_reaction(reaction.emoji, ctx.message.author)
+                            query = '.'.join(find_previous_entry(horen, query))
+                            await search_horen(horen, query, True, message, 0, found_list)
+                        elif str(reaction.emoji) == '⏭':
+                            await message.remove_reaction(reaction, ctx.message.author)
+                            query = '.'.join(find_next_entry(horen, query))
+                            await search_horen(horen, query, True, message, 0, found_list)
+                        elif str(reaction.emoji) == '⏹️':
+                            await message.clear_reactions()
+                else:
+                    found_list = dict.fromkeys(found_list)
+                    found_list = list(found_list)
+                    rule_levels = found_list[n].split(".")
+                    if len(rule_levels) > 1:
+                        for i, level in enumerate(rule_levels):
+                            if i > 0:
+                                level = rule_levels[i-1] + "." + rule_levels[i]
+                                rule_levels[i] = level
+                    section = findEntry(rule_levels)
+                    
+                    try:
+                        if type(section) == str and section != "This section does not exist.":
+                            embed = discord.Embed(title="Horen {}".format(found_list[n]), description="{}".format(section), color=config.reportColor)
+                            embed.set_footer(text="Result {}/{}".format(n+1,len(found_list)))
+                        else:
+                            if "header" in section.keys():
+                                embed = discord.Embed(title="Horen {}: {}".format(found_list[n], section["header"]), description = "{}".format(section["info"]), color=config.reportColor)
+                            elif "info" in section.keys():
+                                embed = discord.Embed(title="Horen {}".format(found_list[n]), description="{}".format(section["info"]), color=config.reportColor)
+                            
+                            if "footer" in section.keys():
+                                embed.set_footer(text="{}\n\nResult {}/{}".format(section["footer"], n+1, len(found_list)))
+                            else:
+                                embed.set_footer(text="Result {}/{}".format(n+1,len(found_list)))
+                                
+                            if "table" in section.keys():
+                                output = buildTable(section["table"])
+                                embed.add_field(name="⠀", value=output, inline=True)
+                                
+                            if "list" in section.keys():
+                                output = ''
+                                for value in section["list"].values():
+                                    output += value[0] + "\n"
+                                embed.add_field(name="⠀", value=output, inline=True)
+                            
+                    except AttributeError as err:
+                        print("Triggered error somehow: " + str(err))
+                        embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
+                    
+                    emojis = ['⏮','⏹️','⏭']
+                    if not loop_state:
+                        message = await ctx.send(embed=embed)
+                    else:
+                        message = original_msg
+                        await message.edit(embed=embed)
+                    
+                    for emoji in emojis:
+                            await message.add_reaction(emoji)
+                    
+                    def check(reaction, user):
+                        emojis = ['⏮','⏹️','⏭']
+                        return str(reaction.emoji) in emojis and user.id == ctx.message.author.id
+                    try:
+                        reaction, user = await self.bot.wait_for('reaction_add', timeout=20, check=check)
+                    except asyncio.TimeoutError:
+                        await message.clear_reactions()
+                    else:
+                        if str(reaction.emoji) == '⏮':
+                            await message.remove_reaction(reaction.emoji, ctx.message.author)
+                            if n - 1 < 0:
+                                n = len(found_list) + 1
+                            await search_horen(horen, "", True, message, n - 1, found_list)
+                        elif str(reaction.emoji) == '⏭':
+                            await message.remove_reaction(reaction, ctx.message.author)
+                            if n + 1 > len(found_list) - 1:
+                                n = -1
+                            await search_horen(horen, "", True, message, n + 1, found_list)
+                        elif str(reaction.emoji) == '⏹️':
+                            await message.clear_reactions()
+        
+        await search_horen(horen, query, False, None, 0, found_list)
 
     ## LEP Command
     @commands.command(name="lep")
