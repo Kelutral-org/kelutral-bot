@@ -89,6 +89,7 @@ syntax=discord.Embed(description="**Error: Invalid Syntax** \n If you need help 
 arguments=discord.Embed(description="**Error: Too Many Arguments** \n If you need help with a command, type `!help <command name>`.", color=failColor)
 dm_only=discord.Embed(description="**Error: Denied** \n This command is not permitted here. Use this command in DMs only.", color=failColor)
 help_error=discord.Embed(description="**Error: Unknown Command** \n Unknown command specified. Please check your spelling and try again, or use `!help` to see a list of all commands.", color=failColor)
+horen_error=discord.Embed(description="**Error: End of File** \n End of Horen reached.", color=failColor)
 
 # File Paths
 qotdFile = 'files/qotd/{}.tsk'

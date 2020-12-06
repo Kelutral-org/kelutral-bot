@@ -506,7 +506,6 @@ async def help(ctx, *query):
     if "-t" in query:
         query.remove("-t")
         isTag = True
-        
     
     reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
                     ('**find**','Finds words whose English definitions contain the query.\n'),
@@ -564,10 +563,10 @@ async def help(ctx, *query):
 
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
-# @help.error
-# async def help_error(ctx, error):
-   # if isinstance(error, commands.CommandError):
-       # await ctx.send(embed=config.syntax)
+@help.error
+async def help_error(ctx, error):
+   if isinstance(error, commands.CommandError):
+       await ctx.send(embed=config.syntax)
 
 kelutralBot.load_extension('cogs.kelutral.main')
 kelutralBot.load_extension('cogs.pandora_rising.main')

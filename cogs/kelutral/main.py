@@ -7,6 +7,7 @@ import time
 import re
 import asyncio
 import random
+from datetime import datetime
 
 import bot
 import config
@@ -84,7 +85,7 @@ class Utility(commands.Cog):
     ## Horen Command
     @commands.command(name="horen")
     async def horen(self, ctx, query):
-        if ctx.guild.id == config.KTID:
+        if isinstance(ctx.channel, discord.channel.DMChannel) or ctx.guild.id == config.KTID or ctx.guild.id == 772518966777741372:
             user = ctx.message.author
             found_list = []
             n = 0
@@ -145,6 +146,15 @@ class Utility(commands.Cog):
                 output += '```'
                 return output
             
+            def buildRuleList(split_list):
+                rule_levels = list(".".join(split_list).split("."))
+                for i, level in enumerate(rule_levels):
+                    if i > 0:
+                        level = rule_levels[i-1] + "." + rule_levels[i]
+                        rule_levels[i] = level
+                next_entry = findEntry(rule_levels)
+                return next_entry
+            
             def find_last_entry(var):
                 for a, b in var.items():
                     if type(b) == dict:
@@ -156,6 +166,9 @@ class Utility(commands.Cog):
             def find_next_entry(horen_dict, current):
                 split_list = current.split(".")
                 next_entry = None
+                
+                if current == "7.3.4.2":
+                    return None
                 
                 def run_search(split_list):
                     rule_levels = list(".".join(split_list).split("."))
@@ -189,55 +202,79 @@ class Utility(commands.Cog):
                 rule_levels = current.split(".")
                 next_entry = None
                 
-                def run_search(split_list):
-                    def sub_check(split_list):
-                        if len(split_list) < 4:
-                            for i in range(20,1,-1):
+                def run_search(split_list, check_sub):
+                    next_entry = None
+                    
+                    def find_last_section_entry(split_list):
+                        last_valid_entry = split_list
+                        while len(split_list) < 4:
+                            for i in range(1,20):
                                 split_list.append(str(i))
-                                next_entry, split_list = run_search(split_list)
-                                if next_entry != None:
+                                next_entry = buildRuleList(split_list)
+                                if next_entry == "This section does not exist.":
+                                    next_entry = None
+                                    last_valid_entry[len(last_valid_entry)-1] = str(int(last_valid_entry[len(last_valid_entry)-1]) - 1)
+                                    split_list = last_valid_entry
                                     break
-                                split_list.pop(len(split_list)-1)
+                                else:
+                                    last_valid_entry = split_list
+                                    split_list.pop(len(split_list)-1)
                         
-                            return next_entry, split_list
-                        else:
-                            return None, split_list
-                
-                    rule_levels = list(".".join(split_list).split("."))
-                    for i, level in enumerate(rule_levels):
-                        if i > 0:
-                            level = rule_levels[i-1] + "." + rule_levels[i]
-                            rule_levels[i] = level
-                    next_entry = findEntry(rule_levels)
-                    if next_entry == "This section does not exist.":
-                        next_entry = None
-                        if int(split_list[len(split_list)-1]) == 0:
-                            split_list.pop(len(split_list)-1)
-                            rule_levels.pop(len(rule_levels)-1)
-                        else:
-                            split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
+                        if '0' in last_valid_entry:
+                            temp_list = list(".".join(split_list).split("."))
+                            temp_list.pop(temp_list.index('0'))
+                            print(temp_list)
+                            return temp_list
+                        
+                        print("Last Valid Entry is ", last_valid_entry)
+                        return last_valid_entry
                     
-                    if next_entry == None:
-                        for i in range(0,4-len(split_list)):
-                            next_entry, split_list = sub_check(split_list)
-
-                    return next_entry, split_list
-                
-                if len(split_list) == 1:
-                    split_list = [str(int(split_list[0])-1),'20','20','20']
-                else:
-                    split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
+                    # Code start
+                    level = len(split_list)
                     
-                while next_entry == None:
-                    next_entry, split_list = run_search(split_list)
-                    print(split_list, next_entry)
-                    if len(split_list) == 0:
+                    if level == 1 and split_list[0] != '2':
+                        split_list = [str(int(split_list[0])-1)]
+                        split_list = find_last_section_entry(split_list)
+                        return split_list
+                    elif check_sub:
+                        while next_entry == None:
+                            if level == 4 and split_list[len(split_list) - 1] != '0':
+                                split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
+                                next_entry = buildRuleList(split_list)
+                                if next_entry == "This section does not exist.":
+                                    next_entry = None
+                                else:
+                                    return split_list
+                            elif split_list[len(split_list) - 1] == '0':
+                                split_list.pop(split_list.index('0'))
+                                next_entry = buildRuleList(split_list)
+                                if next_entry == "This section does not exist.":
+                                    next_entry = None
+                                else:
+                                    return split_list
+                            elif (level == 3 or level == 2) and split_list[len(split_list) - 1] != '0':
+                                split_list[len(split_list)-1] = str(int(split_list[len(split_list)-1]) - 1)
+                                split_list = find_last_section_entry(split_list)
+                                return split_list
+                            elif (level == 3 or level == 2) and split_list[len(split_list) - 1] != '0':
+                                split_list.pop(split_list.index('0'))
+                                next_entry = buildRuleList(split_list)
+                                if next_entry == "This section does not exist.":
+                                    next_entry = None
+                                else:
+                                    return split_list
+                            else:
+                                break
+                    else:
                         return None
+                
+                split_list = run_search(split_list, True)
 
                 return split_list
             
             async def search_horen(horen, query, loop_state, original_msg, n, found_list):
                 output = ""
+                
                 if query == "-i":
                     with open(config.horenLicense, 'r', encoding='utf-8') as fh:
                         contents = fh.read()
@@ -322,12 +359,20 @@ class Utility(commands.Cog):
                     else:
                         if str(reaction.emoji) == '⏮':
                             await message.remove_reaction(reaction.emoji, ctx.message.author)
-                            query = '.'.join(find_previous_entry(horen, query))
-                            await search_horen(horen, query, True, message, 0, found_list)
+                            try:
+                                query = '.'.join(find_previous_entry(horen, query))
+                                await search_horen(horen, query, True, message, 0, found_list)
+                            except:
+                                await message.edit(embed=config.horen_error)
+                                await message.clear_reactions()
                         elif str(reaction.emoji) == '⏭':
                             await message.remove_reaction(reaction, ctx.message.author)
-                            query = '.'.join(find_next_entry(horen, query))
-                            await search_horen(horen, query, True, message, 0, found_list)
+                            try:
+                                query = '.'.join(find_next_entry(horen, query))
+                                await search_horen(horen, query, True, message, 0, found_list)
+                            except:
+                                await message.edit(embed=config.horen_error)
+                                await message.clear_reactions()
                         elif str(reaction.emoji) == '⏹️':
                             await message.clear_reactions()
                 else:
@@ -367,7 +412,6 @@ class Utility(commands.Cog):
                                 embed.add_field(name="⠀", value=output, inline=True)
                             
                     except AttributeError as err:
-                        print("Triggered error somehow: " + str(err))
                         embed = discord.Embed(title="Horen {}".format(query), description="{}".format(section), color=config.reportColor)
                     
                     emojis = ['⏮','⏹️','⏭']

@@ -6,7 +6,7 @@
 		},
 		"generate" : {
 			"name" : "Name ",
-			"success" : "Here are your names, {}: "
+			"success" : "Here are your names, {}"
 		},
 		"profile" : {
 			"embed" : {
@@ -74,7 +74,7 @@
 		},
 		"generate" : {
 			"name" : "Tstxo ",
-			"success" : "Faystxo lu ngaru ma {}: "
+			"success" : "Faystxo lu ngaru ma {}"
 		},
 		"profile" : {
 			"embed" : {
