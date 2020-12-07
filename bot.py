@@ -13,6 +13,8 @@ import re
 import uuid
 from datetime import datetime
 from datetime import timedelta
+from os import listdir
+from os.path import isfile, join
 
 import config
 import admin
@@ -84,6 +86,14 @@ async def time_check():
             timestampStr = dateTimeObj.strftime("%d-%m-%Y")
             dateCheck = dateTimeObj.strftime("%m-%d-%Y")
             fileName = 'files/qotd/' + timestampStr + '.tsk'
+            
+            onlyfiles = [f for f in listdir('files/config/splashes') if isfile(join('files/config/splashes', f))]
+            randomSplash = 'files/config/splashes/' + onlyfiles[random.randint(0,len(onlyfiles)-1)]
+            
+            with open(randomSplash, "rb") as image:
+                f = image.read()
+            
+            guild = await kelutralBot.fetch_guild(715043968886505484).edit(banner=f)
             
             if os.path.exists(fileName):
                 print(now + " -- Found a QOTD to send")

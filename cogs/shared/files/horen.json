@@ -4,7 +4,7 @@
 		"info" : "",
 		"2.1" : {
 			"header" : "Sound System",
-			"info" : "The Na'vi Language has 20 consonants, 7 vowels, and two \"pseudovowels\".",
+			"info" : "The Na'vi Language has 20 consonants, 7 vowels, and two vocalic resonants Frommer calls \"pseudovowels\".",
 			"2.1.1" : {
 				"header" : "Consonants",
 				"info" : "",
@@ -20,9 +20,10 @@
 					"row 9" : ["Glides", "w[w]", "—", "y[j]", "—", "—"]
 				},
 				"footer" : "❗ This table is truncated due to formatting. V: Voice / +ed or -less | Fric. : Fricatives",
-				"2.1.1.1" : "The voiceless stops are unaspirated when not at the end of a word, and unreleased when they are. However, within a phrase a final stop coming before a vowel will in natural speech be released as the words flow together, **oel set omum**. Unreleased stops will be most noticeable at major pauses, as in **oel omum set**.",
-				"1.1.1.2" : "The **r** is an alveolar flap. The **l** is clear and front, as in \"leaf\", not dark as in English \"call\".",
-				"1.1.1.3" : "Because plain stops can be used as syllable codas, the more common ejective notation, **p'** is too ambiguous: **tsap'alute is not **\\*tsapxalute**."
+				"2.1.1.1" : "The voiceless stops are unaspirated when not at the end of a word, and unreleased when they are. However, within a phrase a final stop coming before a vowel will in natural speech be released as the words flow together, **oel se__t o__mum**. Unreleased stops will be most noticeable at major pauses, as in **oel omum se__t__**.",
+				"2.1.1.2" : "The **r** is an alveolar flap. The **l** is clear and front, as in \"leaf\", not the velarized, \"dark-l\" of English \"call\".",
+                    "2.1.1.3" : "Frommer devised a scientific orthography in which two of the digraphs were written as a single letter, **c** for **ts** and **g** for **ng**. The digraph system was easier for actors, but it has been also used by Frommer in media interviews and in most of his own email. The scientific orthography is only seen in a few early emails to and from Frommer.",
+				"2.1.1.4" : "Because plain stops can be used as syllable codas, the more common ejective notation, **p'** is too ambiguous: **tsap'alute is not **\\*tsapxalute**."
 			},
 			"2.1.2" : {
 				"header" : "Vowels",
@@ -48,10 +49,10 @@
 					"rule 5" : ["• Px tx kx p t k 'm n l r ng may occur in syllable-final position."],
 					"rule 6" : ["• Ts f s h v z w y may not occur in syllable-final position."],
 					"rule 7" : ["• There are no consonant clusters in syllable-final position."],
-					"rule 8" : ["• A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant; this plays a role in lenition (2.2) and the declension of nouns (3.1.1.1)."]
+					"rule 8" : ["• A syllable with a pseudovowel must start with a consonant or consonant cluster and must not have a final consonant; this plays a role in lenition (**2.2**) and the declension of nouns (**3.1.1.1**)."]
 				},
-				"2.1.4.1" : "Since a syllable may have no consonant onset or coda, it is not unusual to see several vowels next to each other in a word. In that case, each vowel is a syllable, **muiä** [mu.i.ae], **ioang** [i.o.ang]",
-				"2.1.4.2" : "In general, the sequence VCV will be syllabified V.CV rather than VC.V, so **tsenge** is [tse.nge] not \\*[tseng.e]. Onomatopoeia may override this, as in **kxangangang** [k'ang.ang.ang], where the echo effect is desired.",
+				"2.1.4.1" : "Since a syllable may have no consonant onset or coda, it is not unusual to see several vowels next to each other in a word. In that case, each vowel is a syllable, **muiä** [mu.i.ae], **ioang** [i.o.aŋ]",
+				"2.1.4.2" : "In general, the sequence VCV will be syllabified V.CV rather than VC.V, so **tsenge** is [tse.ŋe] not \\*[tseŋ.e]. Onomatopoeia may override this, as in **kxangangang** [k'aŋ.aŋ.aŋ], where the echo effect is desired.",
 				"2.1.4.3" : "There are no long vowels in Na'vi, meaning identical vowels will not occur next to each other (but see **2.3.1**)",
 				"2.1.4.4" : "Double consonants do not occur within root words, but may occur at morpheme boundaries, for example in derivations, **tsukkäteng** < **tsuk** + **käteng**, or with enclitics **Mo'atta** < **Mo'at** + **ta** (**2.1.5.3**).",
 				"2.1.4.5" : "As usual in most Human languages, some interjections break the rules, such as **oìsss**, a sound for anger, or **saa**, a threat cry."
@@ -59,7 +60,7 @@
 			"2.1.5" : {
 				"header" : "Stress Accent",
 				"info" : "Every Na'vi word has at least one stress accent, which is not predictable. In a very few situations otherwise identical words may differ only by accent, such as **__tu__te** *person* vs. **tu__te__** *woman*.",
-				"2.1.5.1" : "For **tute**, *woman*, alone, an accent may be written in normal Na'vi to indicate the accent, **tuté**.",
+				"2.1.5.1" : "For this word alone, *woman*, an accent may be written in normal Na'vi to indicate the accent, **tuté**.",
 				"2.1.5.2" : "Some word creation processes may cause accent shifts (**5.1.2.3**, **5.1.8**).",
 				"2.1.5.3" : "All adpositions as well as a few conjunctions and particles may be enclitic. They give up their own stress accent and effectively become part of the word to which they are attached, and are written so.",
 				"2.1.5.4" : "Though a noun compound is written as a single word, the individual parts of that compound may retain their original accent, as in **tireafya'o** *spirit path*."
@@ -497,7 +498,7 @@
 			},
 			"4.1.2" : {
 				"header" : "Powers of Eight",
-				"info" : "Rather than \"tens\", Na'vi has \"eights:\"",
+				"info" : "Rather than \"tens\", Na'vi has \"eights.\" Higher powers of eight are **vo__zam__** (512, octal 1000) and **za__zam__** (4096, octal 10000).",
 				"table" : {
 					"row 1" : ["8(1 x 8)  : vol        ", "40(5 x 8) : mrrvol"],
 					"row 2" : ["16(2 x 8) : mevol      ", "48(6 x 8) : puvol "],
@@ -625,7 +626,7 @@
 				"header" : "Agent Suffixes",
 				"info" : "These suffixes also do not cause an accent shift.",
 				"5.1.5.1" : "**-tu** creates agent nouns from parts of speech other than verbs, as in **__pam__tseotu** *musician* from **__pam__tseo** *music*, **tsul__fä__tu** *master of a craft or skill, expert* from **tsul__fä__** *mastery*.",
-				"5.1.5.2" : "**-yu** creates agent nouns from verbs, as in **taronyu** *hunter* from **taron** *hunt*. This suffix is freely productive."
+				"5.1.5.2" : "**-yu** creates agent nouns from verbs, as in **taronyu** *hunter* from **taron** *hunt*. This suffix is freely productive, with regular verbs as well as **si**-verbs, such as **stiwisiyu** *mischief-maker*, from **stiwi si** *do mischief*."
 			},
 			"5.1.6" : {
 				"header" : "Diminuitive Suffix",
@@ -711,21 +712,25 @@
 				"header" : "Sna-",
 				"info" : "A shortened form of the noun **sna'o** *group, set, clump, stand*, this prefix can be freely used with living things other than people to indicate a natural grouping, such as **snatalioang** *a herd of sturmbeest*, **snautral** *a grove of trees*. The prefix is used with non-living things to produce words, but this is not productive, **snatxärem** *skeleton*."
 			},
-			"5.4.8" : {
+               "5.4.8" : {
+                    "header" : "-tsim",
+                    "info" : "The noun **tsim** *source* can be suffixed to nouns to indicate the source or cause of some state, such as **__sngum__tsim** *worrisome matter, source of worry* from **sngum** *worry*, **ya__yayr__tsim** *something confusing, source of confusion* from **yayayr** *confusion*, **__ing__yentsim** *feeling of myster or noncomprehension*. Note that it doesn't change the accent. This form is not productive."
+               },
+			"5.4.9" : {
 				"header" : "Tsuk-",
 				"info" : "Derived from **tsun fko**, this unaccented prefix creates ability adjectives from transitive verbs, **tsuk__yom__** *edible* (from **yom** *eat*). The negative simply takes the prefix **ke-**, which also causes no accent change here, **ketsuk__tswa'__** *unforgettable* (from **tswa'** *forget*).",
-				"5.4.8.1" : "In addition, intransitive verbs may be combined with **tsuk-**, with a looser relationship between the noun and resulting adjective, **fìtseng lu tsuktsurokx** *one can rest here, this place is \"restable\"*, **lu na'rìng tsukhahaw** *one can sleep in the forest*."
-			},
-			"5.4.9" : {
-				"header" : "-tswo",
-				"info" : "This suffix may be freely used on any verb, and creates a noun meaning the ability to perform the action of the verb, **wemtswo** *ability to fight*, **roltswo** *ability to sing*. This suffix is related to the word **tsu'o** *ability*.",
-				"5.4.9.1" : "The suffix **-tswo** is attached to the noun or adjective element of **si**-verbs, as in **srungtswo** *ability to help* and **tstutswo** *ability to close*."
+				"5.4.9.1" : "In addition, intransitive verbs may be combined with **tsuk-**, with a looser relationship between the noun and resulting adjective, **fìtseng lu tsuktsurokx** *one can rest here, this place is \"restable\"*, **lu na'rìng tsukhahaw** *one can sleep in the forest*."
 			},
 			"5.4.10" : {
+				"header" : "-tswo",
+				"info" : "This suffix may be freely used on any verb, and creates a noun meaning the ability to perform the action of the verb, **wemtswo** *ability to fight*, **roltswo** *ability to sing*. This suffix is related to the word **tsu'o** *ability*.",
+				"5.4.10.1" : "The suffix **-tswo** is attached to the noun or adjective element of **si**-verbs, as in **srungtswo** *ability to help* and **tstutswo** *ability to close*."
+			},
+			"5.4.11" : {
 				"header" : "-vi",
 				"info" : "From the noun **'evi**, itself a shortened form of **'eveng** *child*, the unaccented suffix **-vi** is used rather loosely for the spawn of something bigger or a part of a larger whole, **__txep__vi** *spark* (< **txep** *fire*), **__lì'__fyavi** *expression, bit of language* (< **lì'fya** *language*). It may cause minor changes to the word it is attached to, **sä__num__vi** *lesson* from **sä__nu__me** *instruction, teaching*."
 			},
-			"5.4.11" : {
+			"5.4.12" : {
 				"header" : "\"Kä-\" and \"Za-\"",
 				"info" : "The two verbs of motion **kä** *go* and **za'u** *come* (reduced to just **za-**) are used in some compound verbs to indicate direction of motion, **kä__mak__to** *ride out*. Note the distinction between **kä__'ä__rìp** *push* and **za__'ä__rìp** *pull* from **__'ä__rìp** *move (something)*."
 			}
@@ -801,7 +806,7 @@
 				"6.2.5.4" : "For more than two adjectives, or to use some order other than Adj -N- Adj given above, the adjectives must be put into an attributive clause with **lu, yayo a lu lor sì hì'i** *a small, pretty bird*.",
 				"6.2.5.5" : "The adjective may be repeated on both sides of the noun to mark intensity. The second adjective receives the phrase stress, **lu po lora tuté alor** *she's an extremely beautiful woman*.",
 				"6.2.5.6" : {
-					"info" : "When repeating a noun with different adjectives (\"the big dog, the little dog, the yappy dog,\" etc.) the prop noun 4 **pum** is used for the repetitions, **lam set fwa Sawtute akawng holum, pum asìltsan 'ì'awn** *it now seems that the evil sky-people are gone, the good ones remain*.",
+					"info" : "When repeating a noun with different adjectives (\"the big dog, the little dog, the yappy dog,\" etc.) the prop noun 4 **pum** is used for the repetitions, **lam set fwa Sawtute akawng holum, __pum asìltsan 'ì'awn__** *it now seems that the evil sky-people are gone, __the good ones remain__*. However, if a more specialized general term is available it is more elegant to use that. In answer to **polpxaya taronyu kelku si tsatsraymì?** *how many hunters live in that village?* the more elegant reply is **tute amevol** *sixteen people*, though **pum amevol** is still perfectly possible.",
 					"footer" : "4  Frommer calls it a \"dummy noun,\" but it can be reasonably thought of as a kind of pronoun, too."
 				},
 				"6.2.5.7" : "The noun element in most **si** constructions verb may have an attributive adjective, **wina uvan si** *play a quick game*."
@@ -855,7 +860,7 @@
 			},
 			"6.3.5" : {
 				"header" : "Sno",
-				"info" : "The reflexive pronoun **sno** refers to the subject of the sentence. In the genitive it may be translated *his own, her own, their own, etc*. It is used to clear up situations found in a sentence like \"he prepared his meal.\" Without clarification, it may not be clear if \"his\" refers to the person preparing the dinner or someone else:\n\n**Pol 'olem peyä wutsot.** *He prepared his (someone else's) meal.*\n**Pol 'olem sneyä wutsot.** *He prepared his own meal.*\n\n**Sno** is for third person antecedents only."
+				"info" : "The reflexive pronoun **sno** refers to the subject of the sentence. In the genitive (**sneyä**) it may be translated *his own, her own, their own, etc*. It is used to clear up situations found in a sentence like \"he prepared his meal.\" Without clarification, it may not be clear if \"his\" refers to the person preparing the dinner or someone else:\n\n**Pol 'olem peyä wutsot.** *He prepared his (someone else's) meal.*\n**Pol 'olem sneyä wutsot.** *He prepared his own meal.*\n\n**Sno** can refer back to a topical acting as the subject,\n\n**Skxawngìri zìmup ulte sneyä tsko kxakx**\n*The idiot fell and broke their bow.*\n\nIf the topical is not the subject of the clause, **sno** will refer instead to the subject:\n\n**Skxawngìri sa'nok zìmup ulte sneyä tsko kxakx.**\n*That idiot's mother fell and broke her (own) bow.*"
 			},
 			"6.3.6" : {
 				"header" : "Lahe",
@@ -1041,14 +1046,12 @@
 					"footer" : "❗ Except in poetry or ceremonial language, the modal verb will always come before the controlled verb."
 				},
 				"6.8.3.2" : "Known modal verbs and verbs with modal syntax:\n\n**fmi**, *try, attempt*\n**ftang**, *stop*\n**kan**, *aim, intend*\n**may’**, *try, sample, taste*\n**new**, *want*\n**nulnew**, *prefer*\n**sngä’i**, *begin*\n**sto**, *refuse*\n**tsun**, *can*\n**var**, *continue, persist (in doing an action)*\n**zene**, *must*\n**zenke**, *must not*",
-				"6.8.3.3" : "Note that the modal verbs are considered intransitive with the subject of the modal phrase in the subjective case, regardless of the transitivity of the controlled verb, **oe new yivom teylut** *I want to eat teylu*. But see \"word order effects,\" **7.1.3.1**, for some exceptional patterns."
+				"6.8.3.3" : "Note that the modal verbs are considered intransitive with the subject of the modal phrase in the subjective case, regardless of the transitivity of the controlled verb, **oe new yivom teylut** *I want to eat teylu*. But see \"word order effects,\" **7.1.3.1**, for some exceptional patterns.\n\nIf the modal is one capable of taking a subclause, however, then it behaves transitively, **oel new futa nga srew** *I want you to dance* (**6.8.4**)."
 			},
 			"6.8.4" : {
 				"header" : "New",
 				"info" : "In addition to the simple modal use given above (**6.8.3**), **new** *want* may also introduce a subclause with a different subject than that of the **new** clause. The verb is transitive in this construction, and the subclause is attached to **a fì'ut** or **futa** (**6.18.4**) and takes the subjunctive.\n\n**Oel new futa po kivä** *I want him to go* (lit. *I want that he go*).\n**Ngal tslivam a fì'ut new oel** *I want you to understand*.",
-				"6.8.4.1" : "The causative of transitive **new** will also take a **futa** clause, **pol oeru neykew futa oel yivom teyluti** *he made me want to eat teylu*, lit. *he made me want that I eat teylu*.",
-				"6.8.4.2" : "The modal use of **kan** *aim* for *intend* follows the same syntax, **oe kan kivä** *I intend to go* and **oel kan futa po kivä** *I intend for him to go*.",
-				"6.8.4.3" : "The verb **sto** *refuse* also follows the syntax of **new**, **stolo po hivum fohu** *she refused to leave with them*, **poel stolatso futa mefo tivaron tsaha'ngir** *she must have refused (their request) to hunt that afternoon*."
+				"6.8.4.1" : "The causative of transitive **new** will also take a **futa** clause, **pol oeru neykew futa oel yivom teyluti** *he made me want to eat teylu*, lit. *he made me want that I eat teylu*."
 			},
 			"6.8.5" : {
 				"header" : "Other Uses",
@@ -1208,7 +1211,7 @@
 				"header" : "Asyndeton",
 				"info" : "Short, parallel phrases 15 may be joined without a conjunction connecting them. **Yola krr, txana krr, ke tsranten** *it doesn't matter how long it takes*, literally *short time, long time, doesn't matter*; **'uo a fpi rey'eng Eywa'evengmì 'Rrtamì tsranten nìtxan awngaru nìwotx** *something that matters a lot to all of us for the sake of The Balance of Life on both Pandora and Earth*; **lora aylì'u, lora aysäfpìl** *beautiful words and beautiful ideas*.",
 				"footer" : "15  That is, phrases following the same pattern of grammar.",
-				"6.17.3.1" : "Two verbs in sequence without a conjunction are sequential, **za'u kaltxì si ko!** *come (and then) say hello!*"
+				"6.17.3.1" : "Two verbs in sequence without a conjunction are sequential, **za'u kaltxì si ko!** *come (and then) say hello!* **ngari hu Eywa salew tirea, tokx __'ì'awn slu__ Na'viyä hapxì** *your spirit goes with Eywa and your body __remains and becomes__ part of the People.*\n\nVerbs controlled by a modal may also be sequenced in this way, with the possibility that both might take the subjunctive. Both of the following are acceptable:\n\n**Tsun nekll zivup tsawng.** *It can fall to the ground and break.*\n**Tsun nekll zivup tsivawng.** *It can fall to the ground and (can) break.*\n\nAdditional verbs can be introduced into a sequence by inserting **tsakrr**."
 			}
 		},
 		"6.18" : {
@@ -1330,7 +1333,7 @@
 			"6.21.1" : {
 				"header" : "San...sìk",
 				"info" : "Na'vi does not have indirect quotes (*He said __that they were gone__*), but instead uses direct quotation, with the quoted words put in between the particles **san** and **sìk**, as in **slä nì'i'a tsun oe pivlltxe __san Zola'u nìprrte' ne pìlok Na'viteri sìk__!** *but now I can finally say \"__welcome to the blog Na'viteri__\"*.",
-				"6.21.1.1" : "If the beginning or end of a quotation coincides with the beginning or end of an utterance, one or the other of the **san...sìk** pair can be dropped.\n\n1. **Poltxe Eytukan __san__ oe kayä __sìk__, slä oel pot ke spaw.**\n*Eytukan said he would go, but I don't believe him.*\n2. **Poltxe Eytukan __san__ oe kayä.**\n*Eytukan said he would go.*\n\nIn (2), since nothing is said after the quote, there is no need to close the quotation with **sìk**."
+				"6.21.1.1" : "If the beginning or end of a quotation coincides with the beginning or end of an utterance, one or the other of the **san...sìk** pair can be dropped.\n\n1. **Poltxe Eytukan __san__ oe kayä __sìk__, slä oel pot ke spaw.**\n*Eytukan said he would go, but I don't believe him.*\n2. **Poltxe Eytukan __san__ oe kayä.**\n*Eytukan said he would go.*\n\nIn (2), since nothing is said after the quote, there is no need to close the quotation with **sìk**. Similarly, **san** can be dropped if there's no serious ambiguity, **frawzo sìk, slä oel poet ke spaw** *(she said) \"all's well,\" but I don't believe her*."
 			},
 			"6.21.2" : {
 				"header" : "Questions",
@@ -1472,11 +1475,17 @@
 				"7.3.3.1" : "Verbs of cognition may introduce a subclause without any conjunction.\n\n*I believe it was a mistake for him to have gone.*\n**__Spängaw oel futa__ fwa po kolä lu kxeyey.**\nColloquial: **__Spaw oe__, fwa po kolä längu kxeyey.**",
 				"7.3.3.2" : "In casual conversation the reflexive perfective of **si**-construction verbs, **säpo__li__**, is often pronounced **spo__li__**."
 			},
-			"7.3.4" : {
+               "7.3.4" : {
+                    "header" : "Slang",
+                    "info" : "At the request of the community, Paul Frommer approved some constructions deviating from standard grammar that could be used as 'slang' among the Na'vi in informal contexts, or as a way to have fun with the language.",
+                    "7.3.4.1" : "The attitude infixes of **<ei>** and **<äng>**, normally used in verbs, may be inserted into **srane** *yes* and **kehe** *no* instead of using adverbs to express a mood. Following the common pattern in verbs, the attitude infixes go into the second syllable (**3.6.4**), **sran<äng>e**, **keh<ei>e**.",
+                    "7.3.4.2" : "Proper names may form a compound verb with **si** to express *do as X* as an extension to the current formation method of these verbs."
+               },
+			"7.3.5" : {
 				"header" : "Clipped Register",
 				"info" : "In military settings certain features of grammar are modified or omitted.",
-				"7.3.4.1" : "In noun phrase utterances, participles may go with their noun without using the attributive affix **-a-** (**6.9.1**), **tìkan tawnatep** *target lost* (from the video game).",
-				"7.3.4.2" : "Some pronoun genitives lose the final **-ä**, see **3.2.2.6**. This may be used casually, in non-military situations, among friends or close acquaintances."
+				"7.3.5.1" : "In noun phrase utterances, participles may go with their noun without using the attributive affix **-a-** (**6.9.1**), **tìkan tawnatep** *target lost* (from the video game).",
+				"7.3.5.2" : "Some pronoun genitives lose the final **-ä**, see **3.2.2.6**. This may be used casually, in non-military situations, among friends or close acquaintances."
 			}
 		}
 	}

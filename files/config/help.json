@@ -80,6 +80,15 @@
 		"description" : "Searches the Horen leNa'vi for the specified rule or term. Porting of Horen to Discord is in progress, so some rules may be missing.\n",
 		"tags" : ["utility","kelutral"]
 	},
+     "inquiry" : {
+          "name" : "**inquiry**",
+          "aliases" : ["inq"],
+          "short" : "Opens an inquiry that has been asked to Paul.\n",
+          "usage" : "```!inquiry\nMain Tags:\n     -r : remove - removes an entry. eg. !inq -r <entry hash>\n     -w : write new - creates a new entry. eg. !inq -w <question>\n     -s : search - searches for an entry by specified parameter. Additional parameters include:\n          -a : author id - Discord numerical id. eg. !inq -s -a 81105065955303424\n          -id : entry hash - searches for an entry by hash. eg. !inq -s -id d7b36035371a11eb820c4485006a75f1\n          -t : tags - searches for entries by tag. eg. !inq -s -t <tag>\n     -u : update - updates a specific attribute of an entry by provided flag. Additional flags include:\n          -a : response - adds a verified answer to the entry. eg. !inq -u -a <answer from Paul>\n          -t : tags - adds tags after entry creation. eg. !inq -u -t <comma, separated, tags>\n```",
+          "example" : "`!inq -w This is a new inquiry.`",
+          "description" : "Opens an inquiry database entry for a question asked to Paul for cataloguing. The inquiry can be updated with tags for quick searching, and with a response if received.\n",
+          "tags" : ["utility","kelutral"]
+     },
 	"invite" : {
 		"name" : "**invite**",
 		"aliases" : ["None"],
