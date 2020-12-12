@@ -7,6 +7,7 @@ import time
 import re
 import asyncio
 import random
+import copy
 from datetime import datetime
 
 import bot
@@ -36,6 +37,14 @@ class Utility(commands.Cog):
             json.dump(nameCount, fh)
             
         return nameCount[0]
+
+    ## -- Spam
+    @commands.command(name="spam")
+    async def spam(self, ctx):
+        if ctx.guild.id == config.KTID:
+            fp = 'cogs/kelutral/files/neytiri-exploitable1.png'
+            await ctx.send(file=discord.File(fp))
+            await ctx.message.delete()
 
     ## FAQ Command
     @commands.command(name="faq",aliases=['sìpawm'])
@@ -85,7 +94,7 @@ class Utility(commands.Cog):
     ## Horen Command
     @commands.command(name="horen")
     async def horen(self, ctx, query):
-        if isinstance(ctx.channel, discord.channel.DMChannel) or ctx.guild.id == config.KTID or ctx.guild.id == 772518966777741372:
+        if ctx.guild.id == config.KTID or ctx.guild.id == 772518966777741372:
             user = ctx.message.author
             found_list = []
             n = 0
@@ -450,44 +459,94 @@ class Utility(commands.Cog):
     ## LEP Command
     @commands.command(name="lep")
     async def lepCommand(self, ctx, *args):
-        if ctx.guild.id == config.KTID:
-            user = ctx.message.author.id
-            msg_channel = self.bot.get_channel(config.lepChannel)
-            modLog_channel = self.bot.get_channel(config.modLog)
+        user = ctx.message.author.id
+        msg_channel = self.bot.get_channel(config.lepChannel)
+        modLog_channel = self.bot.get_channel(config.modLog)
+        
+        if isinstance(ctx.channel, discord.DMChannel):
+            message = " ".join(args)
+            for i, value in enumerate(config.lepArchive):
+                if config.lepArchive[i][0] == user:
+                    randColor = config.lepArchive[i][1]
             
-            if isinstance(ctx.channel, discord.DMChannel):
-                message = " ".join(args)
-                for i, value in enumerate(config.lepArchive):
-                    if config.lepArchive[i][0] == user:
-                        randColor = config.lepArchive[i][1]
-                
-                try:
-                    randColor
-                except NameError:
-                    randColor = random.randint(0,0xffffff)
-                    config.lepArchive.append([user,randColor])
-                
-                embed = discord.Embed(description=ctx.message.author.name + " sent the following message to the LEP Channel: \n\n" + message)
-                await modLog_channel.send(embed=embed)
-                
-                embed = discord.Embed(title="Anonymous LEP Submission",description=message,color=randColor)
-                await msg_channel.send(embed=embed)
-                await ctx.send(embed=config.success)
-            else:
-                message = ctx.message
-                await ctx.send(embed=config.dm_only)
-                await message.delete()
+            try:
+                randColor
+            except NameError:
+                randColor = random.randint(0,0xffffff)
+                config.lepArchive.append([user,randColor])
+            
+            embed = discord.Embed(description=ctx.message.author.name + " sent the following message to the LEP Channel: \n\n" + message)
+            await modLog_channel.send(embed=embed)
+            
+            embed = discord.Embed(title="Anonymous LEP Submission",description=message,color=randColor)
+            await msg_channel.send(embed=embed)
+            await ctx.send(embed=config.success)
+        else:
+            message = ctx.message
+            await ctx.send(embed=config.dm_only)
+            await message.delete()
 
-    ## Search command
     @commands.command(name="search")
     async def search(self, ctx, *words):
         if isinstance(ctx.channel, discord.channel.DMChannel) or ctx.guild.id == config.KTID:
             user = ctx.message.author
             words = list(words)
+            print(words)
+            
             verbs = ["v.", "vtr.", "vin.", "vtrm.", "vim."]
-            word_list = []
-            results_list = []
-            found_count = 0
+            
+            cases = {
+                "agentive" : ["l","ìl"],
+                "patientive" : ["t","ti","it"],
+                "dative" : ["r","ur","ru"],
+                "genitive" : ["ä","yä"],
+                "topical" : ["ri","ìri"]
+                }
+                
+            plurals = {
+                "dual" : 'me',
+                "trial" : 'pxe',
+                "plural" : 'ay'
+                }
+            
+            first_pos_infixes = [
+                       {"↩️ causative reflexive" : 'äpeyk'},     # Causative reflexive
+                       {"➡️ causative" : 'eyk'},                 # Causative
+                       {"⬅️ reflexive" : 'äp'},                  # Reflexive
+                       {"⏹️ perfective" : 'ol'},                 # Perfective
+                       {"↔️ progressive" : 'er'},                # Progressive
+                       {"❔ subjunctive" : 'iv'},                # Subjunctive compounds
+                       {"⏪ near past" : 'ìm'},
+                       {"⏭️ general future" : 'ay'},
+                       {"❓ perfective subjunctive" : 'ilv'},
+                       {"❔↔️ progressive subjunctive" : 'irv'},
+                       {"❔⏩ future subjunctive a" : 'ìyev'},
+                       {"❔⏩ future subjunctive b" : 'iyev'},
+                       {"⏭️☑️ general future intent" : 'asy'},     # Intent
+                       {"⏩☑️ near future intent" : 'ìsy'},
+                       {"⏹️⏮️ general past perfective" : 'alm'},   # Perfective compounds
+                       {"⏹️⏪ near past perfective" : 'ìlm'},
+                       {"⏹️⏭️ general future perfective" : 'aly'},
+                       {"⏹️⏩ near future perfective" : 'ìly'},
+                       {"↔️⏮️ general past progressive" : 'arm'},  # Progressive compounds
+                       {"↔️⏪ near past progressive" : 'ìrm'},
+                       {"↔️⏭️ general future progressive" : 'ary'},
+                       {"↔️⏩ near future progressive" : 'ìry'},
+                       {"progressive participle" : 'us'},     # Participles
+                       {"passive participle" : 'awn'},
+                       {"❔⏮️ past subjunctive" : 'imv'},
+                       {"⏩ near future" : 'ìy'},
+                       {"⏮️ general past" : 'am'}]
+                       
+            second_pos_infixes = [
+                       {"😃 positive mood (H**2.3.3**)" : 'eiy'},# Mood
+                       {"😃 positive mood" : 'ei'},              
+                       {"😃 positive mood (H**2.3.3**)" : 'eiy'},
+                       {"😔 negative mood" : 'äng'},
+                       {"😔 negative mood (H**2.3.5.2**)" : 'eng'},
+                       {"🕵️ inferential" : 'ats'},               # Inferential
+                       {"formal, ceremonial" : 'uy'}]         # Ceremonial
+                                      
             showStress = False
             showSource = False
             searchAll = False
@@ -504,320 +563,28 @@ class Utility(commands.Cog):
             if "-all" in words:
                 searchAll = True
                 words.remove("-all")
-            
-            # Automatically combines 'si' verbs to prevent needing quotes in lookup
-            i = 0
-            for word in words:
-                check_word = re.search(r"si|s..i|s...i", word)
-                if check_word != None:
-                    if len(word_list) == 0:
-                        word_list.append(word)
-                    else:
-                        word_list[i-1] += " {}".format(word)
-                else:
-                    word_list.append(word)
-                    i += 1
-            
+                
             # Loads the dictionary
             with open(config.dictionaryFile, 'r', encoding='utf-8') as fh:
                 dictionary = json.load(fh)
-
-            def checkLenition(initial):
-                lenition_rules = [['p','f'],['t','s'],['k','h'],['px','p'],['tx','t'],['kx','k'],['ts','s']]
-                possibilities = []
-                for rule in lenition_rules:
-                    if initial[0] == rule[1]:
-                        possibilities.append(rule[0] + initial[1:])
-
-                return possibilities
-
-            def validate(word, core_word, infix, pos):
-                def find_pos(word, entry):
-                    try:
-                        infix_pos = entry["infixDots"]
-                        split_list = infix_pos.split('.')
-                    except ValueError:
-                        return False
-
-                    split_list.insert(pos, infix)
-                    joined_word = ''.join(split_list)
-                    
-                    if word == joined_word:
-                        validated = True
-                        return validated
-                    else:
-                        validated = False
-
-                try:
-                    check = dictionary[core_word]
-                    if len(check) > 1:
-                        for entry in check:
-                            validated = find_pos(word, entry, expected_pos)
-                    else:
-                        validated = find_pos(word, check[0], expected_pos)  
-                    return validated
-                    
-                except KeyError:
-                    return False
             
-            def stripAffixes(word):
-                parsed_word = {}
-                found = False
-                
-                cases = {
-                    "agentive" : ["l","ìl"],
-                    "patientive" : ["t","ti","it"],
-                    "dative" : ["r","ur","ru"],
-                    "genitive" : ["ä","yä"],
-                    "topical" : ["ri","ìri"]
-                    }
-                    
-                plurals = {
-                    "dual" : 'me',
-                    "trial" : 'pxe',
-                    "plural" : 'ay'
-                    }
-                
-                first_pos_infixes = [
-                           {"↩️ causative reflexive" : 'äpeyk'},     # Causative reflexive
-                           {"➡️ causative" : 'eyk'},                 # Causative
-                           {"⬅️ reflexive" : 'äp'},                  # Reflexive
-                           {"⏹️ perfective" : 'ol'},                 # Perfective
-                           {"↔️ progressive" : 'er'},                # Progressive
-                           {"❔ subjunctive" : 'iv'},                # Subjunctive compounds
-                           {"⏪ near past" : 'ìm'},
-                           {"⏩ near future" : 'ìy'},
-                           {"⏭️ general future" : 'ay'},
-                           {"❓ perfective subjunctive" : 'ilv'},
-                           {"❔↔️ progressive subjunctive" : 'irv'},
-                           {"❔⏩ future subjunctive a" : 'ìyev'},
-                           {"❔⏩ future subjunctive b" : 'iyev'},
-                           {"⏭️☑️ general future intent" : 'asy'},     # Intent
-                           {"⏩☑️ near future intent" : 'ìsy'},
-                           {"⏹️⏮️ general past perfective" : 'alm'},   # Perfective compounds
-                           {"⏹️⏪ near past perfective" : 'ìlm'},
-                           {"⏹️⏭️ general future perfective" : 'aly'},
-                           {"⏹️⏩ near future perfective" : 'ìly'},
-                           {"↔️⏮️ general past progressive" : 'arm'},  # Progressive compounds
-                           {"↔️⏪ near past progressive" : 'ìrm'},
-                           {"↔️⏭️ general future progressive" : 'ary'},
-                           {"↔️⏩ near future progressive" : 'ìry'},
-                           {"progressive participle" : 'us'},     # Participles
-                           {"passive participle" : 'awn'},
-                           {"❔⏮️ past subjunctive" : 'imv'},
-                           {"⏮️ general past" : 'am'}]
-                           
-                second_pos_infixes = [
-                           {"😃 positive mood (H**2.3.3**)" : 'eiy'},# Mood
-                           {"😃 positive mood" : 'ei'},              
-                           {"😃 positive mood (H**2.3.3**)" : 'eiy'},
-                           {"😔 negative mood" : 'äng'},
-                           {"😔 negative mood (H**2.3.5.2**)" : 'eng'},
-                           {"🕵️ inferential" : 'ats'},               # Inferential
-                           {"formal, ceremonial" : 'uy'}]         # Ceremonial
-                                      
-                def checkElement(word_entry, key, abbrev_list):
-                    found = False
-                    for entry in word_entry:
-                        if entry[key] in abbrev_list:
-                            found = True
-                    
-                    return found
-
-                # Tries to find a core, unmodified word
-                if word in dictionary:
-                    parsed_word[word] = {"stripped" : word, "notes" : ""}
+            # Automatically combines 'si' verbs to prevent needing quotes in lookup
+            i = 0
+            word_list = []
+            for word in words:
+                # If 'si'-variant is found in the word
+                if re.search(r"\Asi|\As..i|\As...i", word) != None:
+                    # If 'si'-variant is the first word, appends the 'si'-variant
+                    if len(word_list) == 0:
+                        word_list.append(word)
+                    # If 'si'-variant is not the first word, combines the 'si'-variant with the previous list entry
+                    else:
+                        word_list[i-1] += " {}".format(word)
+                # If 'si'-variant is not found in the word
                 else:
-                    # Noun Checking
-                    if " " not in word:
-                        for key, value in cases.items():
-                            for suffix in value:
-                                if word.endswith(suffix):
-                                    core_word = word[0:-len(suffix)]
-                                    case_name = key
-                                    results = checkLenition(core_word)
-                                    if results != []:
-                                        for result in results:
-                                            if result in dictionary:
-                                                if checkElement(dictionary[result], "partOfSpeech", ["n.","pn."]):
-                                                    parsed_word[word] = {"stripped" : result, "notes" : "\n- {}".format(case_name)}
-                                                    
-                                                    return parsed_word
-                                    else:
-                                        if "'{}".format(core_word) in dictionary:
-                                            if checkElement(dictionary["'{}".format(core_word)], "partOfSpeech", ["n.", "pn."]):
-                                                parsed_word[word] = {"stripped" : "'{}".format(core_word), "notes" : "\n- {}".format(case_name)}
-                                            
-                                                return parsed_word
-                                        elif core_word in dictionary:
-                                            if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
-                                                parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
-                                                
-                                                return parsed_word
-                                                
-                        for plural, prefix in plurals.items():
-                            if word.startswith(prefix):
-                                core_word = word.replace(prefix, "")
-                                results = checkLenition(core_word)
-                                if results != []:
-                                    for result in results:
-                                        if result in dictionary:
-                                            if checkElement(dictionary[result], "partOfSpeech", ["n.","pn."]):
-                                                parsed_word[word] = {"stripped" : result, "notes" : "\n- {}".format(plural)}
-                                                
-                                                return parsed_word
-                                else:
-                                    if "'{}".format(core_word) in dictionary:
-                                        if checkElement(dictionary["'{}".format(core_word)], "partOfSpeech", ["n.", "pn."]):
-                                            parsed_word[word] = {"stripped" : "'{}".format(core_word), "notes" : "\n- {}".format(case_name)}
-                                        
-                                            return parsed_word
-                    
-                    # Multiple Infix Checking
-                    tense_list = []
-                    str_tenses = []
-                    
-                    def validate_pos(word, core_word, infixes, pos):
-                        try:
-                            validated = False
-                            check = dictionary[core_word]
-                        except KeyError:
-                            return False
-                            
-                        for entry in check:
-                            if checkElement(dictionary[core_word], "partOfSpeech", verbs):
-                                if pos == 1:
-                                    for infix in infixes:
-                                        split_list = entry["infixDots"].split(".")
-                                        split_list.insert(1, ".")
-                                        joined_word = ''.join(split_list)
-                                        index = joined_word.find(".")
-                                        if index == word.find(infix[0]):
-                                            validated = True
-                                        else:
-                                            return False
-                                elif pos == 2:
-                                    for infix in infixes:
-                                        print(infix)
-                                        split_list = entry["infixDots"].split(".")
-                                        split_list.insert(2, ".")
-                                        joined_word = ''.join(split_list)
-                                        index = joined_word.find(".")
-                                        if index == word.find(infix[0]):
-                                            validated = True
-                                        else:
-                                            return False
-                                        
-                        return validated
-                    
-                    def findInfix(core_word, infix, expected_pos):
-                        tense = list(infix.keys())[0]
-                        infix = list(infix.values())[0]
-                        found = False
-                        verb = re.search(r"{}".format(infix), core_word)
-                        if verb != None:
-                            found = True
-                            return core_word.replace("{}".format(infix), "", 1), tense, infix, found
-                        else:
-                            return core_word, "", "", found
-                    
-                    if not found:
-                        core_word = word
-                        def check_first_pos(core_word):
-                            for infix in first_pos_infixes:
-                                core_word, tense, infix_str, check = findInfix(core_word, infix, 1)
-                                if check:
-                                    tense_list.append(tense)
-                                    str_tenses.append((infix_str, 1))
-                                    try:
-                                        word_entry = dictionary[core_word]
-                                        if word_entry[0]["partOfSpeech"] in verbs:
-                                            parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
-                                            
-                                            return parsed_word, tense_list, str_tenses, True
-                                        else:
-                                            continue
-                                    except KeyError:
-                                        continue
-                            
-                            return core_word, tense_list, str_tenses, False
-                            
-                        def check_second_pos(core_word):
-                            for infix in second_pos_infixes:
-                                if not list(infix.values())[0] == "äng":
-                                    core_word, tense, infix_str, check = findInfix(core_word, infix, 2)
-                                    if check:
-                                        tense_list.append(tense)
-                                        str_tenses.append((infix_str, 2))
-                                        try:
-                                            word_entry = dictionary[core_word]
-                                            if word_entry[0]["partOfSpeech"] in verbs:
-                                                parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
-                                                
-                                                return parsed_word, tense_list, str_tenses, True
-                                            else:
-                                                continue
-                                        except KeyError:
-                                            continue
-                                else:
-                                    if "ängkxängo" in word:
-                                        tense_list.append("negative mood")
-                                        str_tenses.append(("äng", 2))
-                                        core_word = core_word.replace("ängkxängo","ängkxo")
-                                        try:
-                                            word_entry = dictionary[core_word]
-                                            if word_entry[0]["partOfSpeech"] in verbs:
-                                                parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
-                                                
-                                                return parsed_word, tense_list, str_tenses, True
-                                            else:
-                                                continue
-                                        except KeyError:
-                                            continue
-                                    else:
-                                        core_word, tense, infix_str, check = findInfix(core_word, infix, 2)
-                                        if check:
-                                            tense_list.append(tense)
-                                            str_tenses.append((infix_str, 2))
-                                            try:
-                                                word_entry = dictionary[core_word]
-                                                if word_entry[0]["partOfSpeech"] in verbs:
-                                                    parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
-                                                    
-                                                    return parsed_word, tense_list, str_tenses, True
-                                            except KeyError:
-                                                continue
-                                            
-                            return core_word, tense_list, str_tenses, False
-                        
-                        output_word, tense_list, str_tenses, finished_strip = check_second_pos(core_word)
+                    word_list.append(word)
+                    i += 1
 
-                        if not finished_strip:
-                            output_word, tense_list, str_tenses, finished_strip = check_first_pos(output_word)
-
-                            if not finished_strip:
-                                print("")
-                            elif not validate_pos(word, output_word[word]["stripped"], str_tenses, 1):
-                                parsed_word[word] = {"stripped" : word, "notes" : ""}
-                                return parsed_word
-                            else:
-                                return output_word
-                        elif not validate_pos(word, output_word[word]["stripped"], str_tenses, 2):
-                            parsed_word[word] = {"stripped" : word, "notes" : ""}
-                            return parsed_word
-                        else:
-                            return output_word
-                    
-                    # Adjective Checking
-                    if not found:
-                        adj = re.search(r"\Aa|\Ale|a\Z", word)
-                        if adj != None:
-                            found = True
-                            core_word = re.sub(r"\Aa|a\Z", '', word)
-                            parsed_word[word] = {"stripped" : core_word, "notes" : ""}
-                
-                return parsed_word
-            
             def getStress(word_entry):
                 pre_stress = word_entry['syllables']
                 stress_pos = int(word_entry['stressed'])
@@ -825,7 +592,7 @@ class Utility(commands.Cog):
                 pre_stress[stress_pos - 1] = "__{}__".format(pre_stress[stress_pos - 1])
                 post_stress = ''.join(pre_stress)
                 return post_stress
-
+                
             def buildResults(i, word_entry, word, original_word, notes, toggle_output):
                 results = ''
                 if len(word_entry) > 1:
@@ -854,29 +621,354 @@ class Utility(commands.Cog):
                             results += "`{}.` **{}** *{}* {}\n".format(i+1, word, word_entry[0]['partOfSpeech'], word_entry[0]['translation'])
                 
                 return results
+
+            def checkElement(word_entry, key, abbrev_list):
+                for entry in word_entry:
+                    if entry[key] in abbrev_list:
+                        return True
+                
+                return False
+
+            def checkLenition(lenited_word):
+                lenition_rules = [['p','f'],['t','s'],['k','h'],['px','p'],['tx','t'],['kx','k'],['ts','s']]
+                possible_words = []
+                for lenited_character in lenition_rules:
+                    # If there's a possible match in the initial character of the word, appends the non-lenited word
+                    if lenited_word[0] == lenited_character[1] and lenited_word[1] != "x":
+                        possible_words.append(lenited_character[0] + lenited_word[1:])
                         
+                if possible_words == []:
+                    possible_words.append("'{}".format(lenited_word))
+
+                return possible_words
+
+            def stripAffixes(word_to_check):
+                parsed_word_list = []
+                parsed_word = {}
+                def checkNoun(word_to_check):
+                    parsed_word = {}
+                    for case_name, case_endings in cases.items():
+                        for suffix in case_endings:
+                            if word_to_check.endswith("eyä"):
+                                core_word = word_to_check[0:-len("eyä")]
+                                if core_word.startswith("p") or core_word.startswith("sn") or core_word.startswith("fk"):
+                                    core_word += "o"
+                                elif core_word.startswith("ng"):
+                                    core_word += "a"
+                                elif core_word.startswith("ts"):
+                                    core_word += "a'u"
+                                    
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                        parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format("genitive (H**3.2.2.5**)")}
+                                        return parsed_word
+                                else:
+                                    unlenited_word_list = checkLenition(core_word)
+                                    if unlenited_word_list != []:
+                                        for unlenited_word in unlenited_word_list:
+                                            if unlenited_word in dictionary:
+                                                if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                                    parsed_word[word_to_check] = {"stripped" : unlenited_word, "notes" : "\n- {}\n- lenition".format(case_name)}
+                                                    return parsed_word
+                                            else:
+                                                parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
+                            elif word_to_check.endswith("aä"):
+                                core_word = word_to_check[0:-len("ä")]
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                        parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format("genitive (H**3.2.2.5**)")}
+                                        return parsed_word
+                                
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                        parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format("genitive (H**3.2.2.5**)")}
+                                        return parsed_word
+                            elif word_to_check.endswith("ri"):
+                                if word_to_check.endswith(suffix) and suffix != "ri":
+                                    core_word = word_to_check[0:-len(suffix)]
+                                    if core_word in dictionary:
+                                        if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                            parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
+                                            return parsed_word
+                                    else:
+                                        unlenited_word_list = checkLenition(core_word)
+                                        if unlenited_word_list != []:
+                                            for unlenited_word in unlenited_word_list:
+                                                if unlenited_word in dictionary:
+                                                    if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                                        parsed_word[word_to_check] = {"stripped" : unlenited_word, "notes" : "\n- {}\n- lenition".format(case_name)}
+                                                        return parsed_word
+                                                
+                                                parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
+                            else:
+                                if word_to_check.endswith(suffix):
+                                    core_word = word_to_check[0:-len(suffix)]
+                                    if core_word in dictionary:
+                                        if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                            parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
+                                            return parsed_word
+                                    else:
+                                        unlenited_word_list = checkLenition(core_word)
+                                        if unlenited_word_list != []:
+                                            for unlenited_word in unlenited_word_list:
+                                                if unlenited_word in dictionary:
+                                                    if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                                        parsed_word[word_to_check] = {"stripped" : unlenited_word, "notes" : "\n- {}\n- lenition".format(case_name)}
+                                                        return parsed_word
+             
+                                        parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(case_name)}
+                    
+                    for plural, prefix in plurals.items():
+                        try:
+                            check_word = parsed_word[word_to_check]["stripped"]
+                        except KeyError:
+                            check_word = word_to_check
+                            continue
+                        finally:
+                            if check_word.startswith(prefix) and prefix != "ay":
+                                words_to_check = []
+                                words_to_check.append(check_word[len(prefix.replace("e", "")):])
+                                words_to_check.append(check_word[len(prefix):])
+                                unlenited_word_list = []
+                                for core_word in words_to_check:
+                                    if core_word in dictionary:
+                                        if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                            try:
+                                                parsed_word[word_to_check]["stripped"] = core_word
+                                                parsed_word[word_to_check]["notes"] += "\n- {}".format(plural)
+                                            except KeyError:
+                                                parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(plural)}
+                                            return parsed_word
+                                    else:
+                                        unlenited_word_list += checkLenition(core_word)
+                                        if unlenited_word_list != []:
+                                            for unlenited_word in unlenited_word_list:
+                                                if unlenited_word in dictionary:
+                                                    if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                                        try:
+                                                            parsed_word[word_to_check]["stripped"] = unlenited_word
+                                                            parsed_word[word_to_check]["notes"] += "\n- lenition\n- {}".format(plural)
+                                                        except KeyError:
+                                                            parsed_word[check_word] = {"stripped" : unlenited_word, "notes" : "\n- {}\n- lenition".format(plural)}
+                                                        return parsed_word
+                                                        
+                            elif check_word.startswith(prefix) and prefix == "ay":
+                                core_word = check_word[len(prefix):]
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", ["n.","pn."]):
+                                        parsed_word[word_to_check] = {"stripped" : core_word, "notes" : "\n- {}".format(plural)}
+                                        return parsed_word
+                                else:
+                                    unlenited_word_list = checkLenition(core_word)
+                                    if unlenited_word_list != []:
+                                        for unlenited_word in unlenited_word_list:
+                                            if unlenited_word in dictionary:
+                                                if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                                    try:
+                                                        parsed_word[word_to_check]["stripped"] = unlenited_word
+                                                        parsed_word[word_to_check]["notes"] += "\n- lenition\n- {}".format(plural)
+                                                    except KeyError:
+                                                        parsed_word[check_word] = {"stripped" : unlenited_word, "notes" : "\n- {}\n- lenition".format(plural)}
+                                                    return parsed_word
+                                        
+                    unlenited_word_list = checkLenition(word_to_check)
+                    if unlenited_word_list != []:
+                        for unlenited_word in unlenited_word_list:
+                            if unlenited_word in dictionary:
+                                if checkElement(dictionary[unlenited_word], "partOfSpeech", ["n.","pn."]):
+                                    parsed_word[word_to_check] = {"stripped" : unlenited_word, "notes" : "\n- lenition (unspecified plural)"}
+                                    return parsed_word
+                                        
+                    return None
+
+                def checkVerb(word_to_check):
+                    tense_list = []
+                    infix_tup_list = []
+                    parsed_word_list = []
+                    
+                    def findInfix(word_to_check, infix_entry, expected_pos):
+                        infix_type = list(infix_entry.keys())[0]
+                        infix = list(infix_entry.values())[0]
+                        if re.search(r"{}".format(infix), word_to_check) != None:
+                            word_no_infix = word_to_check.replace("{}".format(infix), "", 1)
+                            if word_no_infix in dictionary:
+                                return word_no_infix, infix_type, infix, True, True
+                            else:
+                                return word_no_infix, infix_type, infix, True, False
+                        else:
+                            return word_to_check, None, None, False, False
+                            
+                    def check_first_pos(word_to_check):
+                        parsed_word = {}
+                        done_parsing = False
+                        core_word = word_to_check
+                        for infix in first_pos_infixes:
+                            if not done_parsing:
+                                core_word, infix_type, infix, check, done_parsing = findInfix(core_word, infix, 1)
+                                if check:
+                                    tense_list.append(infix_type)
+                                    infix_tup_list.append((infix, 1))
+                                    try:
+                                        word_entry = dictionary[core_word]
+                                        if checkElement(dictionary[core_word], "partOfSpeech", verbs):
+                                            parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                            return parsed_word, tense_list, infix_tup_list, True
+                                        else:
+                                            continue
+                                    except KeyError:
+                                        continue
+                            else:
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", verbs):
+                                        parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                        return parsed_word, tense_list, infix_tup_list, True
+                        
+                        return core_word, tense_list, infix_tup_list, False
+                        
+                    def check_second_pos(word_to_check):
+                        parsed_word = {}
+                        done_parsing = False
+                        core_word = word_to_check
+                        for infix in second_pos_infixes:
+                            if not done_parsing:
+                                if not list(infix.values())[0] == "äng":
+                                    core_word, infix_type, infix, check, done_parsing = findInfix(core_word, infix, 2)
+                                    if check:
+                                        tense_list.append(infix_type)
+                                        infix_tup_list.append((infix, 2))
+                                        try:
+                                            word_entry = dictionary[core_word]
+                                            if checkElement(dictionary[core_word], "partOfSpeech", verbs):
+                                                parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                                return parsed_word, tense_list, infix_tup_list, True
+                                            else:
+                                                continue
+                                        except KeyError:
+                                            continue
+                                else:
+                                    if "ängkxängo" in word:
+                                        tense_list.append("negative mood")
+                                        infix_tup_list.append(("äng", 2))
+                                        core_word = word_to_check.replace("ängkxängo","ängkxo")
+                                        try:
+                                            word_entry = dictionary[core_word]
+                                            if checkEntry(dictionary[core_word], "partOfSpeech", verbs):
+                                                parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                                return parsed_word, tense_list, infix_tup_list, True
+                                            else:
+                                                continue
+                                        except KeyError:
+                                            continue
+                                    else:
+                                        core_word, infix_type, infix, check, done_parsing = findInfix(core_word, infix, 2)
+                                        if check:
+                                            tense_list.append(infix_type)
+                                            infix_tup_list.append((infix, 2))
+                                            try:
+                                                word_entry = dictionary[core_word]
+                                                if checkEntry(dictionary[core_word], "partOfSpeech", verbs):
+                                                    parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                                    return parsed_word, tense_list, infix_tup_list, True
+                                            except KeyError:
+                                                continue
+                            else:
+                                if core_word in dictionary:
+                                    if checkElement(dictionary[core_word], "partOfSpeech", verbs):
+                                        parsed_word[word] = {"stripped" : core_word, "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                                        return parsed_word, tense_list, infix_tup_list, True
+                                        
+                        return core_word, tense_list, infix_tup_list, False
+
+                    def validate_infix_pos(word_without_infixes, word_with_infixes, infix_tup_list):
+                        infix_positions = []
+                        
+                        try:
+                            word_entry = dictionary[word_without_infixes]
+                            for entry in word_entry:
+                                infix_positions.append(entry["infixDots"])
+                        except KeyError:
+                            return False
+                        
+                        for variant in infix_positions:
+                            infix_test = variant
+                            for tup in infix_tup_list:
+                                infix_test = infix_test.split(".")
+                                infix_test[tup[1]-1] += tup[0]
+                                infix_test = '.'.join(infix_test)
+                                infix_test.replace(".", "", 1)
+                                
+                            if infix_test.replace(".", "") == word_with_infixes:
+                                return True
+                                
+                        return False
+                        
+                    stripped_word, tense_list, infix_tup_list, finished_strip = check_second_pos(word_to_check)
+                    if not finished_strip:
+                        stripped_word, tense_list, infix_tup_list, finished_strip = check_first_pos(stripped_word)
+                        if not finished_strip:
+                            return None
+                        elif validate_infix_pos(stripped_word[word_to_check]["stripped"], word_to_check, infix_tup_list):
+                            parsed_word[word_to_check] = {"stripped" : stripped_word[word_to_check]["stripped"], "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                            return parsed_word
+                        else:
+                            return None
+                    elif validate_infix_pos(stripped_word[word_to_check]["stripped"], word_to_check, infix_tup_list):
+                        parsed_word[word_to_check] = {"stripped" : stripped_word[word_to_check]["stripped"], "notes" : "\n- {}".format('\n- '.join(tense_list))}
+                        return parsed_word
+                    else:
+                        return None
+
+                def checkAdj(word_to_check):
+                    parsed_word = {}
+                    if re.search(r"\Aa|\Ale|a\Z", word) != None:
+                        core_word = re.sub(r"\Aa|a\Z", '', word)
+                        print(core_word)
+                        if core_word in dictionary:
+                            if checkElement(dictionary[core_word], "partOfSpeech", ["adj."]):
+                                parsed_word[word] = {"stripped" : core_word, "notes" : ""}
+                                return parsed_word
+                    return None
+
+                if word_to_check in dictionary:
+                    parsed_word = {}
+                    parsed_word[word_to_check] = {"stripped" : word_to_check, "notes" : ""}
+                    parsed_word_list.append(parsed_word)
+                
+                # Words with spaces will automatically be 'si'-verbs, so this excludes those. Checks the word for noun modifications like plurals, cases or lenition.
+                if " " not in word_to_check:
+                    parsed_word_list.append(checkNoun(word_to_check))
+                
+                # Moves to checking verbs for infixes.
+                parsed_word_list.append(checkVerb(word_to_check))
+                
+                # Moves to checking adjectives.
+                parsed_word_list.append(checkAdj(word_to_check))
+
+                return parsed_word_list
+
+            first_time = True
+            found = False
+            unmod_found = False
+            nv_found = False
+            found_count = 0
+            results_list = []
             results = ''
             alphabet = ['a', 'b', 'c', 'd', 'e']
             for i, word in enumerate(word_list):
-                first_time = True
-                nv_found = False
-                found = False
-                
                 if not searchAll:
-                    # Na'vi word lookup
+                    # Unmodified Na'vi word lookup
                     try:
-                        if not searchAll:
-                            word_entry = dictionary[word.lower()]
-                            nv_found = True
+                        word_entry = dictionary[word.lower()]
+                        unmod_found = True
+                        if first_time:
                             results += "**Na'vi Words:**\n"
-                            results += buildResults(i, word_entry, word, word, "", False)
-                            found_count += len(word_entry)
-                    
+                        results += buildResults(i, word_entry, word, word, "", False)
+                        found_count += len(word_entry)
                     # No exact match found
                     except KeyError:
                         nv_found = False
                 else:
-                    # Partial match for all Na'vi words
+                    # Search all partial match for all Na'vi words
                     for key in dictionary.keys():
                         if word in key:
                             nv_found = True
@@ -887,50 +979,20 @@ class Utility(commands.Cog):
                                 results = ''
                     
                 # Modified Na'vi word lookup
-                if not nv_found:
-                    parsed_word = stripAffixes(word)
-                    try:
-                        word_entry = dictionary[parsed_word[word]['stripped'].lower()]
-                        nv_found = True
-                        results += buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], True)
-                        found_count += len(word_entry)
-                    
-                    # No parsed word match found
-                    except KeyError:
-                        nv_found = False
-                
-                # Lenition check
-                if not nv_found:
-                    possible_words = checkLenition(word)
-                    for key in dictionary.keys():
-                        if word[1:] in key:
-                            if possible_words != []:
-                                for result in possible_words:
-                                    try:
-                                        word_entry = dictionary[result.lower()]
-                                        if word_entry[0]["partOfSpeech"] not in verbs:
-                                            results += buildResults(i, word_entry, word, result.lower(), ": lenition", True)
-                                            found_count += len(word_entry)
-                                            nv_found = True
-                                            possible_words = []
-                                            break
-                                        else:
-                                            continue
-                                    except KeyError:
-                                        continue
-                            else:
-                                try:
-                                    word_entry = dictionary["'{}".format(word).lower()]
-                                    if word_entry[0]["partOfSpeech"] not in verbs:
-                                        results += buildResults(i, word_entry, word, "'{}".format(word).lower(), ": lenition", True)
-                                        found_count += len(word_entry)
-                                        nv_found = True
-                                        possible_words = []
-                                        break
-                                    else:
-                                        continue
-                                except KeyError:
-                                    continue
+                parsed_word_list = stripAffixes(word)
+                for parsed_word in parsed_word_list:
+                    if parsed_word != None:
+                        try:
+                            word_entry = dictionary[parsed_word[word]['stripped'].lower()]
+                            check = buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], False)
+                            if check not in results:
+                                results += buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], True)
+                                nv_found = True
+                                found_count += len(word_entry)
+                        # No parsed word match found
+                        except KeyError:
+                            print("Excepting in modified lookup.")
+                            nv_found = False
                 
                 # Reverse lookup
                 if not searchAll:
@@ -941,13 +1003,12 @@ class Utility(commands.Cog):
                             if x != None or y != None:
                                 if first_time:
                                     results += "\n**Reverse Lookup Results:**\n"
-                                    first_time = False
                                 found = True
                                 found_count += 1
                                 results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
                 
                 # No results found at all
-                if not found and not nv_found:
+                if not found and not nv_found and not unmod_found:
                     results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
                     
                 results += "\n"
@@ -956,6 +1017,9 @@ class Utility(commands.Cog):
                     results_list.append(results)
                     results = ''
             
+                if first_time:
+                    first_time = False
+                    
             results_list.append(results)
             
             if len(results_list) > 1:
