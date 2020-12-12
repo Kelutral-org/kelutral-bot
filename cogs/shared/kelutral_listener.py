@@ -181,7 +181,7 @@ class Utility(commands.Cog):
             member = message.author
             channel = self.bot.get_channel(config.modLog)
             
-            if message.author.top_role.id != config.botRoleID and message.channel.id != 768599416114118656:  
+            if message.author.top_role.id != config.botRoleID and message.channel.id != 768599416114118656 and hasattr(member, 'top_role'):  
                 embed=discord.Embed(color=config.failColor)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.set_author(name=str(member),icon_url=member.avatar_url)
@@ -273,7 +273,7 @@ class Utility(commands.Cog):
         now = datetime.strftime(datetime.now(),'%H:%M')
         
         # If message is in Kelutral
-        if message.guild and message.guild.id == 715043968886505484:
+        if message.guild and message.guild.id == 715043968886505484 and hasattr(user, 'top_role'):
             # If message is not a command.
             if not message.content.startswith("!") and not message.content.startswith("?") and not message.content.startswith("%"):
                 # If message is in the #nìNa'vi-nì'aw channel

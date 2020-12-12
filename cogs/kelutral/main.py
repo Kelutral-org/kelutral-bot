@@ -477,6 +477,7 @@ class Utility(commands.Cog):
                 if args[0] in uuid_list:
                     embed = discord.Embed(title="Retrieved Record", description="That message was sent by {}.".format(ctx.guild.get_member(int(str_user_id)).mention), color=config.reportColor)
                     await ctx.send(embed=embed)
+                    return
         
         elif isinstance(ctx.channel, discord.DMChannel):
             message = " ".join(args)
@@ -509,12 +510,12 @@ class Utility(commands.Cog):
             await ctx.send(embed=config.dm_only)
             await message.delete()
 
+    ## Search Command
     @commands.command(name="search")
     async def search(self, ctx, *words):
         if isinstance(ctx.channel, discord.channel.DMChannel) or ctx.guild.id == config.KTID:
             user = ctx.message.author
             words = list(words)
-            print(words)
             
             verbs = ["v.", "vtr.", "vin.", "vtrm.", "vim."]
             

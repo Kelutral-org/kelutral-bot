@@ -93,7 +93,8 @@ async def time_check():
             with open(randomSplash, "rb") as image:
                 f = image.read()
             
-            guild = await kelutralBot.fetch_guild(715043968886505484).edit(banner=f)
+            guild = await kelutralBot.fetch_guild(715043968886505484)
+            await guild.edit(banner=f)
             
             if os.path.exists(fileName):
                 print(now + " -- Found a QOTD to send")
