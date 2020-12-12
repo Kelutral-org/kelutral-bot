@@ -8,6 +8,7 @@ import re
 import asyncio
 import random
 import copy
+import uuid
 from datetime import datetime
 
 import bot
@@ -232,10 +233,8 @@ class Utility(commands.Cog):
                         if '0' in last_valid_entry:
                             temp_list = list(".".join(split_list).split("."))
                             temp_list.pop(temp_list.index('0'))
-                            print(temp_list)
                             return temp_list
                         
-                        print("Last Valid Entry is ", last_valid_entry)
                         return last_valid_entry
                     
                     # Code start
@@ -460,10 +459,26 @@ class Utility(commands.Cog):
     @commands.command(name="lep")
     async def lepCommand(self, ctx, *args):
         user = ctx.message.author.id
+        args = list(args)
         msg_channel = self.bot.get_channel(config.lepChannel)
         modLog_channel = self.bot.get_channel(config.modLog)
         
-        if isinstance(ctx.channel, discord.DMChannel):
+        with open('cogs/kelutral/files/lep_records.json', 'r', encoding='utf-8') as fh:
+            lep_records = json.load(fh)
+            
+        if "-r" in args:
+            lookup_mode = True
+            args.remove("-r")
+        else:
+            lookup_mode = False
+            
+        if lookup_mode and ctx.message.author.top_role.id in config.modRoles:
+            for str_user_id, uuid_list in lep_records.items():
+                if args[0] in uuid_list:
+                    embed = discord.Embed(title="Retrieved Record", description="That message was sent by {}.".format(ctx.guild.get_member(int(str_user_id)).mention), color=config.reportColor)
+                    await ctx.send(embed=embed)
+        
+        elif isinstance(ctx.channel, discord.DMChannel):
             message = " ".join(args)
             for i, value in enumerate(config.lepArchive):
                 if config.lepArchive[i][0] == user:
@@ -474,13 +489,21 @@ class Utility(commands.Cog):
             except NameError:
                 randColor = random.randint(0,0xffffff)
                 config.lepArchive.append([user,randColor])
+                
+            entry_id = uuid.uuid1()
             
-            embed = discord.Embed(description=ctx.message.author.name + " sent the following message to the LEP Channel: \n\n" + message)
-            await modLog_channel.send(embed=embed)
+            try:
+                lep_records[str(user)].append(str(entry_id))
+            except KeyError:
+                lep_records[str(user)] = [str(entry_id)]
             
             embed = discord.Embed(title="Anonymous LEP Submission",description=message,color=randColor)
+            embed.set_footer(text="Mod Reference ID: {}".format(entry_id))
             await msg_channel.send(embed=embed)
             await ctx.send(embed=config.success)
+            
+            with open('cogs/kelutral/files/lep_records.json', 'w', encoding='utf-8') as fh:
+                json.dump(lep_records, fh)
         else:
             message = ctx.message
             await ctx.send(embed=config.dm_only)
@@ -922,7 +945,6 @@ class Utility(commands.Cog):
                     parsed_word = {}
                     if re.search(r"\Aa|\Ale|a\Z", word) != None:
                         core_word = re.sub(r"\Aa|a\Z", '', word)
-                        print(core_word)
                         if core_word in dictionary:
                             if checkElement(dictionary[core_word], "partOfSpeech", ["adj."]):
                                 parsed_word[word] = {"stripped" : core_word, "notes" : ""}

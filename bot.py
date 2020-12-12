@@ -234,8 +234,9 @@ async def on_ready():
 async def on_command(ctx):
     now = datetime.now().strftime('%H:%M')
     command = ctx.message.content.split(" ")[0]
-    arguments = ctx.message.content.replace(command, "")
-    print(now + " -- {}: {} executed the {} command with arguments:{}".format(ctx.message.author.name, ctx.message.author.id, command, arguments))
+    if command != "!lep":
+        arguments = ctx.message.content.replace(command, "")
+        print(now + " -- {}: {} executed the {} command with arguments:{}".format(ctx.message.author.name, ctx.message.author.id, command, arguments))
 
 @kelutralBot.command(name='inquiries', aliases=['inq'])
 async def inquiries(ctx, *inquiry):

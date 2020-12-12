@@ -210,7 +210,7 @@ async def adminMsgs(ctx, bot, guild):
                         "{}".format(guild.get_channel(715050363740487782).mention),
                         "• A place for requesting translations, or help with finding vocabulary or alternate wordings.\n",
                         "{}".format(guild.get_channel(config.lepChannel).mention),
-                        "• Anonymous discussion of proposed words to be submitted to the LEP.\n"]
+                        "• Anonymous discussion of proposed words to be submitted to the Lexical Expansion Project (LEP), the committee responsible for filtering submissions and forwarding them to Karyu Pawl for approval.\n"]
                         
         value2 = ""
         for entry in naviLanguage:
@@ -307,7 +307,7 @@ async def adminMsgs(ctx, bot, guild):
             
         embedj = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(759900601403834419).name), description=value8, color=config.reportColor)
         
-        changeLog = "11/26/2020 - Ran to update emojis on the category headers and fix the spacers.\n11/23/2020 - Added three missing channels\n11/1/2020 - Ran to update emojis on the channel names.\n10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(guild.get_channel(757026975696027688).mention)
+        changeLog = "12/11/2020 - Updated description of the LEP channel. Removed defunct invite link from Resources.\n11/26/2020 - Ran to update emojis on the category headers and fix the spacers.\n11/23/2020 - Added three missing channels\n11/1/2020 - Ran to update emojis on the channel names.\n10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(guild.get_channel(757026975696027688).mention)
         
         embedf = discord.Embed(title="What's Changed (Why are there notifications?)\n――――――――――", description=changeLog, color=config.reportColor)
         
@@ -337,31 +337,31 @@ async def adminMsgs(ctx, bot, guild):
         await channel.send(embed=embedj)
         await channel.send(embed=embedf)
         
-        # path1 = 'files/resources1.txt'
-        # path2 = 'files/resources2.txt'
-        # path3 = 'files/resources3.txt'
-        # path4 = 'files/resources4.txt'
+        path1 = 'files/resources1.txt'
+        path2 = 'files/resources2.txt'
+        path3 = 'files/resources3.txt'
+        path4 = 'files/resources4.txt'
 
-        # fh = open(path1, 'r', encoding="utf-8")
-        # file1 = fh.read()
-        # fh.close()
+        fh = open(path1, 'r', encoding="utf-8")
+        file1 = fh.read()
+        fh.close()
 
-        # fh = open(path2, 'r', encoding="utf-8")
-        # file2 = fh.read()
-        # fh.close()
+        fh = open(path2, 'r', encoding="utf-8")
+        file2 = fh.read()
+        fh.close()
 
-        # channel = guild.get_channel(resourcesChannel)
+        channel = guild.get_channel(resourcesChannel)
 
-        # await channel.send(file1)
-        # await channel.send(file2)
+        await channel.send(file1)
+        await channel.send(file2)
         
-        # fh = open(path3, 'r', encoding="utf-8")
-        # file1 = fh.read()
-        # fh.close()
+        fh = open(path3, 'r', encoding="utf-8")
+        file1 = fh.read()
+        fh.close()
         
-        # fh = open(path4, 'r', encoding="utf-8")
-        # file2 = fh.read()
-        # fh.close()
+        fh = open(path4, 'r', encoding="utf-8")
+        file2 = fh.read()
+        fh.close()
         
-        # await channel.send(file1)
-        # await channel.send(file2)
+        await channel.send(file1)
+        await channel.send(file2)
