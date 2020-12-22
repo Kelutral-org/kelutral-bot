@@ -374,7 +374,7 @@ class Utility(commands.Cog):
     async def updateBot(self, ctx, commit):
         if ctx.message.author.top_role.id == config.adminID:
             REPO = r'.git'
-            g = git.cmd.Git(r'/kelutral-bot')
+            g = git.cmd.Git(r'kelutral-bot')
             COMMIT_MESSAGE = commit
             
             repo = git.Repo(REPO)
