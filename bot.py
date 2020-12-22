@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 import discord
 
 from discord.ext.commands import Bot
@@ -11,13 +11,17 @@ import os
 import json
 import re
 import uuid
+
 from datetime import datetime
 from datetime import timedelta
+
 from os import listdir
 from os.path import isfile, join
 
 import config
 import admin
+
+start_time = datetime.now()
 
 ## -- Initialize Client
 kelutral = discord.Client()
@@ -200,9 +204,7 @@ async def on_ready():
         if os.path.exists(fileName): # If bot file exists
             with open(fileName, 'r') as fh:
                 nameCount = json.load(fh)
-            
             nameCount[0] = nameCount[0] + newNameCount
-            
             with open(fileName, 'w') as fh:
                 json.dump(nameCount, fh)
             
@@ -214,7 +216,6 @@ async def on_ready():
     await kelutralBot.change_presence(status=discord.Status.online, activity=game)
     
     fileName = 'files/config/startup.txt'
-    
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
     
@@ -223,7 +224,7 @@ async def on_ready():
         print(line.strip('\n').format(config.version))
         time.sleep(.025)
     
-    time.sleep(3)
+    time.sleep(1)
     clear()
     
     now = datetime.strftime(datetime.now(),'%H:%M')
@@ -419,6 +420,40 @@ async def naviteri(ctx, *search):
             embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
             await ctx.send(embed=embed)
 
+## About the bot
+@kelutralBot.command(name='about', aliases=['teri'])
+async def about(ctx):
+    mako = ctx.message.guild.get_member(config.makoID)
+    self = ctx.message.guild.get_member(config.botID)
+    fileName = config.botFile
+    t1 = time.time()
+    
+    ## -- Pulls current number of generated names.
+    with open(fileName, 'r') as fh:
+        names = json.load(fh)
+        
+    embed=discord.Embed(title="About Eytukan",description="Eytukan is a custom bot coded in Python 3 for use on Kelutral.org's network of Discord Servers. It is primarily coded and maintained by " + str(mako.mention) + ".", color=config.botColor)
+    embed.set_author(name=self.name,icon_url=self.avatar_url)
+    embed.add_field(name="Version: ", value=config.version, inline=True)
+    embed.add_field(name="Website: ", value="http://kelutral.org/", inline=True)
+    embed.add_field(name="Discord.py:", value="Version " + str(discord.__version__))
+    embed.add_field(name="Na'vi Names Generated: ", value=names[0], inline=True)
+    embed.add_field(name="Kelutral Server: ", value="http://discord.gg/YSyvBEF", inline=True)
+    embed.add_field(name="Pandora Rising: ", value="http://discord.gg/xKV88se", inline=True)
+    embed.set_thumbnail(url=ctx.guild.icon_url)
+    
+    t2 = time.time()
+    tDelta = round(t2-t1,3)
+    
+    now_datetime = datetime.now() - start_time
+    
+    ## -- Checks debug output toggle
+    embed.set_footer(text="Use !help to learn more about the available commands. | Current uptime: {} days, {}:{}".format(now_datetime.days, divmod(now_datetime.seconds, 3600)[0], divmod(now_datetime.seconds, 60)[0]))
+    if config.debug == True:
+        embed.set_footer(text="Use !help to learn more about the available commands.  |  Executed in " + str(tDelta) + " seconds.")
+
+    await ctx.send(embed=embed)
+
 ##                                                                                          Bot Commands
 ##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ##                                                                               Condensed Question of the Day Command
@@ -572,6 +607,47 @@ async def help(ctx, *query):
         embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
         
     await ctx.send(embed=embed)
+
+@kelutralBot.command(name="partnerupdate")
+async def partnerUpdate(ctx):
+    partnerChannel = 788100741494472765
+    with open('cogs/shared/files/server_directory.json', 'r', encoding='utf-8') as fh:
+        server_directory = json.load(fh)
+        
+    for server in server_directory.keys():
+        partner = await kelutralBot.fetch_invite(server_directory[server]["server_invite"], with_counts=True)
+        
+        embed = discord.Embed(title=partner.guild.name, description=server_directory[server]["server_info"], color=config.reportColor)
+        embed.add_field(name="Invite:", value=server_directory[server]["server_invite"])
+        embed.add_field(name="Server Type:", value=server_directory[server]["server_type"])
+        embed.set_thumbnail(url=partner.guild.icon_url)
+        
+        channel = ctx.guild.get_channel(partnerChannel)
+        await channel.send(embed=embed)
+        
+@kelutralBot.command(name="rulesupdate")
+async def rulesUpdate(ctx):
+    rulesChannel = 715727832063410207
+    channel = ctx.guild.get_channel(rulesChannel)
+    with open('files/rules1.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+    with open('files/rules2.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+    with open('files/rules3.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+        
+@kelutralBot.command(name="resourcesupdate")
+async def resourcesUpdate(ctx):
+    resourcesChannel = 715050231967776778
+    channel = ctx.guild.get_channel(resourcesChannel)
+    with open('files/resources1.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+    with open('files/resources2.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+    with open('files/resources3.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
+    with open('files/resources4.txt', 'r', encoding='utf-8') as fh:
+        await channel.send(fh.read())
 
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help

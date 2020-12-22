@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 import discord
 
 from discord.ext.commands import Bot
@@ -87,7 +87,8 @@ class Utility(commands.Cog):
                     await member.create_dm()
                 embed=discord.Embed()
                 embed=discord.Embed(title="Welcome to the Kelutral.org Discord Server!", colour=config.welcomeColor)
-                embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in #kaltxì so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with {}, {}, {} or {} (He/Him, She/Her, They/Them or Any Pronouns). Please be careful when making your selection, as changes can't be made without contacting a moderator.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!".format(emojis[0],emojis[1],emojis[2],emojis[3]), inline=False)
+                welcome_channel = await self.bot.fetch_channel(718309284705861647)
+                embed.add_field(name="**Fwa ngal fìtsengit sunu ayoer!**", value="We are glad that you are here!\n\nWhen you get the chance, please read our rules and information channels to familiarize yourself with our code of conduct and roles. After that, please introduce yourself in {} so that a moderator can assign you the proper role.\n\nIf you would like to personally assign your own pronouns, you can react to this message with {}, {}, {} or {} (He/Him, She/Her, They/Them or Any Pronouns). If you want to change this selection at any time, simply add the corresponding reaction to any message Eytukan sends in DMs.\n\n**Zola'u nìprrte' ulte siva ko!** Welcome, let's go!".format(welcome_channel.mention, emojis[0],emojis[1],emojis[2],emojis[3]), inline=False)
 
                 message = await member.send(embed=embed)
                 
@@ -346,10 +347,10 @@ class Utility(commands.Cog):
     ## -- On Reaction Add
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.guild_id == config.KTID:
+        channel = await self.bot.fetch_channel(payload.channel_id)
+        if payload.guild_id == config.KTID or isinstance(channel, discord.DMChannel):
             added_emoji = payload.emoji
             guild = self.bot.get_guild(715043968886505484)
-            channel = await self.bot.fetch_channel(payload.channel_id)
             
             if payload.member == None:
                 member = guild.get_member(payload.user_id)

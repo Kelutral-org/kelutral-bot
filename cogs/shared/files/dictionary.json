@@ -152,13 +152,13 @@
             "translation": "spiral"
         }
     ],
-    "'Ìnglìsì": [{
+    "'ìnglìsì": [{
             "partOfSpeech": "n.",
             "infixDots": "NULL",
             "syllables": "'Ìng-lì-sì",
             "stressed": "1",
             "source": "ASG",
-            "translation": "English language"
+            "translation": "English language, ❗ **Loan word**"
         }
     ],
     "'it": [{
@@ -1556,7 +1556,7 @@
             "syllables": "kun-sìp",
             "stressed": "1",
             "source": "Taronyu's Dictionary 9.75 < Frommer",
-            "translation": "gunship"
+            "translation": "gunship, ❗ **Loan word**"
         }
     ],
     "kurakx": [{
@@ -2607,7 +2607,7 @@
             "syllables": "pä-tsì",
             "stressed": "1",
             "source": "Taronyu's Dictionary -> Survival Guide",
-            "translation": "badge"
+            "translation": "badge, ❗ **Loan word**"
         }
     ],
     "pawm": [{
@@ -3730,7 +3730,7 @@
             "syllables": "taw-sìp",
             "stressed": "1",
             "source": "NULL",
-            "translation": "skyship"
+            "translation": "skyship, ❗ **Loan word**"
         }
     ],
     "tawng": [{
@@ -4126,7 +4126,7 @@
             "syllables": "tok-tor",
             "stressed": "1",
             "source": "http://en.wiktionary.org/wiki/Appendix:Na'vi",
-            "translation": "doctor"
+            "translation": "doctor, ❗ **Loan word**"
         }
     ],
     "tokx": [{
@@ -6421,7 +6421,7 @@
             "syllables": "sran",
             "stressed": "1",
             "source": "http://forum.learnnavi.org/language-updates/words-some-new-some-made-clear/msg145127/#msg145127 (16 Mar 2010)",
-            "translation": "yes (colloquial)"
+            "translation": "yes (colloquial, slang)"
         }
     ],
     "weyn": [{
@@ -7189,7 +7189,7 @@
             "translation": "having to do with the Na'vi, the People"
         }
     ],
-    "nìNa'vi": [{
+    "nìna'vi": [{
             "partOfSpeech": "adv.",
             "infixDots": "NULL",
             "syllables": "nì-Na'-vi",
@@ -7213,7 +7213,7 @@
             "syllables": "'Rr-ta",
             "stressed": "1",
             "source": "http://forum.learnnavi.org/language-updates/score!-%281%29-the-verb-to-use-%282%29-more-detail-on-teya-si/ (19 Feb 2010)",
-            "translation": "Earth"
+            "translation": "Earth, ❗ **Loan word**"
         }
     ],
     "fwäkìwll": [{
@@ -8761,7 +8761,7 @@
             "syllables": "tsyì-rä-fì",
             "stressed": "2",
             "source": "http://forum.learnnavi.org/language-updates/txelanit-hivawl/ (18 Jun 2010)",
-            "translation": "giraffe"
+            "translation": "giraffe, ❗ **Loan word**"
         }
     ],
     "tsawa": [{
@@ -8860,7 +8860,7 @@
             "syllables": "ma-tsa",
             "stressed": "1",
             "source": "Frommer (22. March 2010) http://whyisthisnight.com/addl-more.html#na%27vi",
-            "translation": "matsa, crackers"
+            "translation": "matsa, crackers, ❗ **Loan word**"
         }
     ],
     "hametsì": [{
@@ -8869,7 +8869,7 @@
             "syllables": "ha-me-tsì",
             "stressed": "2",
             "source": "Frommer (22. March 2010) http://whyisthisnight.com/addl-more.html#na%27vi",
-            "translation": "leavened bread"
+            "translation": "leavened bread, ❗ **Loan word**"
         }
     ],
     "tìkangkemvi": [{
@@ -8962,13 +8962,13 @@
             "translation": "one (placeholder pronoun referring to a previously mentioned noun or pronoun)"
         }
     ],
-    "Yuesey": [{
+    "yuesey": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Yu-e-sey",
             "stressed": "3",
             "source": "NULL",
-            "translation": "U.S.A."
+            "translation": "U.S.A., ❗ **Loan word**"
         }
     ],
     "teya si": [{
@@ -9103,7 +9103,7 @@
             "syllables": "tsyä-nel",
             "stressed": "1",
             "source": "Frommer (26. Feb 2010) http://wiki.learnnavi.org/index.php?title=Corpus#Good_Morning_America",
-            "translation": "TV channel"
+            "translation": "TV channel, ❗ **Loan word**"
         }
     ],
     "trrtxon": [{
@@ -9166,7 +9166,7 @@
             "syllables": "pxir",
             "stressed": "1",
             "source": "Frommer (14. Jun 2010) http://www.fr-online.de/panorama/interview-mit-erfinder-der-avatar-filmsprache-tok-pesengit-oeyae-pxir-l-,1472782,4476184.html",
-            "translation": "beer"
+            "translation": "beer, ❗ **Loan word**"
         }
     ],
     "eanean": [{
@@ -10480,7 +10480,7 @@
             "syllables": "'e-van",
             "stressed": "1",
             "source": "http://naviteri.org/2010/08/mipa-ayopin-mipa-ayliu-new-colors-new-words/ (26 Aug 2010)",
-            "translation": "boy (colloquial)"
+            "translation": "boy (colloquial, slang)"
         }
     ],
     "'eve": [{
@@ -10489,7 +10489,7 @@
             "syllables": "'e-ve",
             "stressed": "1",
             "source": "http://naviteri.org/2010/08/mipa-ayopin-mipa-ayliu-new-colors-new-words/ (26 Aug 2010)",
-            "translation": "girl (colloquial)"
+            "translation": "girl (colloquial, slang)"
         }
     ],
     "'evengan": [{
@@ -10735,13 +10735,13 @@
             "translation": "equally, on the same level"
         }
     ],
-    "Pari": [{
+    "pari": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Pa-ri",
             "stressed": "1",
             "source": "(26 September 2010) http://naviteri.org/2010/09/getting-to-know-you-part-1/",
-            "translation": "Paris"
+            "translation": "Paris, ❗ **Loan word**"
         }
     ],
     "tì'ong": [{
@@ -10789,22 +10789,22 @@
             "translation": "basketball"
         }
     ],
-    "nìFranse": [{
+    "nìfranse": [{
             "partOfSpeech": "adv.",
             "infixDots": "NULL",
             "syllables": "nì-Fran-se",
             "stressed": "2",
             "source": "Frommer (28. September 2010) http://naviteri.org/2010/09/getting-to-know-you-part-2/",
-            "translation": "French"
+            "translation": "French, ❗ **Loan word**"
         }
     ],
-    "nìToitsye": [{
+    "nìtoitsye": [{
             "partOfSpeech": "adv.",
             "infixDots": "NULL",
             "syllables": "nì-To-i-tsye",
             "stressed": "2",
             "source": "Frommer (28. September 2010) http://naviteri.org/2010/09/getting-to-know-you-part-2/",
-            "translation": "German"
+            "translation": "German, ❗ **Loan word**"
         }
     ],
     "nìno": [{
@@ -10993,7 +10993,7 @@
             "syllables": "Sweriye",
             "stressed": "1",
             "source": "Frommer (02.-03. October 2010) http://forum.learnnavi.org/navi-lernen/frommersche-neuigkeiten-%28neue-worter-reflexiv-meine-name-ist-%29/msg325879/#msg325879",
-            "translation": "Sweden"
+            "translation": "Sweden, ❗ **Loan word**"
         }
     ],
     "nìfkrr": [{
@@ -11056,7 +11056,7 @@
             "syllables": "E-u-ro-pa",
             "stressed": "3",
             "source": "Frommer (02.-03. October 2010) http://forum.learnnavi.org/navi-lernen/frommersche-neuigkeiten-%28neue-worter-reflexiv-meine-name-ist-%29/msg325879/#msg325879",
-            "translation": "Europe"
+            "translation": "Europe, ❗ **Loan word**"
         }
     ],
     "skxaypxe": [{
@@ -11065,7 +11065,7 @@
             "syllables": "skxay-pxe",
             "stressed": "1",
             "source": "NULL",
-            "translation": "Skype"
+            "translation": "Skype, ❗ **Loan word**"
         }
     ],
     "pxorpam": [{
@@ -11239,13 +11239,13 @@
             "translation": "so, to such an extent"
         }
     ],
-    "Yeysu": [{
+    "yeysu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Yey-su",
             "stressed": "1",
             "source": "(01 Dec 2010) http://forum.learnnavi.org/language-updates/for-%28duration%29-jesus-loan-word/",
-            "translation": "Jesus"
+            "translation": "Jesus, ❗ **Loan word**"
         }
     ],
     "lelì'fya": [{
@@ -12760,16 +12760,16 @@
             "translation": "after (temporal)"
         }
     ],
-    "Toitslan": [{
+    "toitslan": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "To-i-tslan",
             "stressed": "1",
             "source": "Frommer (15.08. 2011) http://forum.learnnavi.org/language-updates/confirmation-on-kurakx-eytukan-line-and-toitslan/",
-            "translation": "Germany"
+            "translation": "Germany, ❗ **Loan word**"
         }
     ],
-    "Toitsye": [{
+    "toitsye": [{
             "partOfSpeech": "adj.",
             "infixDots": "NULL",
             "syllables": "To-i-tsye",
@@ -15277,7 +15277,7 @@
             "syllables": "nì-Tsyung-wen",
             "stressed": "2",
             "source": "Frommer (28. September 2010) http://naviteri.org/2010/09/getting-to-know-you-part-2/",
-            "translation": "Zhongwen"
+            "translation": "Zhongwen, ❗ **Loan word**"
         }
     ],
     "reykol": [{
@@ -16564,7 +16564,7 @@
             "syllables": "po-stì",
             "stressed": "1",
             "source": "http://naviteri.org/2012/11/renu-ayinanfyaya-the-senses-paradigm/comment-page-1/#comment-1863 (28 November 2012)",
-            "translation": "(forum/blog) post"
+            "translation": "(forum/blog) post, ❗ **Loan word**"
         }
     ],
     "ketsran": [{
@@ -16933,7 +16933,7 @@
             "syllables": "tsyok-lìt",
             "stressed": "1",
             "source": "http://naviteri.org/2013/07/pximaw-tsawlultxa-just-after-the-meet-up/ (31 Jul 2013)",
-            "translation": "chocolate"
+            "translation": "chocolate, ❗ **Loan word**"
         }
     ],
     "paynäpll": [{
@@ -16942,7 +16942,7 @@
             "syllables": "pay-nä-pll",
             "stressed": "1",
             "source": "http://naviteri.org/2013/07/pximaw-tsawlultxa-just-after-the-meet-up/ (31 Jul 2013)",
-            "translation": "pineapple"
+            "translation": "pineapple, ❗ **Loan word**"
         }
     ],
     "pamrelsiyu": [{
@@ -17158,7 +17158,7 @@
             "syllables": "txo-lar",
             "stressed": "1",
             "source": "http://naviteri.org/2014/02/barter-and-exchange/ (28 Feb 2014)",
-            "translation": "dollar"
+            "translation": "dollar, ❗ **Loan word**"
         }
     ],
     "ewro": [{
@@ -17167,7 +17167,7 @@
             "syllables": "ew-ro",
             "stressed": "1",
             "source": "http://naviteri.org/2014/02/barter-and-exchange/ (28 Feb 2014)",
-            "translation": "euro"
+            "translation": "euro, ❗ **Loan word**"
         }
     ],
     "lawnol": [{
@@ -17509,7 +17509,7 @@
             "syllables": "tì-reyn",
             "stressed": "2",
             "source": "http://naviteri.org/2014/08/stxeli-alor-a-beautiful-gift/ (31 Aug 2014)",
-            "translation": "train"
+            "translation": "train, ❗ **Loan word**"
         }
     ],
     "LosÄntsyelesì": [{
@@ -17518,7 +17518,7 @@
             "syllables": "Lo-sÄn-tsye-le-sì",
             "stressed": "2",
             "source": "NULL",
-            "translation": "Los Angeles"
+            "translation": "Los Angeles, ❗ **Loan word**"
         }
     ],
     "tson": [{
@@ -18319,7 +18319,7 @@
             "syllables": "wep-tseng",
             "stressed": "1",
             "source": "http://naviteri.org/2015/04/some-new-words-for-may-day/comment-page-1/#comment-19872",
-            "translation": "website"
+            "translation": "website, ❗ **Loan word**"
         }
     ],
     "wep": [{
@@ -18328,7 +18328,7 @@
             "syllables": "wep",
             "stressed": "1",
             "source": "http://naviteri.org/2015/04/some-new-words-for-may-day/comment-page-1/#comment-19872",
-            "translation": "web (as in world wide web, www)"
+            "translation": "web (as in world wide web, www), ❗ **Loan word**"
         }
     ],
     "tseotu": [{
@@ -20596,7 +20596,7 @@
             "syllables": "pen-sìl",
             "stressed": "1",
             "source": "http://naviteri.org/2018/03/100a-liu-amip-64-new-words-part-1/#comment-28354 (04 Apr 2018)",
-            "translation": "pencil"
+            "translation": "pencil, ❗ **Loan word**"
         }
     ],
     "'opinsung": [{
@@ -20740,7 +20740,7 @@
             "syllables": "Kel-nì",
             "stressed": "1",
             "source": "https://forum.learnnavi.org/language-updates/new-words-leftxoza-(celebratory)-poston-(boston)-kelni-(koln-cologne)/ (21 September 2018)",
-            "translation": "Köln, Cologne"
+            "translation": "Köln, Cologne, ❗ **Loan word**"
         }
     ],
     "Poston": [{
@@ -20749,7 +20749,7 @@
             "syllables": "Po-ston",
             "stressed": "1",
             "source": "https://forum.learnnavi.org/language-updates/new-words-leftxoza-(celebratory)-poston-(boston)-kelni-(koln-cologne)/ (21 September 2018)",
-            "translation": "Boston"
+            "translation": "Boston, ❗ **Loan word**"
         }
     ],
     "Nìyu Yorkì": [{
@@ -20758,7 +20758,7 @@
             "syllables": "Nì-yu Yor-kì",
             "stressed": "2",
             "source": "https://forum.learnnavi.org/language-updates/new-words-leftxoza-(celebratory)-poston-(boston)-kelni-(koln-cologne)/ (21 September 2018)",
-            "translation": "New York"
+            "translation": "New York, ❗ **Loan word**"
         }
     ],
     "fpxamo": [{
@@ -21343,7 +21343,7 @@
             "syllables": "Snrr-tsyìp",
             "stressed": "1",
             "source": "http://naviteri.org/2019/06/50a-liu-amip-40-new-words%EF%BB%BF/",
-            "translation": "Alpha Centauri C aka Proxima Centauri (Colloquial)"
+            "translation": "Alpha Centauri C aka Proxima Centauri (colloquial, slang)"
         }
     ],
     "kuru": [{
@@ -21877,7 +21877,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Kelutral": [{
+    "kelutral": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Kel-ut-ral",
@@ -21886,7 +21886,7 @@
             "translation": "Hometree"
         }
     ],
-    "Li'ona": [{
+    "li'ona": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Li-'o-na",
@@ -21895,7 +21895,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Lo'ak": [{
+    "lo'ak": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Lo'-ak",
@@ -21904,7 +21904,7 @@
             "translation": "Jake and Neytiri's second born son"
         }
     ],
-    "Lo'akur": [{
+    "lo'akur": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Lo-'a-kur",
@@ -21913,7 +21913,7 @@
             "translation": "Toruk Makto Amulet"
         }
     ],
-    "Metkayina": [{
+    "metkayina": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Met-ka-yi-na",
@@ -21922,7 +21922,7 @@
             "translation": "Reef People Clan"
         }
     ],
-    "Mo'ara": [{
+    "mo'ara": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Mo-'a-ra",
@@ -21931,7 +21931,7 @@
             "translation": "a valley on Pandora (Note: Also the name of the Disney Pandora location)"
         }
     ],
-    "Mo'at": [{
+    "mo'at": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Mo-'at",
@@ -21940,7 +21940,7 @@
             "translation": "tsahìk of the Omatikaya"
         }
     ],
-    "Mo'at'ite": [{
+    "mo'at'ite": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Mo-'at-'i-te",
@@ -21949,7 +21949,7 @@
             "translation": "daughter of Mo'at"
         }
     ],
-    "Naranawm": [{
+    "naranawm": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Nar-a-nawm",
@@ -21958,7 +21958,7 @@
             "translation": "Polyphemus"
         }
     ],
-    "Nawmtoruktek": [{
+    "nawmtoruktek": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Nawm-to-ruk-tek",
@@ -21967,7 +21967,7 @@
             "translation": "Toruk Makto Totem"
         }
     ],
-    "Neteyam": [{
+    "neteyam": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ne-tey-am",
@@ -21976,7 +21976,7 @@
             "translation": "Jake and Neytiri's first born son"
         }
     ],
-    "Newey": [{
+    "newey": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ne-wey",
@@ -21985,7 +21985,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Neytiri": [{
+    "neytiri": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ney-ti-ri",
@@ -21994,7 +21994,7 @@
             "translation": "female Na'vi of the Omatikaya Clan"
         }
     ],
-    "Ninat": [{
+    "ninat": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ni-nat",
@@ -22003,7 +22003,7 @@
             "translation": "female singer of the Omatikaya Clan"
         }
     ],
-    "Omatikaya": [{
+    "omatikaya": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "O-ma-ti-ka-ya",
@@ -22012,7 +22012,7 @@
             "translation": "Blue Flute Clan"
         }
     ],
-    "Otranyu": [{
+    "otranyu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ot-ran-yu",
@@ -22021,7 +22021,7 @@
             "translation": "male Na'vi"
         }
     ],
-    "Peyral": [{
+    "peyral": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Pey-ral",
@@ -22030,7 +22030,7 @@
             "translation": "female Na'vi of the Omatikaya Clan"
         }
     ],
-    "Pongu Pongu": [{
+    "pongu pongu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Po-ngu Po-ngu",
@@ -22039,7 +22039,7 @@
             "translation": "party party (irregular use; Name of bar at Disney's Pandora - The World of Avatar)"
         }
     ],
-    "Ralu": [{
+    "ralu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ra-lu",
@@ -22048,7 +22048,7 @@
             "translation": "male Na'vi"
         }
     ],
-    "Rini": [{
+    "rini": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ri-ni",
@@ -22057,7 +22057,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Ronal": [{
+    "ronal": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ro-nal",
@@ -22066,7 +22066,7 @@
             "translation": "Female Na'vi of the Metkayina Clan"
         }
     ],
-    "Rongloa": [{
+    "rongloa": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Rong-lo-a",
@@ -22075,7 +22075,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Rotxo": [{
+    "rotxo": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ro-txo",
@@ -22084,7 +22084,7 @@
             "translation": "male Na'vi of the Metkayina Clan"
         }
     ],
-    "Satu'li": [{
+    "satu'li": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Satu'-li",
@@ -22093,7 +22093,7 @@
             "translation": "Canteen in the Valley of Mo'ara"
         }
     ],
-    "Seze": [{
+    "seze": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Se-ze",
@@ -22102,7 +22102,7 @@
             "translation": "Neytiri's banshee"
         }
     ],
-    "Silwanin": [{
+    "silwanin": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Sil-wa-nin",
@@ -22111,7 +22111,7 @@
             "translation": "Neytiri's sister"
         }
     ],
-    "Sorewn": [{
+    "sorewn": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "So-rewn",
@@ -22120,7 +22120,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Swotulu": [{
+    "swotulu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Swo-tu-lu",
@@ -22129,7 +22129,7 @@
             "translation": "sacred river"
         }
     ],
-    "Swotu Wayä": [{
+    "swotu wayä": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Swo-tu Way-ä",
@@ -22138,7 +22138,7 @@
             "translation": "sacred place of song"
         }
     ],
-    "Tawkami": [{
+    "tawkami": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Taw-ka-mi",
@@ -22147,7 +22147,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Tipani": [{
+    "tipani": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ti-pa-ni",
@@ -22156,7 +22156,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Tonowari": [{
+    "tonowari": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "To-no-wa-ri",
@@ -22165,7 +22165,7 @@
             "translation": "male Na'vi of the Metkayina Clan"
         }
     ],
-    "Tsahìk": [{
+    "tsahìk": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tsa-hìk",
@@ -22174,7 +22174,7 @@
             "translation": "matriarch, high priestess, interpreter"
         }
     ],
-    "Tsenu": [{
+    "tsenu": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tse-nu",
@@ -22183,7 +22183,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Tsireya": [{
+    "tsireya": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tsi-rey-a",
@@ -22192,7 +22192,7 @@
             "translation": "female of the Metkayina Clan"
         }
     ],
-    "Tskaha": [{
+    "tskaha": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tska-ha",
@@ -22201,7 +22201,7 @@
             "translation": "Na'vi Clan name"
         }
     ],
-    "Tsu'tey": [{
+    "tsu'tey": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tsu'-tey",
@@ -22210,7 +22210,7 @@
             "translation": "male of the Omatikaya Clan"
         }
     ],
-    "Tsumongwi": [{
+    "tsumongwi": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tsu-mong-wi",
@@ -22219,7 +22219,7 @@
             "translation": "original name for the Omatikaya"
         }
     ],
-    "Tuke": [{
+    "tuke": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tu-ke",
@@ -22228,7 +22228,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Tuktirey": [{
+    "tuktirey": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Tuk-ti-rey",
@@ -22237,7 +22237,7 @@
             "translation": "Jake and Neytiri's daughter"
         }
     ],
-    "Txärpawk": [{
+    "txärpawk": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Txär-pawk",
@@ -22246,7 +22246,7 @@
             "translation": "Palulukan Bone Horn"
         }
     ],
-    "Txewì": [{
+    "txewì": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Txe-wì",
@@ -22255,7 +22255,7 @@
             "translation": "male Na'vi"
         }
     ],
-    "Txilte": [{
+    "txilte": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Txil-te",
@@ -22264,7 +22264,7 @@
             "translation": "female Na'vi"
         }
     ],
-    "Uniltaron": [{
+    "uniltaron": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "U-nil-ta-ron",
@@ -22273,7 +22273,7 @@
             "translation": "Dream Hunt"
         }
     ],
-    "Utral Aymokriyä": [{
+    "utral aymokriyä": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Ut-ral Ay-mok-ri-yä",
@@ -22282,7 +22282,7 @@
             "translation": "Tree of Voices"
         }
     ],
-    "Va'ru": [{
+    "va'ru": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Va'-ru",
@@ -22291,7 +22291,7 @@
             "translation": "male Na'vi"
         }
     ],
-    "Vitrautral": [{
+    "vitrautral": [{
             "partOfSpeech": "prop.n.",
             "infixDots": "NULL",
             "syllables": "Vit-ra-ut-ral",
@@ -23128,13 +23128,13 @@
             "translation": "thief"
         }
     ],
-    "le'Ìnglìsì": [{
+    "le'ìnglìsì": [{
             "partOfSpeech": "adj.",
             "infixDots": "NULL",
             "syllables": "le-'ìng-lì-sì",
             "stressed": "2",
             "source": "http://naviteri.org/2011/01/new-year-new-vocabulary/comment-page-1/#comment-499",
-            "translation": "English, of the English language"
+            "translation": "English, of the English language, ❗ **Loan word**"
         }
     ],
     "'ak": [{

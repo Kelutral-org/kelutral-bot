@@ -103,18 +103,17 @@ class Utility(commands.Cog):
         async def buildEmbed(user, language_pref, to_next_level, active_roles):
             final_text = ''
             # Checks if the user has a nickname
-            try:
-                nickname = " AKA \"{}\"".format(user.nick)
-            except:
-                nickname = ""
+            nickname = ""
+            if hasattr(user, 'nick'):
+                if user.nick != None:
+                    nickname = " AKA \"{}\"".format(user.nick)
                 
             # Checks if the user has 'unspecified'
             if ctx.guild.id == 715043968886505484:
+                pronoun_role = admin.readDirectory(user, "pronouns")
                 if type(admin.readDirectory(user, "pronouns")) == int:
                     pronoun_role = get(user.guild.roles, id=admin.readDirectory(user, "pronouns")).name
-                else:
-                    pronoun_role = admin.readDirectory(user, "pronouns")
-                
+                    
             # Builds the embed
             embed=discord.Embed(color=get(user.guild.roles, id=active_roles["id"]).color, title=user.name + nickname)
             embed.add_field(name=config.text_file[language_pref]["profile"]["embed"]["join_date"], value=user.joined_at.strftime("%d/%m/%y, %H:%M"), inline=True)
@@ -143,7 +142,6 @@ class Utility(commands.Cog):
         language_pref = admin.readDirectory(user, "language")
         if ctx.guild.id == 748700165266866227:
             active_roles = pr_admin.readDirectory(user, "pr_rank")
-            print(active_roles)
         else:
             active_roles = admin.readDirectory(user, "rank")
         
@@ -223,46 +221,13 @@ class Utility(commands.Cog):
             embed.set_footer(text="Executed in {} seconds.".format(round(time.time() - t1, 3)))
         await ctx.send(embed=embed)
 
-    ## About the bot
-    @commands.command(name='about', aliases=['teri'])
-    async def about(self, ctx):
-        mako = ctx.message.guild.get_member(config.makoID)
-        self = ctx.message.guild.get_member(config.botID)
-        fileName = config.botFile
-        t1 = time.time()
-        
-        ## -- Pulls current number of generated names.
-        with open(fileName, 'r') as fh:
-            names = json.load(fh)
-            
-        embed=discord.Embed(title="About Eytukan",description="Eytukan is a custom bot coded in Python 3 for use on Kelutral.org's network of Discord Servers. It is primarily coded and maintained by " + str(mako.mention) + ".", color=config.botColor)
-        embed.set_author(name=self.name,icon_url=self.avatar_url)
-        embed.add_field(name="Version: ", value=config.version, inline=True)
-        embed.add_field(name="Website: ", value="http://kelutral.org/", inline=True)
-        embed.add_field(name="Discord.py:", value="Version " + str(discord.__version__))
-        embed.add_field(name="Na'vi Names Generated: ", value=names[0], inline=True)
-        embed.add_field(name="Kelutral Server: ", value="http://discord.gg/YSyvBEF", inline=True)
-        embed.add_field(name="Pandora Rising: ", value="http://discord.gg/xKV88se", inline=True)
-        embed.set_thumbnail(url=ctx.guild.icon_url)
-        
-        t2 = time.time()
-        tDelta = round(t2-t1,3)
-        
-        ## -- Checks debug output toggle
-        if config.debug == True:
-            embed.set_footer(text="Use !help to learn more about the available commands.  |  Executed in " + str(tDelta) + " seconds.")
-        else:
-            embed.set_footer(text="Use !help to learn more about the available commands.")
-            
-        await ctx.send(embed=embed)
-
     ## Ban Command
     @commands.command(name='ban', aliases=['yitx'])
     async def ban(self, ctx, user: discord.Member):
         if user.top_role.id in config.modRoles: # If the user is allowed to use this command
-            await user.ban()
             embed=discord.Embed(description=str(user.mention) + "** was banned**", colour=config.failColor)
             await ctx.send(embed=embed)
+            await user.ban()
 
     ## Update Rules
     @commands.command(name='donotuse')
@@ -346,26 +311,34 @@ class Utility(commands.Cog):
         rds = 0
         t1 = time.time()
         
-        with open('files/config/server_info.json', 'r', encoding='utf-8') as fh:
-            server_info = json.load(fh)
+        if ctx.guild.id == config.KTID:
+            with open('cogs/shared/files/kelutral/server_info.json', 'r', encoding='utf-8') as fh:
+                server_info = json.load(fh)
+        elif ctx.guild.id == config.PRID:
+            with open('cogs/shared/files/pandora_rising/server_info.json', 'r', encoding='utf-8') as fh:
+                server_info = json.load(fh)
             
-        if user.top_role.id == config.adminID:
+        if user.top_role.id == config.adminID or user.id == config.makoID:
             if date:
                 date = ''.join(date)
                 date = date.replace("*", ".")
                 split_date = date.split('-')
-                for entry in server_info:
+                for entry in server_info.keys():
                     x = re.search(date, entry)
                     if x:
                         joins += server_info[entry]['joins']
                         leaves += server_info[entry]['leaves']
                         rds += server_info[entry]['rds']
             else:
-                date = datetime.now().strftime("%m-%d-%Y")
-                split_date = date.split('-')
-                joins = server_info[date]['joins']
-                leaves = server_info[date]['leaves']
-                rds = server_info[date]['rds']
+                try:
+                    date = datetime.now().strftime("%m-%d-%Y")
+                    split_date = date.split('-')
+                    joins = server_info[date]['joins']
+                    leaves = server_info[date]['leaves']
+                    rds = server_info[date]['rds']
+                except KeyError:
+                    await ctx.send(embed=config.database)
+                    return
             
             # Finalizing date output for embed
             output_month = ''
@@ -388,10 +361,9 @@ class Utility(commands.Cog):
             t2 = time.time()
             tDelta = round(t2 - t1, 3)
             
+            embed.set_footer(text="Use !sd mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
             if config.debug == True:
                 embed.set_footer(text="Use !sd mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.  |  Executed in " + str(tDelta) + " seconds.")
-            else:
-                embed.set_footer(text="Use !sd mm-dd-yyyy to query specific dates, or replace \nletters with ** to search all dates in that category.")
             
             await ctx.send(embed=embed)
         else:
@@ -401,8 +373,8 @@ class Utility(commands.Cog):
     @commands.command(name='update')
     async def updateBot(self, ctx, commit):
         if ctx.message.author.top_role.id == config.adminID:
-            REPO = r'C:\Users\Seth\kelutral-bot\.git'
-            g = git.cmd.Git(r'C:\Users\Seth\kelutral-bot')
+            REPO = r'.git'
+            g = git.cmd.Git(r'/kelutral-bot')
             COMMIT_MESSAGE = commit
             
             repo = git.Repo(REPO)
@@ -460,10 +432,10 @@ class Utility(commands.Cog):
     # Error Handling
     
     ## Error Handling for !profile
-    # @profile.error
-    # async def profile_error(self, ctx, error):
-        # if isinstance(error, commands.CommandError):
-            # await ctx.send(embed=config.syntax)
+    @profile.error
+    async def profile_error(self, ctx, error):
+        if isinstance(error, commands.CommandError):
+            await ctx.send(embed=config.syntax)
 
 def setup(bot):
     bot.add_cog(Utility(bot))

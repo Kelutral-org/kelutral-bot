@@ -127,28 +127,6 @@ async def adminMsgs(ctx, bot, guild):
     infoChannel = 715049168984473671
     resourcesChannel = 715050231967776778
     if user.top_role.name == "Olo'eyktan (Admin)":
-        # path1 = 'files/rules1.txt'
-        # path2 = 'files/rules2.txt'
-        # path3 = 'files/rules3.txt'
-
-        # fh = open(path1, 'r', encoding='utf-8')
-        # file1 = fh.read()
-        # fh.close()
-
-        # fh = open(path2, 'r', encoding='utf-8')
-        # file2 = fh.read()
-        # fh.close()
-
-        # fh = open(path3, 'r', encoding='utf-8')
-        # file3 = fh.read()
-        # fh.close()
-
-        # channel = guild.get_channel(rulesChannel)
-
-        # await channel.send(file1)
-        # await channel.send(file2)
-        # await channel.send(file3)
-
         oloEyktan = 715044138864607334
         Eyktan = 715048580334878732
         Karyu = 715044889049563147
@@ -162,7 +140,7 @@ async def adminMsgs(ctx, bot, guild):
                "{} : Teacher, a capable, volunteer teacher who has shown willingness to share their knowledge of the Na'vi Language with other learners.\n".format(ctx.guild.get_role(Karyu).mention),
                "{} : Someone who is learning the Na'vi language.\n".format(ctx.guild.get_role(Numeyu).mention),
                "\nOther Roles: \n",
-               "{} : Inactive or non-language-learning Avatar enthusiasts.\n".format(ctx.guild.get_role(Eylan).mention)]
+               "{} : Avatar enthusiasts who don't want learner notifications, or friends of the community.\n".format(ctx.guild.get_role(Eylan).mention)]
                
         value = ""
         
@@ -232,6 +210,8 @@ async def adminMsgs(ctx, bot, guild):
                    "• For conversations surrounding anything science or mathematics related.\n",
                    "{} - Beloved Creatures".format(guild.get_channel(715344553204514817).mention),
                    "• Photos and discussion of plants and animals, such as pets.\n",
+                   "{} - Constructed Languages".format(guild.get_channel(790362808332058674).mention),
+                   "• Discussion of Constructed Languages (conlangs) that aren't the Na'vi language.\n",
                    "{} - Mature Art (**18+ Only**)".format(guild.get_channel(751162981957501089).mention),
                    "• For tasteful, mature art and anatomy studies. Pornography is *strictly* forbidden and will result in an immediate ban.\n"]
                    
@@ -241,14 +221,14 @@ async def adminMsgs(ctx, bot, guild):
         
         embedd = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715043968886505485).name), description=value3, color=config.reportColor)
         
-        roleplay = ["{}".format(guild.get_channel(739559785665396828).mention),
-                    "• Community hub for Roleplay servers.\n"]
+        partnered = ["{}".format(guild.get_channel(788100741494472765).mention),
+                    "• Community hub for partnered servers.\n"]
         
         value5 = ""
-        for entry in roleplay:
+        for entry in partnered:
             value5 = value5 + entry + "\n"
             
-        embedg = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(739559504097837169).name), description=value5, color=config.reportColor)
+        embedg = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(788100626361090171).name), description=value5, color=config.reportColor)
         
         other_languages = ["{}".format(guild.get_channel(718237500216442902).mention),
                            "• German / Deutsch\n",
@@ -307,7 +287,7 @@ async def adminMsgs(ctx, bot, guild):
             
         embedj = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(759900601403834419).name), description=value8, color=config.reportColor)
         
-        changeLog = "12/11/2020 - Updated description of the LEP channel. Removed defunct invite link from Resources.\n11/26/2020 - Ran to update emojis on the category headers and fix the spacers.\n11/23/2020 - Added three missing channels\n11/1/2020 - Ran to update emojis on the channel names.\n10/5/2020 - Updated the channel formatting and added new channels.\n10/15/2020 - Fixed the description for {} and updated the Role Descriptions.".format(guild.get_channel(757026975696027688).mention)
+        changeLog = "12/22/2020 - Added the conlangs channel to the channel descriptions.\n12/14/2020 - Merged the Roleplay section into the new Partnered Servers section."
         
         embedf = discord.Embed(title="What's Changed (Why are there notifications?)\n――――――――――", description=changeLog, color=config.reportColor)
         
@@ -327,41 +307,12 @@ async def adminMsgs(ctx, bot, guild):
 
         await channel.send(embed=embedk)
         await channel.send(embed=embeda)
+        await channel.send(embed=embedg)
         await channel.send(embed=embedb)
         await channel.send(embed=embedc)
         await channel.send(embed=embedd)
-        await channel.send(embed=embedg)
         await channel.send(embed=embedh)
         await channel.send(embed=embede)
         await channel.send(embed=embedi)
         await channel.send(embed=embedj)
         await channel.send(embed=embedf)
-        
-        path1 = 'files/resources1.txt'
-        path2 = 'files/resources2.txt'
-        path3 = 'files/resources3.txt'
-        path4 = 'files/resources4.txt'
-
-        fh = open(path1, 'r', encoding="utf-8")
-        file1 = fh.read()
-        fh.close()
-
-        fh = open(path2, 'r', encoding="utf-8")
-        file2 = fh.read()
-        fh.close()
-
-        channel = guild.get_channel(resourcesChannel)
-
-        await channel.send(file1)
-        await channel.send(file2)
-        
-        fh = open(path3, 'r', encoding="utf-8")
-        file1 = fh.read()
-        fh.close()
-        
-        fh = open(path4, 'r', encoding="utf-8")
-        file2 = fh.read()
-        fh.close()
-        
-        await channel.send(file1)
-        await channel.send(file2)

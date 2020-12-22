@@ -969,10 +969,13 @@ class Utility(commands.Cog):
 
                 return parsed_word_list
 
-            first_time = True
+            nv_first_time = True
+            en_first_time = True
+            slang_first_time = True
             found = False
             unmod_found = False
             nv_found = False
+            slang_found = False
             found_count = 0
             results_list = []
             results = ''
@@ -983,8 +986,9 @@ class Utility(commands.Cog):
                     try:
                         word_entry = dictionary[word.lower()]
                         unmod_found = True
-                        if first_time:
+                        if nv_first_time:
                             results += "**Na'vi Words:**\n"
+                            nv_first_time = False
                         results += buildResults(i, word_entry, word, word, "", False)
                         found_count += len(word_entry)
                     # No exact match found
@@ -1009,6 +1013,9 @@ class Utility(commands.Cog):
                             word_entry = dictionary[parsed_word[word]['stripped'].lower()]
                             check = buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], False)
                             if check not in results:
+                                if nv_first_time:
+                                    results += "**Na'vi Words:**\n"
+                                    nv_first_time = False
                                 results += buildResults(i, word_entry, word, parsed_word[word]['stripped'].lower(), parsed_word[word]['notes'], True)
                                 nv_found = True
                                 found_count += len(word_entry)
@@ -1024,14 +1031,30 @@ class Utility(commands.Cog):
                             x = re.search(r"\b"+word+"$", sub['translation'])
                             y = re.search(r"\b"+word+"[,]", sub['translation'])
                             if x != None or y != None:
-                                if first_time:
+                                if en_first_time:
                                     results += "\n**Reverse Lookup Results:**\n"
+                                    en_first_time = False
                                 found = True
                                 found_count += 1
                                 results += "`{}.` **{}** *{}* {}\n".format(i+1, key, sub['partOfSpeech'], sub['translation'])
                 
                 # No results found at all
-                if not found and not nv_found and not unmod_found:
+                if not searchAll:
+                    with open('cogs/shared/files/colloquial_dict.json', 'r', encoding='utf-8') as fh:
+                        colloquial_dict = json.load(fh)
+                        
+                    try:
+                        word_entry = colloquial_dict[word.lower()]
+                        slang_found = True
+                        if slang_first_time:
+                            results += "\n**Colloquial Dictionary Results:**\n"
+                            slang_first_time = False
+                        results += buildResults(i, word_entry, word, word, "", False)
+                        found_count += len(word_entry)
+                    except KeyError:
+                        continue
+                
+                if not found and not nv_found and not unmod_found and not slang_found:
                     results += "`{}.` **{}** not found.\n".format(i+1, word_list[i])
                     
                 results += "\n"
@@ -1039,9 +1062,6 @@ class Utility(commands.Cog):
                 if 1900 < len(results) < 2048:
                     results_list.append(results)
                     results = ''
-            
-                if first_time:
-                    first_time = False
                     
             results_list.append(results)
             
