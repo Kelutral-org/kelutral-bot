@@ -41,10 +41,15 @@ PRID = 748700165266866227
 
 # Kelutral Channels
 general = 715296162394931340
+rulesChannel = 715727832063410207
 modLog = 715052686487191583
 lepChannel = 715988382706303038
 regChannel = 768599416114118656
 newRegChannel = 768627265037664257
+timeoutChannel = 793156160856916009
+
+# Kelutral Roles
+timeoutRole = 782851113254649876
 
 # Pandora Rising Channels
 pr_modLog = 748718468303683677

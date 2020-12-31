@@ -3,6 +3,7 @@ import discord
 
 from discord.ext.commands import Bot
 from discord.ext import commands
+from discord.utils import get
 
 import asyncio
 import random
@@ -649,17 +650,50 @@ async def resourcesUpdate(ctx):
     with open('files/resources4.txt', 'r', encoding='utf-8') as fh:
         await channel.send(fh.read())
 
+@kelutralBot.command(name="timeout")
+async def timeout(ctx, timeout_user: discord.Member, duration):
+    if ctx.message.author in config.modRoles:
+        def check(reaction, user):
+            emojis = ['✔️']
+            return str(reaction.emoji) in emojis and user.id == timeout_user.id
+        duration = int(duration) * 60
+        timeout_channel = get(ctx.guild.text_channels, id=config.timeoutChannel)
+        timeout_role = get(ctx.guild.roles, id=config.timeoutRole)
+        await timeout_user.add_roles(timeout_role)
+        
+        message = await timeout_channel.send(f"Uh-oh {timeout_user.mention}, looks like you've broken the rules and been timed out by a moderator for {duration/60} minutes. During this time, please read the rules in {get(ctx.guild.text_channels, id=config.rulesChannel).mention} and after {duration/60} minutes, a confirmation will appear on this message allowing you to indicate that you have read the rules and understand them.")
+        await asyncio.sleep(duration)
+        
+        await message.add_reaction("✔️")
+        await message.edit(content="If you have read and agree to abide by the rules, please click the ✔️.")
+        
+        try:
+            reaction, user = await kelutralBot.wait_for('reaction_add', timeout=1000, check=check)
+        except asyncio.TimeoutError:
+            await message.edit(content=f"Timeout exceeded. Please DM a moderator to have the {timeout_role.mention} role removed.")
+        else:
+            await timeout_user.remove_roles(timeout_role)
+            await message.delete()
+    
+    
+    
+    
+
 ##-----------------------Error Handling-------------------##
 # Error Handling for !help
 @help.error
 async def help_error(ctx, error):
    if isinstance(error, commands.CommandError):
        await ctx.send(embed=config.syntax)
+       
+def main():
 
-kelutralBot.load_extension('cogs.kelutral.main')
-kelutralBot.load_extension('cogs.pandora_rising.main')
-kelutralBot.load_extension('cogs.shared.main')
-kelutralBot.load_extension('cogs.shared.kelutral_listener')
-kelutralBot.load_extension('cogs.shared.pandora_rising_listener')
+    kelutralBot.load_extension('cogs.kelutral.main')
+    kelutralBot.load_extension('cogs.pandora_rising.main')
+    kelutralBot.load_extension('cogs.shared.main')
+    kelutralBot.load_extension('cogs.shared.kelutral_listener')
+    kelutralBot.load_extension('cogs.shared.pandora_rising_listener')
 
-kelutralBot.run(config.token)
+    kelutralBot.run(config.token)
+    
+main()

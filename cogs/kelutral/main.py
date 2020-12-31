@@ -571,13 +571,13 @@ class Utility(commands.Cog):
                        {"🕵️ inferential" : 'ats'},               # Inferential
                        {"formal, ceremonial" : 'uy'}]         # Ceremonial
                                       
-            showStress = False
+            showStress = True
             showSource = False
             searchAll = False
             t1 = time.time()
             
             if "-s" in words:
-                showStress = True
+                showStress = False
                 words.remove("-s")
             
             if "-src" in words:
