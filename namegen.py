@@ -116,7 +116,7 @@ def applyRule(ruleID):
 
 # Cleanup the input rawname by replacing all cases of illegal doubles, then capitalizing the result
 def cleanUp(rawName):
-    return rawName.replace("kxkx", "kx").replace("pxpx", "px").replace("txtx", "tx").capitalize()
+    return rawName.replace("kxkx", "kx").replace("pxpx", "px").replace("txtx", "tx").replace("aa", "a").replace("ää", "ä").replace("ee", "e").replace("ii", "i").replace("ìì", "ì").replace("oo", "o").replace("uu", "u").capitalize()
 
 def nameGen(numSyllables, letterPrefs):  
     output = ""

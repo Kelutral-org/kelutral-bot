@@ -7,11 +7,12 @@ from discord.utils import get
 
 import os
 import glob
+import json
 from datetime import datetime
 
-import json
-
 import config
+import kt_config
+import pr_config
 
 ## -- Variables
 
@@ -35,9 +36,9 @@ def getStats(date):
         
         return stat1
 
-    joins1 = checkFile('files/logs/join_data/'+ date + '*.tsk')
-    leaves1 = checkFile('files/logs/leave_data/'+ date + '*.tsk')
-    rds1 = checkFile('files/logs/rds/'+ date + '*.tsk')
+    joins1 = checkFile('kelutral-bot/files/logs/join_data/'+ date + '*.tsk')
+    leaves1 = checkFile('kelutral-bot/files/logs/leave_data/'+ date + '*.tsk')
+    rds1 = checkFile('kelutral-bot/files/logs/rds/'+ date + '*.tsk')
     
     return joins1, leaves1, rds1
     
@@ -69,8 +70,9 @@ def updateDirectory():
     
     config.directory = config.reloadDir()
     
-async def roleUpdate(user):
+async def roleUpdate(user, ctx):
     i = 0
+    guild = user.guild
     activeRoles = user.guild.roles
     
     # Retrieves the user profile
@@ -80,46 +82,86 @@ async def roleUpdate(user):
     message_count = profile['message count']
     language_pref = profile['language']
     
-    # Retrieves the current and next rank
-    current_rank = get(activeRoles, id=profile['rank']['id'])
-    next_rank_index = config.activeRoleIDs.index(current_rank.id) - 1
-    next_rank = get(activeRoles, id=config.activeRoleIDs[next_rank_index])
-    
-    now = datetime.strftime(datetime.now(), '%H:%M')
-    if message_count >= config.activeRoleThresholds[next_rank_index]:
-        await user.add_roles(next_rank)
-        if current_rank.id != config.frapoID:
-            await user.remove_roles(current_rank)
-            print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
-        else:
-            print(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role.')
+    if guild.id == kt_config.guild:
+        # Retrieves the current and next rank
+        current_rank = get(activeRoles, id=profile['rank']['id'])
+        next_rank_index = kt_config.activeRoleIDs.index(current_rank.id) - 1
+        next_rank = get(activeRoles, id=kt_config.activeRoleIDs[next_rank_index])
         
-        if language_pref == "English":
-            embed=discord.Embed(colour=config.rankColor)
-            embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + next_rank.name + " (" + config.activeRoleDict[next_rank_index][1] + ").", inline=False)
-            embed.set_thumbnail(url=user.guild.icon_url)
-        elif language_pref == "Na'vi":
-            embed=discord.Embed(colour=config.rankColor)
-            embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + next_rank.name + ".", inline=False)
-            embed.set_thumbnail(url=user.guild.icon_url)
-        
-        try:
-            if user.dm_channel is None:
-                await user.create_dm()
-            await user.send(embed=embed)
-        except:
-            print(now + ' -- Cannot DM this user.')
-        
-        # Updates the directory count.
-        profile['rank'] = {
-            "id" : config.activeRoleDict[next_rank_index][0],
-            "translation" : config.activeRoleDict[next_rank_index][1]
-            }
-        
-        with open(config.directoryFile, 'w', encoding='utf-8') as fh:
-            json.dump(config.directory, fh)
+        now = datetime.strftime(datetime.now(), '%H:%M')
+        if message_count >= kt_config.activeRoleThresholds[next_rank_index]:
+            await user.add_roles(next_rank)
+            if current_rank.id != kt_config.frapoID:
+                await user.remove_roles(current_rank)
+                config.log(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
+            else:
+                config.log(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role.')
             
-        config.directory = config.reloadDir()
+            if language_pref == "English":
+                embed=discord.Embed(color=config.rankColor)
+                embed.add_field(name="New Rank Achieved on Kelutral.org", value="**Congratulations!** By participating in the community, you've leveled up! You're now a " + next_rank.name + " (" + kt_config.activeRoleDict[next_rank_index][1] + ").", inline=False)
+                embed.set_thumbnail(url=user.guild.icon_url)
+            elif language_pref == "Na'vi":
+                embed=discord.Embed(color=config.rankColor)
+                embed.add_field(name="Mipa txìntin lu ngaru mì Helutral.org", value="**Seykxel si nitram!** Nga slolu " + next_rank.name + ".", inline=False)
+                embed.set_thumbnail(url=user.guild.icon_url)
+            
+            try:
+                if user.dm_channel is None:
+                    await user.create_dm()
+                await user.send(embed=embed)
+            except:
+                config.log(now + ' -- Cannot DM this user.')
+            
+            # Updates the directory count.
+            profile['rank'] = {
+                "id" : kt_config.activeRoleDict[next_rank_index][0],
+                "translation" : kt_config.activeRoleDict[next_rank_index][1]
+                }
+            
+    elif guild.id == pr_config.guild:
+        # Retrieves the current and next rank
+        current_rank = get(activeRoles, id=profile['pr_rank']['id'])
+        if current_rank == None:
+            return
+        else:
+            current_rank_index = pr_config.activeRoleIDs.index(current_rank.id)
+            for threshold in pr_config.activeRoleThresholds:
+                if message_count > threshold:
+                    next_rank_index = pr_config.activeRoleThresholds.index(threshold)
+                    break
+            next_rank = get(activeRoles, id=pr_config.activeRoleIDs[next_rank_index])
+            
+            now = datetime.strftime(datetime.now(), '%H:%M')
+            if message_count >= pr_config.activeRoleThresholds[next_rank_index] and current_rank_index != next_rank_index:
+                await user.add_roles(next_rank)
+                if current_rank.id != pr_config.defaultID and current_rank.id != next_rank.id:
+                    await user.remove_roles(current_rank)
+                    config.log(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role and removed the ' + current_rank.name + ' role.')
+                else:
+                    config.log(now + ' -- Gave ' + user.name + ' the ' + next_rank.name + ' role.')
+                
+                if language_pref == "English":
+                    embed=discord.Embed(color=config.rankColor)
+                    embed.add_field(name="New Rank Achieved", value="**Congratulations!** By participating in the community, you've leveled up! You're now " + next_rank.name + ".", inline=False)
+                    embed.set_thumbnail(url=user.guild.icon_url)
+                    embed.set_footer(text=f"Use !profile @{user.name} to check your progress to the next rank.")
+                elif language_pref == "Na'vi":
+                    embed=discord.Embed(color=config.rankColor)
+                    embed.add_field(name="Mipa txìntin lu ngaru", value="**Seykxel si nitram!** Nga slolu " + next_rank.name + ".", inline=False)
+                    embed.set_thumbnail(url=user.guild.icon_url)
+                
+                await ctx.send(embed=embed)
+                
+                # Updates the directory count.
+                profile['pr_rank'] = {
+                    "id" : pr_config.activeRoleIDs[next_rank_index]
+                    }
+            
+    with open(config.directoryFile, 'w', encoding='utf-8') as fh:
+        json.dump(config.directory, fh)
+        
+    config.directory = config.reloadDir()
         
 async def adminMsgs(ctx, bot, guild):
     user = ctx.message.author
@@ -149,8 +191,8 @@ async def adminMsgs(ctx, bot, guild):
         
         embeda = discord.Embed(title="Role Descriptions\n――――――――――", description=value, color=config.reportColor)    
         
-        path1 = 'files/info1.txt'
-        path2 = 'files/info2.txt'
+        path1 = 'kelutral-bot/files/info1.txt'
+        path2 = 'kelutral-bot/files/info2.txt'
         
         serverInfo = ["{} - Rules".format(guild.get_channel(rulesChannel).mention),
                       "• Explains our community values, and the rules that arise from them.\n",
@@ -176,8 +218,10 @@ async def adminMsgs(ctx, bot, guild):
             
         embedb = discord.Embed(title="{}\n――――――――――".format(guild.get_channel(715048353876017252).name), description=value1, color=config.reportColor)
         
-        naviLanguage = ["{} - Lessons".format(guild.get_channel(715050231967776778).mention),
+        naviLanguage = ["{} - Useful Tools".format(guild.get_channel(715050231967776778).mention),
                         "• Links to useful resources for learners.\n",
+                        "{} - Lessons".format(guild.get_channel(801460980805664778).mention),
+                        "• Lesson signup and scheduling.\n",
                         "{} - Classroom".format(guild.get_channel(715046084837376061).mention),
                         "• A place for learners to ask questions, practice, and help others learn the Na'vi language.\n"
                         "{} - In Na'vi Only".format(guild.get_channel(715050499203661875).mention),

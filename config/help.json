@@ -1,0 +1,218 @@
+{
+	"8ball" : {
+		"name" : "**8ball**",
+		"aliases" : ["None"],
+		"short" : "Your classic 8ball command. Ask a question, get a random answer!\n",
+		"usage" : "`!8ball <question>`",
+		"example" : "`!8ball Is Eytukan the best bot?`",
+		"description" : "Your classic 8ball command. Ask a question, get a random answer!\n",
+		"tags" : ["fun","kelutral","pandora rising"]
+	},
+	"about" : {
+		"name" : "**about**",
+		"aliases" : ["teri"],
+		"short" : "Shows information about the bot.\n",
+		"usage" : "`!about`",
+		"example" : "`!about`",
+		"description" : "Shows information about the bot.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"accept" : {
+		"name" : "**accept**",
+		"aliases" : ["None"],
+		"short" : "Accepts a student application in __The Neytiri Project__. `teacher only`\n",
+		"usage" : "`!accept <student_id>`",
+		"example" : "`!accept 81105065955303424`",
+		"description" : "Accepts a student application in __The Neytiri Project__ to grant them access to your teaching channel. `teacher only`\n",
+		"tags" : ["tnp","kelutral"]
+	},
+	"ban" : {
+		"name" : "**ban**",
+		"aliases" : ["yitx"],
+		"short" : "Bans the target member. `admin only`\n",
+		"usage" : "`!ban @<member>`",
+		"example" : "`!ban @JohnSmith#1111`",
+		"description" : "Bans the target member. This command is an admin only command.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"createprofile" : {
+		"name" : "**createprofile**",
+		"aliases" : ["None"],
+		"short" : "Creates a teacher profile to pin in a teacher channel in __The Neytiri Project__. `teacher only`\n",
+		"usage" : "`!createprofile`",
+		"example" : "`!createprofile`",
+		"description" : "Creates a teacher profile to pin in a teacher channel in __The Neytiri Project__. This command is for teachers only.\n",
+		"tags" : ["tnp","kelutral"]
+	},
+	"faq" : {
+		"name" : "**faq**",
+		"aliases" : ["sìpawm"],
+		"short" : "Displays a specified FAQ entry. `admin and teacher only`\n",
+		"usage" : "`!faq <category> <entry>`",
+		"example" : "`!faq hrh`",
+		"description" : "Displays a spedified FAQ entry. Leave blank for a full list of available shortcuts. Usable by admins and teachers only.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"generate" : {
+		"name" : "**generate**",
+		"aliases" : ["ngop"],
+		"short" : "Generates a specified number of Na'vi names.\n",
+		"usage" : "`!generate <number of names> <number of syllables> <preferred letters>`",
+		"example" : "`!generate 10 2`",
+		"description" : "Generates the specified number of Na'vi names (up to 20) with the number of specified syllables (up to 5). Additionally, the user can specify letters they prefer to weight the names in favor of those letters.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"help" : {
+		"name" : "**help**",
+		"aliases" : ["srung"],
+		"short" : "Shows this menu!\n",
+		"usage" : "`!help <command>`",
+		"example" : "`!help thanks`",
+		"description" : "Shows a list of commands and their syntax. `You are here!`\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"horen" : {
+		"name" : "**horen**",
+		"aliases" : ["None"],
+		"short" : "Searches the Horen leNa'vi.\n",
+		"usage" : "`!horen <#.#.#.#|term>`",
+		"example" : "`!horen 2.1.1",
+		"description" : "Searches the Horen leNa'vi for the specified rule or term. Porting of Horen to Discord is in progress, so some rules may be missing.\n",
+		"tags" : ["utility","kelutral"]
+	},
+     "inquiry" : {
+          "name" : "**inquiry**",
+          "aliases" : ["inq"],
+          "short" : "Opens an inquiry that has been asked to Paul.\n",
+          "usage" : "```!inquiry\nMain Tags:\n     -r : remove - removes an entry. eg. !inq -r <entry hash>\n     -w : write new - creates a new entry. eg. !inq -w <question>\n     -s : search - searches for an entry by specified parameter. Additional parameters include:\n          -a : author id - Discord numerical id. eg. !inq -s -a 81105065955303424\n          -id : entry hash - searches for an entry by hash. eg. !inq -s -id d7b36035371a11eb820c4485006a75f1\n          -t : tags - searches for entries by tag. eg. !inq -s -t <tag>\n     -u : update - updates a specific attribute of an entry by provided flag. Additional flags include:\n          -a : response - adds a verified answer to the entry. eg. !inq -u -a <answer from Paul>\n          -t : tags - adds tags after entry creation. eg. !inq -u -t <comma, separated, tags>\n```",
+          "example" : "`!inq -w This is a new inquiry.`",
+          "description" : "Opens an inquiry database entry for a question asked to Paul for cataloguing. The inquiry can be updated with tags for quick searching, and with a response if received.\n",
+          "tags" : ["utility","kelutral"]
+     },
+	"invite" : {
+		"name" : "**invite**",
+		"aliases" : ["None"],
+		"short" : "Displays the specified server invite.\n",
+		"usage" : "`!invite <kelutral/pr>`",
+		"example" : "`!invite kelutral`",
+		"description" : "Displays the specified server invite. Use `kelutral`, or `pandora rising`/`pr` to specify which server invite you want to show.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"leaderboard" : {
+		"name" : "**leaderboard**",
+		"aliases" : ["None"],
+		"short" : "Shows the server message or thanks leaderboard.\n",
+		"usage" : "`!leaderboard <messages | thanks>`",
+		"example" : "`!leaderboard messages",
+		"description" : "Shows the server message or thanks count leaderboard.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"lep" : {
+		"name" : "**lep**",
+		"aliases" : ["None"],
+		"short" : "Usable only in DMs. Allows anonymous messaging in the <#715988382706303038> channel.\n",
+		"usage" : "`!lep <message>`",
+		"example" : "`!lep Call tea ma frapo.`",
+		"description" : "Usable in DMs with the bot only. Allows semi-anonymous messaging in the <#715988382706303038> channel. Author is still visible to the mod team to prevent abuse.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"profile" : {
+		"name" : "**profile**",
+		"aliases" : ["yì"],
+		"short" : "Shows the target member's profile.\n",
+		"usage" : "`!profile @<member> <language*>`",
+		"example" : "`!profile @JohnSmith#1111 English`",
+		"description" : "Shows the target member's profile. Is also used to update language output preferences for your own profile by adding `English` or `Na'vi`.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"quit" : {
+		"name" : "**quit**",
+		"aliases" : ["ftang"],
+		"short" : "Shuts down the Bot. `admin only`\n",
+		"usage" : "`!quit`",
+		"example" : "`!quit`",
+		"description" : "Shuts down the Bot. This is an admin only command.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"quiz" : {
+		"name" : "**quiz**",
+		"aliases" : ["fmetok"],
+		"short" : "Starts a vocabulary quiz.\n",
+		"usage" : "`!quiz <rounds> <type of test | English/Na'vi>`",
+		"example" : "`!quiz 4 English`",
+		"description" : "Starts a vocabulary quiz. Defaults to 1 Na'vi word if no arguments. \nUse `English` for Na'vi to English testing and `Na'vi` for English to Na'vi testing.\n",
+		"tags" : ["fun","kelutral"]
+	},
+	"qotd" : {
+		"name" : "**qotd**",
+		"aliases" : ["tìpawm"],
+		"short" : "Controls Question of the Day functionality.\n",
+		"usage" : "`!qotd <function> \"question\" <DD-MM-YYYY*>`",
+		"example" : "`!qotd add \"Hello World\" 02-02-2020`",
+		"description" : "Controls Question of the Day functionality. Valid functions are **add**, **edit**, **delete**, **read**, and **schedule**. Date is optional for **add**, and if unspecified will default to the next available date.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"search" : {
+		"name" : "**search**",
+		"aliases" : ["None"],
+		"short" : "Searches the dictionary for the specified word(s).\n",
+		"usage" : "`!search <words>`",
+		"example" : "`!search kaltxì si`",
+		"description" : "Searches the dictionary for the specified word(s) in Na'vi or English. Partial infix/affix support, but there are bound to be a few bugs.\n",
+		"tags" : ["utility","kelutral"]
+	},
+	"serverinfo" : {
+		"name" : "**serverinfo**",
+		"aliases" : ["None"],
+		"short" : "Shows detailed information about the server.\n",
+		"usage" : "`!serverinfo`",
+		"example" : "`!serverinfo`",
+		"description" : "Shows detailed information about the current server.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"showdata" : {
+		"name" : "**showdata**",
+		"aliases" : ["sd"],
+		"short" : "Shows join/leave statistics for the specified date. `admin only`\n",
+		"usage" : "`!showdata <DD-MM-YYYY>`",
+		"example" : "`!showdata 15-06-2019`",
+		"description" : "Shows join/leave statistics for the specified date. Asterisks `*` can \nbe used to specify a range, ie. **-06-2020 for all days in June, 2020.\n",
+		"tags" : ["utility","kelutral","pandora rising"]
+	},
+	"thanks" : {
+		"name" : "**thanks**",
+		"aliases" : ["irayo"],
+		"short" : "Thanks the Bot.\n",
+		"usage" : "`!thanks`",
+		"example" : "`!thanks`",
+		"description" : "Thanks the Bot. He does a good job, so show some love!\n",
+		"tags" : ["fun","kelutral","pandora rising"]
+	},
+	"tnp" : {
+		"name" : "**tnp**",
+		"aliases" : ["None"],
+		"short" : "Begins registration for __The Neytiri Project__.\n",
+		"usage" : "`!tnp`",
+		"example" : "`!tnp`",
+		"description" : "Begins registration for __The Neytiri Project__.\n",
+		"tags" : ["tnp","kelutral"]
+	},
+	"register" : {
+		"name" : "**register**",
+		"aliases" : ["None"],
+		"short" : "Student application for __The Neytiri Project__.\n",
+		"usage" : "`!register`",
+		"example" : "`!register`",
+		"description" : "Begins the application for students interested in __The Neytiri Project__.\n",
+		"tags" : ["tnp","kelutral"]
+	},
+	"unregister" : {
+		"name" : "**unregister**",
+		"aliases" : ["None"],
+		"short" : "Unregisters a user from __The Neytiri Project__.\n",
+		"usage" : "`!unregister`",
+		"example" : "`!unregister`",
+		"description" : "Unregisters a user from __The Neytiri Project__.\n",
+		"tags" : ["tnp","kelutral"]
+	}
+}

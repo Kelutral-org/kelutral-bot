@@ -1,0 +1,153 @@
+{
+	"English" : {
+		"8ball" : {
+			"options" : ["Seems unlikely.","Probably not.","Try again later.","Outlook is favorable.","Yes","No","Unclear","Not on your life.","Definitely","Without a doubt.","Try asking that question a different way.","Skxawng.","I don't know, let's ask Tsrezì!"],
+			"response" : "{} says: \"**{}**\"\n\nEytukan says: \"{}\""
+		},
+		"generate" : {
+			"name" : "Name ",
+			"success" : "Here are your names, {}"
+		},
+		"profile" : {
+			"embed" : {
+                    "title" : "Kelutral.org Profile for",
+				"join_date" : "Join Date: ", 
+				"language" : "Preferred Language: ",
+				"pronouns" : "Preferred Pronouns: ",
+				"current_rank" : "Current Rank: ",
+				"message_count" : "Messages: ",
+				"server_leaderboard" : "Server Leaderboard Rank: ",
+				"times_thanked" : "Karma: ",
+				"footer" : "Use !profile @{} [English/Na'vi] to change your output settings."
+			},
+			"max_rank" : "{} messages.",
+			"rank_progress" : "{} messages. They need ** {} more messages** in order to reach {} ({})"
+		},
+		"thanks" : "You're welcome, {}",
+		"qotd" : {
+			"created" : "Created.",
+			"edited" : "Edited.",
+			"deleted" : "Deleted.",
+			"read" : "That question of the day is '{}'.",
+			"schedule" : "**Upcoming Questions of the Day:**"
+		},
+		"responses" : ["Yes?","You called?","Listen, the pings get really annoying. Try pinging {} instead.","This isn't how I wanted this to happen, but I think we should see other people.","They don't pay me enough for this.","I like you, so I'm gonna say this once: **Don't ping me again.**\n\n||jkjk||","Why are you pinging me instead of learning Na'vi? You should be learning Na'vi right now! Go! Do it!","{} told me that you like him better than me.","I don't have time to explain why I don't have time to explain.","\"Ma EyTuKaN, mA eYtUkAn\", don't you have something better to do with your time?","Okay, look. I'll let you in on a little secret. ||Mako wrote these responses becau||\n\nShutting down..."],
+		"leaderboard": {
+               "messages": "messages",
+               "karma": "karma",
+               "rank": "Rank #{}",
+               "nn": "Na'vi only messages",
+               "footer": "You are ranked {} overall."
+          },
+          "errors" : {
+			"generate_error" : "**Value Error** \n",
+			"generate_errors" : {
+				"syllables" : "Maximum syllable count allowed by the bot is 5. It is highly recommended that you select a name between 1 and 3 syllables in length.",
+				"names" : "Maximum name count is 20.",
+				"zero" : "Missing required arguments. If you need help with a command, type `!help <command name>`."
+			},
+			"help" : "**Help Error: ** \n",
+			"help_errors" : {
+				"unknown_command" : "Unknown command specified. Please check your spelling and try again, or use `!help` to see a list of all commands."
+			},
+			"permission" : "**Permission Error:** \n",
+			"permission_errors" : {
+				"missing_perms" : "You do not have permission to run this command!",
+				"dm_only" : "This command is usable in DMs only."
+			},
+			"profile" : "**Profile Error** \n",
+			"profile_errors" : {
+				"invalid_language" : "Invalid criteria entered.** \n Please select `English` or `Na'vi` to update your current settings.",
+				"missing_perms" : "You can only change your own output settings."
+			},
+			"qotd" : "**QOTD Error:** \n",
+			"qotd_errors" : {
+				"date_taken" : "A QOTD for this day already exists. The next available day to create a QOTD is {}.",
+				"no_file" : "No QOTD exists for that date!",
+				"invalid_function" : "Invalid function entered. The valid functions are:\n**- add\n- edit\n- delete\n- view\n- schedule**"
+			},
+			"syntax" : "**Syntax Error:** \n",
+			"syntax_errors" : {
+				"less_arguments" : "Too many arguments used.",
+				"more_arguments" : "{} is a required argument that is missing.",
+				"general" : "If you need help with a command, please use `!help <command name>`."
+			}
+		}
+	},
+	"Na'vi" :
+	{
+		"8ball" : {
+			"options" : ["Ke fpìl oe tsafya.", "Skxakep kehe.", "Fmi nìmun.", "Lam tsafya.", "Srane.", "Kehe.", "Ke lu law.", "Sto oe 'iveyng.", "Kezemplltxe.", "Am'ake.", "Pawm tsat nìfya'o alahe.", "Skxawng.", "Komum oe, pawm Tsrezìta ko."],
+			"response" : "{} plltxe: \"**{}**\"\n\nEytukan plltxe: \"{}\""
+		},
+		"generate" : {
+			"name" : "Tstxo ",
+			"success" : "Faystxo lu ngaru ma {}"
+		},
+		"profile" : {
+			"embed" : {
+                    "title": "Aysäomum teri",
+				"join_date" : "Trr a tsatute zola'u: ", 
+				"language" : "Nulnawnewa Lì'fya: ",
+				"pronouns" : "Nulnawnewa fya'o tìsyusawä: ",
+				"current_rank" : "Txìntin: ",
+				"message_count" : "Ayupxare: ",
+				"server_leaderboard" : "Klltseng mì Helutral: ",
+				"times_thanked" : "Holpxay aloä a tute fìpor irayo soli: ",
+				"footer" : "Sar fayluta !yì @{} [English/Na'vi] fte leykivatem lì'fyati ngeyä."
+			},
+			"max_rank" : "'Upxare aketsuktiam ({}).",
+			"rank_progress" : "{} 'upxare.\n\nKin pol **{} 'upxareti** fte slivu {}"
+		},
+		"thanks" : "Tstunwi ma {}",
+		"qotd" : {
+			"created" : "Ngolop.",
+			"edited" : "Lolatem.",
+			"deleted" : "Skola'a.",
+			"read" : "Tsatìpawm lu '{}'.",
+			"schedule" : "**Haya srrä sìpawm:**"
+		},
+		"responses" : ["Peut new ngal?","Herahaw oe."],
+          "leaderboard": {
+               "messages": "'upxare",
+               "karma": "tute fìpor irayo soli",
+               "rank": "{} klltseng",
+               "nn": "'upxare a lu nìNa'vi nì'aw",
+               "footer": "Klltseng ngeyä lu {}"
+          },
+		"errors" : {
+			"generate_error" : "**Value Error** \n",
+			"generate_errors" : {
+				"syllables" : "Lì'kongä txantewä holpxay lu mrr. Sweylu txo ngal ftxivey tstxoti a lu tsa'ur lì'kong apxey, lì'kong amune, fu lìkong a'aw.",
+				"names" : "Stxoä txantxewä holpxay lu mevotsìng.",
+				"zero" : "Rutxe sar holpxayti a to kew lu apxa. Txo kivin srungti ngal, `!help generate`ri pamrel si nga."
+			},
+			"help" : "**Help Error: ** \n",
+			"help_errors" : {
+				"unknown_command" : "Kawnomuma tìnvit solar. \n Rutxe ftxey tìnvit awnomum ulte fmi nìmun, fu sar `!srung` fte tsive'a frasìnvit."
+			},
+			"permission" : "**Permission Error:** \n",
+			"permission_errors" : {
+				"missing_perms" : "Tsatìnvìri ke tsun tivìng Eytukanur!",
+				"dm_only" : "Tsatìnvìri tsun tìving mì snomo nì'aw."
+			},
+			"profile" : "**Profile Error** \n",
+			"profile_errors" : {
+				"invalid_language" : "Keyawra tìftxeyti solar. \n Rutxe ftxey lì'fyat alu `'Ìnglìsì` fu pum alu `Na'vi` fte livatem pumti ngeyä.",
+				"missing_perms" : "Nga tsun livatem ngeyä lì'fyati nì'aw."
+			},
+			"qotd" : "**QOTD Error:** \n",
+			"qotd_errors" : {
+				"date_taken" : "Fìtìpawm mi fkeytok! Haya trr a fkol tsun ngivop tìpawmit lu {}.",
+				"no_file" : "Kea tìpawm mi fkeytok mì tsatrr!",
+				"invalid_function" : "Keyawra tìftxeyti solar. Tìftxey aeyawr lu:\n**- add\n- edit\n- delete\n- view\n- schedule**"
+			},
+			"syntax" : "**Syntax Error:** \n",
+			"syntax_errors" : {
+				"less_arguments" : "Sìftxeyti solar nìhawng!",
+				"more_arguments" : "{} lu kawnina tìftxey a lu lekin.",
+				"general" : "Txo kivin futa tìnvìri Eytukan ngaru srung sivi, rutxe sar tìnvìt alu `!srung <tìnviä tstxo>`."
+			}
+		}
+	}
+}

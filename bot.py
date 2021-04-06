@@ -1,3 +1,7 @@
+## ----------------------- ##
+## KELUTRAL NETWORK BOT V2 ##
+## ----------------------- ##
+
 # -*- encoding: utf-8 -*-
 import discord
 
@@ -5,22 +9,15 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 from discord.utils import get
 
-import asyncio
-import random
+import json
 import time
 import os
-import json
-import re
-import uuid
 
 from datetime import datetime
-from datetime import timedelta
-
-from os import listdir
-from os.path import isfile, join
 
 import config
-import admin
+import kt_config
+import pr_config
 
 start_time = datetime.now()
 
@@ -31,192 +28,36 @@ kelutral = discord.Client()
 intents = discord.Intents.default()
 intents.members = True
 intents.reactions = True
+intents.presences = True
 kelutralBot = commands.Bot(command_prefix=config.prefix, help_command=None, intents=intents)
 
-## -- Initialize Twitter API
-import tweepy
-
-# Authenticate to Twitter
-auth = tweepy.OAuthHandler("YktlMB8CpIBGwwJbzEl4IPdnW", "mebKR1pwRwU2038sJTcJeXKEXfZ7t6khVmFoa5MGgYHY2SfHBc")
-auth.set_access_token("72386464-5V8OQIeM3bAX5BHTxQfrRpIPfl28bLJSf6evDhNVg","IDIjzUCoJvuI42s1aCpqgF7TnaSElkaGfYBPDpsIIWj2w")
-
-# Create API object
-api = tweepy.API(auth)
-
-##--------------------Global Variables--------------------##
-## -- -- For Q/MOTD
-
-            #Ja, Fe, Ma, Ap, Ma, Ju, Jl, Au, Se, Oc, No, De
-monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-
-naviVocab = [
-    # 0 1 2 3 4 5 6 7 actual
-    ["", "'aw", "mune", "pxey", "tsìng", "mrr", "pukap", "kinä"],
-    # 0 1 2 3 4 5 6 7 last digit
-    ["", "aw", "mun", "pey", "sìng", "mrr", "fu", "hin"],
-    # 0 1 2 3 4 5 6 7 first or middle digit
-    ["", "", "me", "pxe", "tsì", "mrr", "pu", "ki"],
-    # 0 1 2 3 4 powers of 8
-    ["", "vo", "zam", "vozam", "zazam"],
-    # 0 1 2 3 4 powers of 8 last digit
-    ["", "l", "", "", ""],
-]
-
-## -- Function for finding the next available date relative to the current date.
-def nextAvailableDate():
-    tomorrow = datetime.today() + timedelta(days=1)
-    nextDay = tomorrow.strftime("%d-%m-%Y")
-    fileName = 'files/qotd/' + str(nextDay) + '.tsk'
-    
-    while os.path.exists(fileName): # Iterates through the directory to find the first file that doesn't exist. That file is the next available date.
-        tomorrow = tomorrow + timedelta(days=1)
-        nextDay = tomorrow.strftime("%d-%m-%Y")
-        fileName = 'files/qotd/' + str(nextDay) + '.tsk'
-    return nextDay
-
-## -- System time check for QOTD and RSS Update.
-async def time_check():
-    await kelutralBot.wait_until_ready()
-    
-    message_channel = kelutralBot.get_channel(config.general)
-    bot_ready = kelutralBot.is_closed()
-
-    while not bot_ready:
-        now = datetime.strftime(datetime.now(),'%H:%M')
-        if config.send_time == now:
-            print(now + " -- Starting daily task check.")
-            
-            dateTimeObj = datetime.now()
-            timestampStr = dateTimeObj.strftime("%d-%m-%Y")
-            dateCheck = dateTimeObj.strftime("%m-%d-%Y")
-            fileName = 'files/qotd/' + timestampStr + '.tsk'
-            
-            onlyfiles = [f for f in listdir('files/config/splashes') if isfile(join('files/config/splashes', f))]
-            randomSplash = 'files/config/splashes/' + onlyfiles[random.randint(0,len(onlyfiles)-1)]
-            
-            with open(randomSplash, "rb") as image:
-                f = image.read()
-            
-            guild = await kelutralBot.fetch_guild(715043968886505484)
-            await guild.edit(banner=f)
-            
-            if os.path.exists(fileName):
-                print(now + " -- Found a QOTD to send")
-                with open(fileName, 'r') as fh:
-                    fileContents = fh.readlines(1)
-                    
-                strippedContents = fileContents[0].strip("['")
-                strippedContents = fileContents[0].strip("']")
-
-                os.remove(fileName)
-                
-                await message_channel.send(strippedContents)
-                await message_channel.edit(topic=strippedContents,reason="Mipa tìpawm fìtrrä.")
-
-                with open('files/qotd/calendar.tsk','r') as fh:
-                    fileContents = fh.read()
-
-                removeDate = fileContents.replace("\n" + timestampStr,'')
-                with open('files/qotd/calendar.tsk','w') as fh:
-                    fh.write(removeDate)
-                
-                time = 120
-                now = datetime.strftime(datetime.now(),'%H:%M')
-                print(now + " -- Sending QOTD")
-            else:
-                time = 120
-            
-            if dateCheck == config.sequelDate:
-                api.update_status("Yes (finally)")
-                print(now + " -- Sending Tweet to @avatarsequels")
-                time = 120
-            else:
-                responses = ["No.",
-                             "Still no.",
-                             "Stop asking, it's still no.",
-                             "Kehe (part., KE-he) \"No\"",
-                             "Nope.","Business as usual... No.",
-                             "What do you think? No.",
-                             "No. Go learn Na'vi at http://kelutral.org/",
-                             "One moment please\n*checks the report*\n*turns a few pages*\nOK, so the answer is no.",
-                             "BREAKING NEWS: We would like to announce that the first sequel of James Cameron's AVATAR has NOT been released yet."]
-                index = random.randint(0,len(responses)-1)
-                print(now + " -- Sending Tweet to @avatarsequels")
-                api.update_status(responses[index])
-                time = 120
-        else:
-            time = 60
-            
-        await asyncio.sleep(time)
-
-## -- English to Na'vi numberical conversion courtesy of Tirea Aean.
-def reverse(s): 
-    if len(s) == 0: 
-        return s 
-    else: 
-        return reverse(s[1:]) + s[0] 
-
-def wordify(input):
-    rev = reverse(input)
-    output = ""
-    if len(input) == 1:
-        if input == "0":
-            return "kewa"
-        if input == "1":
-            return "'awa"
-    for i, d in enumerate(rev):
-        if i == 0:  # 7777[7]
-            output = naviVocab[1][int(d)] + output
-            if int(d) == 1 and rev[1] != '0':
-                output = naviVocab[4][1] + output
-        elif i == 1:  # 777[7]7
-            if int((d)) > 0:
-                output = naviVocab[2][int(d)] + naviVocab[3][1] + output
-        elif i == 2:  # 77[7]77
-            if int(d) > 0:
-                output = naviVocab[2][int(d)] + naviVocab[3][2] + output
-        elif i == 3:  # 7[7]777
-            if int(d) > 0:
-                output = naviVocab[2][int(d)] + naviVocab[3][3] + output
-        elif i == 4:  # [7]7777
-            if int(d) > 0:
-                output = naviVocab[2][int(d)] + naviVocab[3][4] + output
-    for d in ["01", "02", "03", "04", "05", "06", "07"]:
-        if rev[0:2] == d:
-            output = output + naviVocab[4][1]
-        output = output.replace("mm", "m")
-        output += "a"
-        return output
-    
 ## -- Clear screen function
 def clear():
     if os.name == 'nt':
         _ = os.system('cls')
     else:
         _ = os.system('clear')
-    
-##                                                                                          Bot Events
-##-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## -- Bot Events
 @kelutralBot.event
 async def on_ready():
-    def update(newNameCount):
-        fileName = config.botFile
-        if os.path.exists(fileName): # If bot file exists
-            with open(fileName, 'r') as fh:
-                nameCount = json.load(fh)
-            nameCount[0] = nameCount[0] + newNameCount
-            with open(fileName, 'w') as fh:
-                json.dump(nameCount, fh)
-            
-        return nameCount[0]
+    def update_bot_stats(newNameCount):
+        with open(config.botFile, 'r') as fh:
+            botStats = json.load(fh)
+            nameCount = botStats["name_count"]
+            nameCount += newNameCount
         
-    nameCount = update(0)
+        with open(config.botFile, 'w') as fh:
+            json.dump(botStats, fh)
+            
+        return nameCount
+        
+    nameCount = update_bot_stats(0)
     game = discord.Game("generated " + "{:,}".format(nameCount) + " names!")
     
     await kelutralBot.change_presence(status=discord.Status.online, activity=game)
     
-    fileName = 'files/config/startup.txt'
+    fileName = 'kelutral-bot/files/config/startup.txt'
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
     
@@ -229,471 +70,135 @@ async def on_ready():
     clear()
     
     now = datetime.strftime(datetime.now(),'%H:%M')
-    print(now + " - Watching activity on the server...")
+    print(now + " - Watching activity on the network...")
     
-    kelutralBot.loop.create_task(time_check())
-
+    kelutralBot.loop.create_task(config.time_check(kelutralBot))
+    
 @kelutralBot.event
 async def on_command(ctx):
     now = datetime.now().strftime('%H:%M')
     command = ctx.message.content.split(" ")[0]
     if command != "!lep":
         arguments = ctx.message.content.replace(command, "")
-        print(now + " -- {}: {} executed the {} command with arguments:{}".format(ctx.message.author.name, ctx.message.author.id, command, arguments))
+        config.log(f"{ctx.message.author.name}: {ctx.message.author.id} executed the {command} command with arguments: {arguments}")
 
-@kelutralBot.command(name='inquiries', aliases=['inq'])
-async def inquiries(ctx, *inquiry):
-    inquiry = list(inquiry)
-    remove_mode = False
-    write_mode = False
-    update_mode = False
-    update_response = True
-    update_tags = False
-    search_mode = False
-    search_author = False
-    search_hex = False
-    search_tags = False
-    
-    with open('cogs/shared/files/inquirydatabase.json', 'r', encoding='utf-8') as fh:
-        inquiry_database = json.load(fh)
-    
-    if "-r" in inquiry:
-        inquiry.remove("-r")
-        remove_mode = True
-    elif "-w" in inquiry:
-        inquiry.remove("-w")
-        write_mode = True
-    elif "-s" in inquiry:
-        inquiry.remove("-s")
-        search_mode = True
-        if "-a" in inquiry:
-            inquiry.remove("-a")
-            search_author = True
-        elif "-id" in inquiry:
-            inquiry.remove("-id")
-            search_hex = True
-        elif "-t" in inquiry:
-            inquiry.remove("-t")
-            search_tags = True
-    elif "-u" in inquiry:
-        inquiry.remove("-u")
-        update_mode = True
-        if "-a" in inquiry:
-            inquiry.remove("-a")
-            update_response = True
-        elif "-t" in inquiry:
-            inquiry.remove("-t")
-            update_tags = True
-        entry_id = inquiry[0]
-        inquiry.remove(entry_id)
-        
-    else:
-        await ctx.send("No operating flag provided. Please use `-r`, `-w` or `-s`.")
-        return
-    
-    if [remove_mode, write_mode, search_mode, update_mode].count(True) > 1:
-        await ctx.send("Too many operating flags provided. Please only use one of `-r`, `-w` or `-s`.")
-        return
-        
-    joined_inquiry = ' '.join(inquiry)
-    
-    def search_function(ctx, key, value, search_term, search_item, slim):
-        results = ''
-        search = re.search(r""+search_term, str(search_item))
-        if search != None:
-            if slim:
-                results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nEntry ID: {}\n\n".format((key[0:40]+"`[...]`").replace("*","").replace("_", ""), ctx.guild.get_member(value['author']).mention, value['response'], value['id'])
-            else:
-                try:
-                    results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nDate Added: {} EST\nTags: {}\nEntry ID: {}\n\n".format(key, ctx.guild.get_member(value['author']).mention, value['response'], value['date'], value['tags'], value['id'])
-                except KeyError:
-                    results += "Inquiry: {}\nAuthor: {}\nResponse: {}\nDate Added: {} EST\nEntry ID: {}\n\n".format(key, ctx.guild.get_member(value['author']).mention, value['response'], value['date'], value['id'])
-        return results
-    
-    if search_mode:
-        results = ''
-        if search_author:
-            tag = 'author'
-            for key, value in inquiry_database.items():
-                results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
-        elif search_hex:
-            tag = 'id'
-            for key, value in inquiry_database.items():
-                results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
-        elif search_tags:
-            tag = 'tags'
-            for key, value in inquiry_database.items():
-                try:
-                    results += search_function(ctx, key, value, joined_inquiry, value[tag], False)
-                except KeyError:
-                    continue
-        else:
-            tag = ''
-            for key, value in inquiry_database.items():
-                results += search_function(ctx, key, value, joined_inquiry, key, False)
-        
-        if results != '':
-            if len(results) > 2048:
-                results = ''
-                for key, value in inquiry_database.items():
-                    if tag != '':
-                        results += search_function(ctx, key, value, joined_inquiry, value[tag], True)
-                    else:
-                        results += search_function(ctx, key, value, joined_inquiry, key, True)
-                try:    
-                    await ctx.send(embed=discord.Embed(title="Too many entries found, unable to show full descriptions.", description=results, color=config.reportColor))
-                except HTTPException:
-                    await ctx.send(embed=discord.Embed(description="**Error: Too many entries!**\nTry narrowing your search terms.", color=config.failColor))
-            else:
-                await ctx.send(embed=discord.Embed(title="Found Entries:", description=results, color=config.reportColor))
-        else:
-            await ctx.send(embed=config.database)
-        
-    elif write_mode:
-        entry_id = uuid.uuid1()
-        with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
-            inquiry_database[joined_inquiry] = {"date" : datetime.now().strftime("%m-%d-%Y, %H:%M.%S"), "author" : ctx.message.author.id, "response" : "", "tags" : "", "id" : entry_id.hex}
-            json.dump(inquiry_database, fh)
-        await ctx.send(embed=discord.Embed(title="Created Entry", description="Inquiry: {}\nAuthor: {}\nDate Added: {} EST\nEntry ID: {}\n\n".format(joined_inquiry, ctx.guild.get_member(inquiry_database[joined_inquiry]['author']).mention, inquiry_database[joined_inquiry]['date'], inquiry_database[joined_inquiry]['id'])))
-            
-    elif remove_mode:
-        for key, value in inquiry_database.items():
-            if joined_inquiry == value['id']:
-                removed_value = inquiry_database.pop(key)
-                with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
-                    json.dump(inquiry_database, fh)
-                await ctx.send(embed=config.success)
-                return
-        await ctx.send(embed=config.database)
-    
-    elif update_mode:
-        for key, value in inquiry_database.items():
-            if entry_id == value['id']:
-                if update_tags:
-                    value['tags'] = joined_inquiry
-                elif update_response:
-                    value['response'] = joined_inquiry
-                with open('cogs/shared/files/inquirydatabase.json', 'w', encoding='utf-8') as fh:
-                    json.dump(inquiry_database, fh)
-                await ctx.send(embed=config.success)
-                return
-        await ctx.send(embed=config.database)
-
-@kelutralBot.command(name='naviteri', aliases=['nt'])
-async def naviteri(ctx, *search):
-    user = ctx.message.author
-    results = ''
-    search = list(search)
-    searchTags = False
-    results_list = []
-    
-    if "-t" in search:
-        search.remove("-t")
-        searchTags = True
-        
-    with open('cogs/shared/files/naviteri.json', 'r', encoding='utf-8') as fh:
-        naviteri = json.load(fh)
-    
-    for query in search:
-        print(query)
-        for key, value in naviteri.items():
-            if searchTags:
-                if query in value['tags']:
-                    results += "**{}**\n{}\n\n".format(key, value['link'])
-            else:
-                res = re.search(r"."+query+".", value['content'].lower())
-                if res != None:
-                    results += "**{}**\n{}\n\n".format(key, value['link'])
-            
-            if 1800 < len(results) < 2048:
-                results_list.append(results)
-                results = ''
-    
-    results_list.append(results)
-    
-    if len(results_list) > 1:
-        await ctx.send("More than 20 results found. DMing you the results.")
-        for n, result in enumerate(results_list):
-            embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
-            await user.send(embed=embed)
-    else:
-        for n, result in enumerate(results_list):
-            embed=discord.Embed(title="Search Results {}/{}".format(n+1, len(results_list)), description=result, color=config.reportColor)
-            await ctx.send(embed=embed)
-
-## About the bot
+## -- Bot Commands
+# About the bot
 @kelutralBot.command(name='about', aliases=['teri'])
 async def about(ctx):
     mako = ctx.message.guild.get_member(config.makoID)
     self = ctx.message.guild.get_member(config.botID)
-    fileName = config.botFile
     t1 = time.time()
-    
-    ## -- Pulls current number of generated names.
-    with open(fileName, 'r') as fh:
-        names = json.load(fh)
+
+    with open(config.botFile, 'r') as fh:
+        bot_stats = json.load(fh)
         
-    embed=discord.Embed(title="About Eytukan",description="Eytukan is a custom bot coded in Python 3 for use on Kelutral.org's network of Discord Servers. It is primarily coded and maintained by " + str(mako.mention) + ".", color=config.botColor)
+    embed=discord.Embed(title="About Eytukan",description=f"Eytukan is a custom bot coded in Python 3 for use on the Kelutral.org Network of Discord Servers. It is primarily coded and maintained by {mako.mention}.", color=config.botColor)
     embed.set_author(name=self.name,icon_url=self.avatar_url)
     embed.add_field(name="Version: ", value=config.version, inline=True)
     embed.add_field(name="Website: ", value="http://kelutral.org/", inline=True)
     embed.add_field(name="Discord.py:", value="Version " + str(discord.__version__))
-    embed.add_field(name="Na'vi Names Generated: ", value=names[0], inline=True)
-    embed.add_field(name="Kelutral Server: ", value="http://discord.gg/YSyvBEF", inline=True)
-    embed.add_field(name="Pandora Rising: ", value="http://discord.gg/xKV88se", inline=True)
+    embed.add_field(name="Na'vi Names Generated: ", value=bot_stats["name_count"], inline=True)
+    embed.add_field(name="Kelutral Server: ", value=kt_config.invite, inline=True)
+    embed.add_field(name="Pandora Rising: ", value=pr_config.invite, inline=True)
     embed.set_thumbnail(url=ctx.guild.icon_url)
     
-    t2 = time.time()
-    tDelta = round(t2-t1,3)
-    
+    tDelta = round(time.time()-t1,3)
     now_datetime = datetime.now() - start_time
     
-    ## -- Checks debug output toggle
-    embed.set_footer(text="Use !help to learn more about the available commands. | Current uptime: {} days, {}:{}".format(now_datetime.days, divmod(now_datetime.seconds, 3600)[0], divmod(now_datetime.seconds, 60)[0]))
+    # Checks debug output toggle
+    embed.set_footer(text=f"Use !help to learn more about the available commands. | Current uptime: {now_datetime.days} days, {divmod(now_datetime.seconds, 3600)[0]}:{divmod(now_datetime.seconds, 60)[0]}")
     if config.debug == True:
-        embed.set_footer(text="Use !help to learn more about the available commands.  |  Executed in " + str(tDelta) + " seconds.")
+        embed.set_footer(text=f"Use !help to learn more about the available commands.  |  Executed in {str(tDelta)} seconds.")
 
     await ctx.send(embed=embed)
-
-##                                                                                          Bot Commands
-##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##                                                                               Condensed Question of the Day Command
-##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@kelutralBot.command(name='qotd', aliases=['tìpawm'])
-async def qotd(ctx, function, question, *date):
-    user = ctx.message.author
-    profile = admin.readDirectory(user)
-    now = datetime.strftime(datetime.now(), '%H:%M')
-    t1 = time.time()
     
-    if user.top_role.id in config.allowedRoles:
-        if date:
-            date = str(date).strip("(),' ")
-            fileName = config.qotdFile.format(str(date))
-            if os.path.exists(fileName): ## Add specific error checking and output here
-                modDate = nextAvailableDate()
-                file_exists = True
-                embed=discord.Embed(description=config.text_file[profile['language']]['errors']['qotd'] + config.text_file[profile['language']]['errors']['qotd_errors']['date_taken'].format(modDate), colour=config.failColor)
-        else:
-            date = nextAvailableDate()
-            fileName = config.qotdFile.format(str(date))
-            file_exists = False
-            
-    if function.lower() == 'add' and not file_exists:
-        with open(fileName, 'w') as fh:
-            fh.write(question)
-            
-        with open(config.calendarFile, 'w') as fh:
-            fh.write("\n" + str(date))
-            
-        print(now + " -- Created a question of the day for {}.".format(str(date)))
-        embed=discord.Embed(description=config.text_file[profile['language']]['qotd']['created'], color=config.successColor)
-    elif function.lower() == 'edit' and file_exists:
-        with open(fileName, 'w') as fh:
-            fh.write(question)
-            
-        print(now + " -- Edited the question of the day on {}.".format(str(date)))
-        embed=discord.Embed(description=config.text_file[profile['language']]['qotd']['edited'], color=config.successColor)
-    elif function.lower() == 'delete' and file_exists:
-        os.remove(fileName)
-        
-        with open(config.calendarFile, 'r') as fh:
-            fileContents = fh.read()
-        
-        with open(config.calendarFile, 'w') as fh:
-            removeDate = fileContents.replace("\n" + str(date),'')
-            fh.write(removeDate)
-            
-        print(now + " -- Removed the question of the day on {}.".format(str(date)))
-        embed=discord.Embed(description=config.text_file[profile['language']]['qotd']['deleted'], color=config.successColor)
-    elif function.lower() == 'view' and file_exists:
-        with open(fileName, 'r') as fh:
-            contents = fh.read()
-        
-        print(now + " -- Retrieved the question of the day on {}.".format(str(date)))
-        embed=discord.Embed(description=config.text_file[profile['language']]['qotd']['read'].format(contents), color=config.QOTDColor)
-    elif function.lower() == 'schedule':
-        dates = []
-        questions = []
-        if not os.path.getsize(config.calendarFile) == 10:
-            with open(config.calendarFile, 'r') as fh:
-                for line in fh:
-                    filePath = config.qotdFile.format(line.strip())
-                    if os.path.exists(filePath):
-                        dates.append(line.strip())
-                        with open(filePath, 'r') as fp:
-                            questions.append(fp.read())
-                            
-            print(now + " -- Building a list of scheduled questions of the day.")
-            embed=discord.Embed(description=config.text_file[profile['language']]['qotd']['schedule'], color=config.QOTDColor)
-            for i, (question, date) in enumerate(zip(questions, dates)):
-                embed.add_field(name=date, value="'{}'.".format(question), inline=True)
-    elif not file_exists:
-        embed=discord.Embed(description=config.text_file[profile['language']]['errors']['qotd'] + config.text_file[profile['language']]['errors']['qotd_errors']['no_file'].format(modDate), color=config.failColor)
-    else:
-        embed=discord.Embed(description=config.text_file[profile['language']]['errors']['qotd'] + config.text_file[profile['language']]['errors']['qotd_errors']['invalid_function'], color=config.failColor)
-    
-    t2 = time.time()
-    tDelta = round(t2 - t1, 3)
-    
-    if config.debug:
-        embed.set_footer(text="Executed in {} seconds.".format(str(tDelta)))
-    
-    await ctx.send(embed=embed)
-
-##------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Help Command
-@kelutralBot.command(name="help", aliases=['srung'])
+# Help Command
+@kelutralBot.command(name="help", aliases=['srung','ehelp'])
 async def help(ctx, *query):
-    lepChannel = kelutralBot.get_channel(config.lepChannel)
-    guild = lepChannel.guild
-    t1 = time.time()
-    query = list(query)
     isTag = False
+    query = list(query)
+    t1 = time.time()
+    
+    async def build_help(variant, query):
+        if len(query) > 0:
+            if len(query) > 1:
+                await ctx.send(embed=config.syntax)
+                return
+            else:
+                query = query[0]
+        elif len(query) == 0:
+            query = ""
+        output = ""
+        if variant == "kelutral":
+            lepChannel = kelutralBot.get_channel(kt_config.lepChannel)
+
+            reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
+                            ('**find**','Finds words whose English definitions contain the query.\n'),
+                            ('**tslam**','Runs a grammar analyzer on your sentence.\n',)]
+        
+        if not isTag and query != "":
+            try:
+                command = config.helpFile[query]
+                if variant in command['tags']:
+                    embed = discord.Embed(title=command['name'], description=f"Aliases: {command['aliases']}\nUsage: {command['usage']}\nExample: {command['example']}\nDescription: {command['description']}")
+                    embed.set_footer(text=f"Tags: {', '.join(command['tags'])}")
+                else:
+                    await ctx.send(embed=config.help_error)
+                    return
+            except KeyError:
+                await ctx.send(embed=config.help_error)
+                return
+        elif query == "":
+            for entry in config.helpFile.values():
+                if variant in entry['tags']:
+                    output = output + entry['name'] + ": " + entry['short']
+                    
+            if variant == "kelutral":
+                # Reykunyu's command list
+                output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(ctx.guild.get_member(kt_config.reykID).mention)
+        
+                for command in reykcommands:
+                    output = output + command[0] + ": " + command[1]
+            
+            embed = discord.Embed(title="!help",description="Here are {}'s available commands on this server. Use `!help <command>` for more information about that command.\n\n".format(ctx.guild.get_member(config.botID).mention) + output)
+            embed.set_thumbnail(url=ctx.guild.icon_url)
+        else:
+            for entry in config.helpFile.values():
+                if query in entry['tags'] and variant in entry['tags']:
+                    output = output + entry['name'] + ": " + entry['short']
+            embed = discord.Embed(title="!help {}".format(query), description="Here are {}'s available commands on this server with tag `{}`.\n\nUse `!help <command>` for more information about that command.\n\n".format(ctx.guild.get_member(config.botID).mention, query) + output)
+        
+        return embed
     
     if "-t" in query:
         query.remove("-t")
         isTag = True
     
-    reykcommands = [('**run**','Translates a Na\'vi word into English.\n'),
-                    ('**find**','Finds words whose English definitions contain the query.\n'),
-                    ('**tslam**','Runs a grammar analyzer on your sentence.\n',)]
-                    
-    if len(query) > 1:
-        await ctx.send(embed=config.syntax)
-        return
-    elif len(query) == 0:
-        query = ""
-    else:
-        query = query[0]
-    
-    if len(query) > 0:
-        if not isTag:
-            try:
-                command = config.helpFile[query]
-                embed = discord.Embed(title=command['name'], description="Aliases: {}\nUsage: {}\nExample: {}\nDescription: {}".format(''.join(command['aliases']), command['usage'], command['example'], command['description']))
-                embed.set_footer(text="Tags: {}".format(', '.join(command['tags'])))
-            except KeyError:
-                embed = config.helpError
-                await ctx.send(embed=embed)
-                return
-        else:
-            output = ""
-            for entry in config.helpFile.values():
-                if query in entry['tags']:
-                    output = output + entry['name'] + ": " + entry['short']
-            embed = discord.Embed(title="!help {}".format(query), description="Here are {}'s available commands with tag `{}`.\n\nUse `!help <command>` for more information about that command.\n\n".format(guild.get_member(config.botID).mention, query) + output)
+    if ctx.guild.id == kt_config.guild:
+        embed = await build_help("kelutral", query)
+    elif ctx.guild.id == pr_config.guild:
+        embed = await build_help("pandora rising", query)
 
-    else:
-        output = ""
-        
-        # Eytukan's command list
-        for entry in config.helpFile.values():
-            output = output + entry['name'] + ": " + entry['short']
-        
-        if ctx.guild.id == config.KTID:
-            # Reykunyu's command list
-            output = output + "\n\nHere are {}'s available commands. Use `!run help` for additional support for Reykunyu's commands.\n\n".format(guild.get_member(config.reykID).mention)
-        
-            for command in reykcommands:
-                output = output + command[0] + ": " + command[1]
-        
-        embed = discord.Embed(title="!help",description="Here are {}'s available commands. Use `!help <command>` for more information about that command.\n\n".format(guild.get_member(config.botID).mention) + output)
-        embed.set_thumbnail(url=guild.icon_url)
-    
-    t2 = time.time()
-    tDelta = round(t2 - t1, 3)
-    
     if config.debug:
-        embed.set_footer(text="Executed in " + str(tDelta) + " seconds.")
+        embed.set_footer(text=f"Executed in {round(time.time() - t1, 3)} seconds.")
         
     await ctx.send(embed=embed)
-
-@kelutralBot.command(name="partnerupdate")
-async def partnerUpdate(ctx):
-    partnerChannel = 788100741494472765
-    with open('cogs/shared/files/server_directory.json', 'r', encoding='utf-8') as fh:
-        server_directory = json.load(fh)
-        
-    for server in server_directory.keys():
-        partner = await kelutralBot.fetch_invite(server_directory[server]["server_invite"], with_counts=True)
-        
-        embed = discord.Embed(title=partner.guild.name, description=server_directory[server]["server_info"], color=config.reportColor)
-        embed.add_field(name="Invite:", value=server_directory[server]["server_invite"])
-        embed.add_field(name="Server Type:", value=server_directory[server]["server_type"])
-        embed.set_thumbnail(url=partner.guild.icon_url)
-        
-        channel = ctx.guild.get_channel(partnerChannel)
-        await channel.send(embed=embed)
-        
-@kelutralBot.command(name="rulesupdate")
-async def rulesUpdate(ctx):
-    rulesChannel = 715727832063410207
-    channel = ctx.guild.get_channel(rulesChannel)
-    with open('files/rules1.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-    with open('files/rules2.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-    with open('files/rules3.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-        
-@kelutralBot.command(name="resourcesupdate")
-async def resourcesUpdate(ctx):
-    resourcesChannel = 715050231967776778
-    channel = ctx.guild.get_channel(resourcesChannel)
-    with open('files/resources1.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-    with open('files/resources2.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-    with open('files/resources3.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-    with open('files/resources4.txt', 'r', encoding='utf-8') as fh:
-        await channel.send(fh.read())
-
-@kelutralBot.command(name="timeout")
-async def timeout(ctx, timeout_user: discord.Member, duration):
-    if ctx.message.author in config.modRoles:
-        def check(reaction, user):
-            emojis = ['✔️']
-            return str(reaction.emoji) in emojis and user.id == timeout_user.id
-        duration = int(duration) * 60
-        timeout_channel = get(ctx.guild.text_channels, id=config.timeoutChannel)
-        timeout_role = get(ctx.guild.roles, id=config.timeoutRole)
-        await timeout_user.add_roles(timeout_role)
-        
-        message = await timeout_channel.send(f"Uh-oh {timeout_user.mention}, looks like you've broken the rules and been timed out by a moderator for {duration/60} minutes. During this time, please read the rules in {get(ctx.guild.text_channels, id=config.rulesChannel).mention} and after {duration/60} minutes, a confirmation will appear on this message allowing you to indicate that you have read the rules and understand them.")
-        await asyncio.sleep(duration)
-        
-        await message.add_reaction("✔️")
-        await message.edit(content="If you have read and agree to abide by the rules, please click the ✔️.")
-        
-        try:
-            reaction, user = await kelutralBot.wait_for('reaction_add', timeout=1000, check=check)
-        except asyncio.TimeoutError:
-            await message.edit(content=f"Timeout exceeded. Please DM a moderator to have the {timeout_role.mention} role removed.")
-        else:
-            await timeout_user.remove_roles(timeout_role)
-            await message.delete()
     
-    
-    
-    
-
-##-----------------------Error Handling-------------------##
-# Error Handling for !help
+## -- Error Handling
+# !help errors
 @help.error
 async def help_error(ctx, error):
    if isinstance(error, commands.CommandError):
-       await ctx.send(embed=config.syntax)
-       
+        print(error)
+        await ctx.send(embed=config.syntax)
+   else:
+        await ctx.send(error)
+
 def main():
-
-    kelutralBot.load_extension('cogs.kelutral.main')
-    kelutralBot.load_extension('cogs.pandora_rising.main')
-    kelutralBot.load_extension('cogs.shared.main')
-    kelutralBot.load_extension('cogs.shared.kelutral_listener')
-    kelutralBot.load_extension('cogs.shared.pandora_rising_listener')
-
+    kelutralBot.load_extension('cogs.kelutral.kelutral_cog')
+    kelutralBot.load_extension('cogs.pandora_rising.pr_cog')
+    kelutralBot.load_extension('cogs.shared.shared_cog')
     kelutralBot.run(config.token)
     
 main()

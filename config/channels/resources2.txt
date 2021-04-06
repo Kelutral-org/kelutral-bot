@@ -1,0 +1,32 @@
+```markdown
+Aylì'uä Sästarsìm: Dictionaries and Vocabulary
+--------
+```
+
+**Dict-Navi**
+Searchable online dictionary in several languages, including Na'vi, which has audio examples of all words.
+<http://dict-navi.com/>
+
+**Plumps - The Annotated Dictionary**
+An excellent reference dictionary with examples of usage and specific rules for each word.
+<https://www.kelutral.org/uploads/6/1/3/2/61325997/200530_annotated_dict.pdf>
+
+**Alyara Arati - 500 Most Common Na'vi Words Memrise Course**
+The most commonly used Na'vi words in everyday conversation.
+<https://www.memrise.com/course/142466/500-most-frequently-used-navi-words>
+
+**Tirea Aean - All Na'vi Vocabulary Memrise Course**
+It is recommended to do this course AFTER completing the 500 words course.
+<https://www.memrise.com/course/26139/all-navi-vocabulary>
+
+**Puvomun - Na'vi Word of the Day on Twitter**
+A bot which tweets a different word every day.
+<http://naviwotd.palulukan.net/>
+
+**Pamìrìk - Utral Aymokriyä on Twitter**
+A bot which tweets randomly generated sentences every 3 hours.
+<https://twitter.com/UtralAymokriya>
+
+**Vawmataw - Lexicon of Na'vi Language**
+Collection of various types of word relations and properties, such as synonyms, homonyms, and palindromes.
+<https://www.kelutral.org/uploads/6/1/3/2/61325997/lexicon_of_navi_language.pdf>
